@@ -22,6 +22,13 @@ export default withMermaid({
             { text: "Self-hosting", link: "/self-hosting/introduction" },
             { text: "User guide", link: "/guide/" },
             {
+                text: "Version",
+                items: [
+                    { text: "latest", link: "/" },
+                    { text: "1.0", link: "/" },
+                ],
+            },
+            {
                 text: "Project",
                 items: [
                     { text: "Main repository", link: "https://github.com/Priveetee/TypeType" },
@@ -60,6 +67,7 @@ export default withMermaid({
                     items: [
                         { text: "Reverse proxy and HTTPS", link: "/self-hosting/reverse-proxy" },
                         { text: "Maintenance", link: "/self-hosting/maintenance" },
+                        { text: "Roll back an update", link: "/self-hosting/rollback" },
                         { text: "Beta and main", link: "/self-hosting/beta-and-main" },
                         { text: "Reporting issues", link: "/self-hosting/reporting-issues" },
                         { text: "Troubleshooting", link: "/self-hosting/troubleshooting" },

@@ -25,6 +25,23 @@ The beta stack is defined in `docker-compose.dev.yml`. It reuses the same `.env`
 (so the same secrets and database settings) but listens on the `*_BETA` ports, and it
 runs under its own Compose project name so it never collides with main.
 
+### One command (recommended)
+
+The beta branch's install script can bring up the beta stack for you. It uses the
+`dev` build, so fetch it from `dev` and pass `--beta`:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/Priveetee/TypeType/dev/scripts/install-stack.sh | bash -s -- --beta
+```
+
+This creates `~/typetype-beta-stack`, fetches only `docker-compose.dev.yml` and its
+companions, picks free `*_BETA` ports when the defaults are taken, pulls the beta
+images, starts that stack, and bootstraps Garage. It is interactive by default;
+add `--yes` to skip the prompts, or `--download-only` to fetch the files without
+starting Docker.
+
+### Manually
+
 ```sh
 docker compose -f docker-compose.dev.yml -p typetype-beta up -d
 ```
@@ -44,12 +61,14 @@ docker compose -f docker-compose.dev.yml -p typetype-beta down
 
 ```sh
 # main
-docker compose pull && docker compose up -d
+curl -fsSL https://raw.githubusercontent.com/Priveetee/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
 
 # beta
-docker compose -f docker-compose.dev.yml -p typetype-beta pull
-docker compose -f docker-compose.dev.yml -p typetype-beta up -d
+curl -fsSL https://raw.githubusercontent.com/Priveetee/TypeType/dev/scripts/install-stack.sh | bash -s -- --beta --yes
 ```
+
+Running the installer again keeps the channel's existing `.env`, ports, and data
+volumes while refreshing the stack files and images.
 
 ::: tip Ports already in use
 If a `*_BETA` port is taken, change it in `.env` (see

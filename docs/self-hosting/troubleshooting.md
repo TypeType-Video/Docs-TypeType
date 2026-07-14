@@ -69,9 +69,24 @@ docker compose up -d
 
 ## Updating
 
+Installer-managed stack:
+
 ```sh
+curl -fsSL https://raw.githubusercontent.com/Priveetee/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
+cd ~/typetype-stack
+docker compose ps
+```
+
+Script-free stack, after replacing the Compose and companion files with the current
+release while keeping `.env`:
+
+```sh
+docker compose config -q
 docker compose pull
-docker compose up -d
+docker compose up -d --force-recreate --wait --wait-timeout 180
+docker compose ps
 ```
 
 Your data lives in named volumes, so updates keep your accounts and history.
+If a new release does not start correctly, follow [Roll back an update](./rollback)
+instead of deleting containers or volumes.

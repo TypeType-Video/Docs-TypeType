@@ -4,19 +4,35 @@ Day-to-day operation once the stack is running.
 
 ## Updating
 
-Images are tagged `latest`. To move to the newest release, pull and recreate:
+If you installed TypeType with the recommended installer, run it again. It updates
+the stack files, preserves `.env` and the data volumes, pulls the release images,
+waits for the services, and provisions any newly added Garage resources:
 
 ```sh
-docker compose pull
-docker compose up -d
-```
-
-Your data lives in volumes, so updates keep accounts, history, and downloads. Only
-the containers are replaced. Check everything came back up:
-
-```sh
+curl -fsSL https://raw.githubusercontent.com/Priveetee/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
+cd ~/typetype-stack
 docker compose ps
 ```
+
+Configured ports remain unchanged when the installer is run again. Accounts,
+history, downloads, and service secrets remain in `.env` and the named volumes.
+
+For a script-free installation, first replace the Compose and companion files with
+the current release while keeping `.env`. Then validate and recreate the stack:
+
+```sh
+docker compose config -q
+docker compose pull
+docker compose up -d --force-recreate --wait --wait-timeout 180
+docker compose ps
+```
+
+When upgrading from a release that did not include Garage, complete
+[the manual setup](./docker-compose#manual-setup), including Part 2, once before
+using downloads.
+
+Before every update, keep the current image references and a database backup so
+you can [roll back the update](./rollback) if necessary.
 
 ## Logs
 

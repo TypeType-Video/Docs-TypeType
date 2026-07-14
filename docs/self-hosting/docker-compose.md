@@ -79,7 +79,7 @@ The whole flow from the empty form to the admin home:
 That is the entire base install. To put it on a real domain with HTTPS, see
 [Reverse proxy and HTTPS](./reverse-proxy).
 
-## Part 2 — Object storage for downloads
+## Part 2 — Object storage for downloads {#part-2-object-storage-for-downloads}
 
 The **download** feature needs an S3-compatible object store, which the stack already
 includes (Garage). The [install script](./quick-start) sets this up automatically; the
