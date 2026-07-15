@@ -5,7 +5,7 @@
 <div align="center">
 
 [<img src="assets/widgets/license.svg" alt="MIT license">](LICENSE)
-[<img src="assets/widgets/typetype.svg" alt="TypeType">](https://github.com/Priveetee/TypeType)
+[<img src="assets/widgets/typetype.svg" alt="TypeType">](https://github.com/TypeType-Video/TypeType)
 [<img src="assets/widgets/pipepipe.svg" alt="PipePipe">](https://github.com/InfinityLoop1308/PipePipeExtractor)
 
 </div>
@@ -23,7 +23,7 @@ published to GitHub Pages.
 
 ## Read it
 
-The published documentation lives at **https://priveetee.github.io/Docs-TypeType/**.
+The published documentation lives at **https://typetype-video.github.io/Docs-TypeType/**.
 
 ## Run the docs locally
 
@@ -43,7 +43,7 @@ bun run docs:preview
 
 Contributions are welcome, see [CONTRIBUTING](CONTRIBUTING.md) and the
 [Code of Conduct](CODE_OF_CONDUCT.md). Issues are centralised in the main repository:
-[Priveetee/TypeType/issues](https://github.com/Priveetee/TypeType/issues).
+[TypeType-Video/TypeType issues](https://github.com/TypeType-Video/TypeType/issues).
 
 ## License
 

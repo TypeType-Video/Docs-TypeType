@@ -5,8 +5,8 @@ host.
 
 | Channel | Branch | Images | Default ports |
 | --- | --- | --- | --- |
-| **main** (stable) | `main` | `ghcr.io/priveetee/typetype:latest`, `...-server:latest`, ... | web `8082`, server `8080`, token `8081`, S3 `3900` |
-| **beta** | `dev` | `ghcr.io/priveetee/typetype-beta:latest`, `...-server-beta:latest`, ... | web `18082`, server `18080`, downloader `19093`, token `18081` |
+| **main** (stable) | `main` | `ghcr.io/typetype-video/typetype:latest`, `...-server:latest`, ... | web `8082`, server `8080`, token `8081`, S3 `3900` |
+| **beta** | `dev` | `ghcr.io/typetype-video/typetype-beta:latest`, `...-server-beta:latest`, ... | web `18082`, server `18080`, downloader `19093`, token `18081` |
 
 CI builds the images automatically: a push to `main` updates the `:latest` images,
 a push to `dev` updates the `-beta` images. So **main is the stable release** and
@@ -31,7 +31,7 @@ The beta branch's install script can bring up the beta stack for you. It uses th
 `dev` build, so fetch it from `dev` and pass `--beta`:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/Priveetee/TypeType/dev/scripts/install-stack.sh | bash -s -- --beta
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/dev/scripts/install-stack.sh | bash -s -- --beta
 ```
 
 This creates `~/typetype-beta-stack`, fetches only `docker-compose.dev.yml` and its
@@ -61,10 +61,10 @@ docker compose -f docker-compose.dev.yml -p typetype-beta down
 
 ```sh
 # main
-curl -fsSL https://raw.githubusercontent.com/Priveetee/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
 
 # beta
-curl -fsSL https://raw.githubusercontent.com/Priveetee/TypeType/dev/scripts/install-stack.sh | bash -s -- --beta --yes
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/dev/scripts/install-stack.sh | bash -s -- --beta --yes
 ```
 
 Running the installer again keeps the channel's existing `.env`, ports, and data

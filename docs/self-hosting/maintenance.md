@@ -9,7 +9,7 @@ the stack files, preserves `.env` and the data volumes, pulls the release images
 waits for the services, and provisions any newly added Garage resources:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/Priveetee/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
 cd ~/typetype-stack
 docker compose ps
 ```
@@ -26,6 +26,13 @@ docker compose pull
 docker compose up -d --force-recreate --wait --wait-timeout 180
 docker compose ps
 ```
+
+::: warning First update after the repository move
+Refresh the stack files before pulling. Older Compose files still reference
+`ghcr.io/priveetee/...`; current releases use `ghcr.io/typetype-video/...`. Keep
+your existing `.env` and do not remove volumes. After this one-time refresh, the
+normal pull and recreate commands above are enough.
+:::
 
 When upgrading from a release that did not include Garage, complete
 [the manual setup](./docker-compose#manual-setup), including Part 2, once before

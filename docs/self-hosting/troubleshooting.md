@@ -72,7 +72,7 @@ docker compose up -d
 Installer-managed stack:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/Priveetee/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
 cd ~/typetype-stack
 docker compose ps
 ```

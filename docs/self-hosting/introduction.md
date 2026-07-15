@@ -15,17 +15,16 @@ commands you can read and understand.
 
 | Component | Repository / image | Role |
 | --- | --- | --- |
-| Web app | `ghcr.io/priveetee/typetype` | The interface, plus an nginx that proxies `/api` to the server |
-| API server | `ghcr.io/priveetee/typetype-server` | Accounts, extraction, the REST API, the core of the ecosystem |
-| Downloader | `ghcr.io/priveetee/typetype-downloader` | Prepares downloads and stores them in the object store |
-| Remote login | `ghcr.io/priveetee/typetype-token` | Optional YouTube remote-login service |
+| Web app | `ghcr.io/typetype-video/typetype` | The interface, plus an nginx that proxies `/api` to the server |
+| API server | `ghcr.io/typetype-video/typetype-server` | Accounts, extraction, the REST API, the core of the ecosystem |
+| Downloader | `ghcr.io/typetype-video/typetype-downloader` | Prepares downloads and stores them in the object store |
+| Remote login | `ghcr.io/typetype-video/typetype-token` | Optional YouTube remote-login service |
 | Database | `postgres` | Accounts, history, playlists, settings |
 | Cache | `dragonfly` | Redis-compatible cache |
 | Object store | `garage` | S3-compatible storage for downloads |
 
-The ecosystem also includes clients beyond the web app (for example a native Android
-client). They all talk to the same API server, so a single self-hosted deployment
-serves every client.
+Other clients can use the same API server, so a single self-hosted deployment can
+serve more than the web app.
 
 ## How they fit together
 

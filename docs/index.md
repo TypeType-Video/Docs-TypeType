@@ -14,7 +14,7 @@ hero:
           link: /self-hosting/introduction
         - theme: alt
           text: View on GitHub
-          link: https://github.com/Priveetee/TypeType
+          link: https://github.com/TypeType-Video/TypeType
 
 features:
     - title: The ecosystem

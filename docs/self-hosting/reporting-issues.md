@@ -1,6 +1,6 @@
 # Reporting issues
 
-All issues live in one place: **[Priveetee/TypeType](https://github.com/Priveetee/TypeType/issues)**.
+All issues live in one place: **[TypeType-Video/TypeType](https://github.com/TypeType-Video/TypeType/issues)**.
 
 Open everything there, whether it is about the web app, the API, or downloads, and
 pick the form that fits.
@@ -56,11 +56,11 @@ Two variables decide where in-app reports point (see
 
 | Variable | Default | Meaning |
 | --- | --- | --- |
-| `GITHUB_REPO` | `Priveetee/TypeType-Server` | Repository the prefilled issue targets |
+| `GITHUB_REPO` | `TypeType-Video/TypeType` | Repository the prefilled issue targets |
 | `GITHUB_ISSUE_TEMPLATE` | `bug_report_backend.md` | Issue template the link selects, leave empty for none |
 
-To keep every user report in the single tracker above, point `GITHUB_REPO` at
-`Priveetee/TypeType`. Use your own fork instead if you run a separate tracker.
+To keep every user report in the single tracker above, leave `GITHUB_REPO` at its
+default. Use your own fork instead if you run a separate tracker.
 
 ## Make a report useful
 
@@ -90,5 +90,5 @@ fixed and closed, so a clear report really does turn into a fix.
 
 Two labels are worth watching:
 
-- [`good first issue`](https://github.com/Priveetee/TypeType/issues?q=is%3Aopen+label%3A%22good+first+issue%22), approachable starting points.
-- [`help wanted`](https://github.com/Priveetee/TypeType/issues?q=is%3Aopen+label%3A%22help+wanted%22), where an extra hand is welcome.
+- [`good first issue`](https://github.com/TypeType-Video/TypeType/issues?q=is%3Aopen+label%3A%22good+first+issue%22), approachable starting points.
+- [`help wanted`](https://github.com/TypeType-Video/TypeType/issues?q=is%3Aopen+label%3A%22help+wanted%22), where an extra hand is welcome.
