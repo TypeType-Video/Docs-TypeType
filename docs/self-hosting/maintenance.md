@@ -27,6 +27,13 @@ docker compose up -d --force-recreate --wait --wait-timeout 180
 docker compose ps
 ```
 
+::: warning First update after the repository move
+Refresh the stack files before pulling. Older Compose files still reference
+`ghcr.io/priveetee/...`; current releases use `ghcr.io/typetype-video/...`. Keep
+your existing `.env` and do not remove volumes. After this one-time refresh, the
+normal pull and recreate commands above are enough.
+:::
+
 When upgrading from a release that did not include Garage, complete
 [the manual setup](./docker-compose#manual-setup), including Part 2, once before
 using downloads.
