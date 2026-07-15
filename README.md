@@ -2,49 +2,52 @@
   <img src="assets/banner.svg" alt="TypeType" width="100%">
 </div>
 
-<div align="center">
+# TypeType Documentation
 
-[<img src="assets/widgets/license.svg" alt="MIT license">](LICENSE)
-[<img src="assets/widgets/typetype.svg" alt="TypeType">](https://github.com/TypeType-Video/TypeType)
-[<img src="assets/widgets/pipepipe.svg" alt="PipePipe">](https://github.com/InfinityLoop1308/PipePipeExtractor)
+This repository contains the user and self-hosting documentation for the TypeType ecosystem. The site is built with VitePress and published at [typetype-video.github.io/Docs-TypeType](https://typetype-video.github.io/Docs-TypeType/).
 
-</div>
+## Documentation sections
 
-Documentation for the **TypeType** ecosystem, a self-hostable video platform for
-YouTube, NicoNico, and BiliBili. Built with [VitePress](https://vitepress.dev/) and
-published to GitHub Pages.
+| Section | Audience | Contents |
+| --- | --- | --- |
+| [User guide](https://typetype-video.github.io/Docs-TypeType/guide/) | People using a TypeType instance | Watching, search, accounts, libraries, settings, privacy, and content controls |
+| [Self-hosting](https://typetype-video.github.io/Docs-TypeType/self-hosting/introduction) | Instance operators | Installation, configuration, authentication, reverse proxy, updates, rollback, and troubleshooting |
 
-## What's inside
+The [central TypeType repository](https://github.com/TypeType-Video/TypeType) owns the Docker Compose stack, installer, releases, and project issue tracker. This repository explains how those supported workflows are used.
 
-- **Self-hosting** , install and operate the whole stack: Docker Compose setup,
-  configuration, OIDC, reverse proxy, maintenance, and troubleshooting.
-- **User guide** , everything you can do once it runs: watching, your library,
-  finding content, settings, privacy, and signing in.
+## Development
 
-## Read it
+Requirements:
 
-The published documentation lives at **https://typetype-video.github.io/Docs-TypeType/**.
-
-## Run the docs locally
+- Bun
 
 ```sh
 bun install
-bun run docs:dev      # http://localhost:5173
+bun run docs:dev
 ```
 
-## Build
+The local documentation server starts at `http://localhost:5173`.
+
+Build and preview the production site with:
 
 ```sh
-bun run docs:build    # output in docs/.vitepress/dist
+bun run docs:build
 bun run docs:preview
 ```
 
-## Contributing
+## Project structure
 
-Contributions are welcome, see [CONTRIBUTING](CONTRIBUTING.md) and the
-[Code of Conduct](CODE_OF_CONDUCT.md). Issues are centralised in the main repository:
-[TypeType-Video/TypeType issues](https://github.com/TypeType-Video/TypeType/issues).
+| Path | Contents |
+| --- | --- |
+| `docs/guide` | User-facing guides |
+| `docs/self-hosting` | Installation and operator guides |
+| `docs/.vitepress/config.mts` | Navigation, sidebars, search, and site metadata |
+| `docs/.vitepress/theme` | TypeType documentation theme |
+| `docs/public` | Screenshots, images, and public site assets |
+| `assets` | README banner and repository widgets |
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before editing the documentation. Report inaccurate or missing documentation in the [central issue tracker](https://github.com/TypeType-Video/TypeType/issues).
 
 ## License
 
-[MIT](LICENSE) © Priveetee
+TypeType Documentation is licensed under the [MIT License](LICENSE).

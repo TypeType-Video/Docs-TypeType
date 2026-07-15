@@ -1,27 +1,76 @@
-# Contributing to the TypeType Docs
+# Contributing to TypeType Documentation
 
-Thank you for your interest in contributing! Your help is essential for keeping this guide accurate and up-to-date.
+Thank you for helping make TypeType easier to use and self-host. Corrections, clearer explanations, screenshots, troubleshooting steps, and new guides are welcome.
 
-## How to Contribute
+## Report a documentation problem
 
-The easiest way to contribute is by adding or editing the documentation pages. All content is written in Markdown.
+Open documentation issues in the [central TypeType issue tracker](https://github.com/TypeType-Video/TypeType/issues). Include the page URL, the TypeType version, what is incorrect or missing, and what you expected to find.
 
-### Submitting Changes
+Search existing issues before opening a new one. Do not include passwords, cookies, private keys, access tokens, or values from a private `.env` file.
 
-1.  **Fork the repository** on GitHub.
-2.  **Create a new branch** for your changes: `git checkout -b feat/add-new-feature-doc`.
-3.  **Make your changes** to the relevant `.md` files inside the `docs/` directory.
-4.  **Commit your changes** with a clear and descriptive message. We follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.
-    ```sh
-    git commit -m "docs: clarify the garage provisioning steps"
-    ```
-5.  **Push your branch** to your fork: `git push origin feat/add-new-feature-doc`.
-6.  **Open a Pull Request** from your fork to the main repository.
+## Choose the right section
 
-### Reporting Issues
+| Change | Location |
+| --- | --- |
+| Watching, search, accounts, libraries, settings, or privacy | `docs/guide/` |
+| Installation, configuration, updates, rollback, reverse proxy, or troubleshooting | `docs/self-hosting/` |
+| Navigation or sidebar entries | `docs/.vitepress/config.mts` |
+| Screenshots and site images | `docs/public/` |
+| Repository README assets | `assets/` |
 
-If you find a typo, outdated information, or have an idea for a new page but don't want to write it yourself, please [open an issue](https://github.com/TypeType-Video/TypeType/issues) on GitHub. Issues are centralised in the main TypeType repository.
+Document stable behavior that exists in the current TypeType code and stack. Do not present a beta-only feature as stable, invent configuration variables, or copy instructions from an unrelated project without verifying them against the owning TypeType repository.
 
-## Code of Conduct
+## Set up the site
 
-All contributors are expected to adhere to our [Code of Conduct](CODE_OF_CONDUCT.md).
+Use Bun for every package and site command.
+
+```sh
+git switch dev
+bun install
+bun run docs:dev
+```
+
+The local site starts at `http://localhost:5173`.
+
+## Writing guidelines
+
+- Write for the person performing the task, not for the implementation author.
+- Put prerequisites before commands and expected results after them.
+- Keep one page focused on one workflow.
+- Use root-absolute internal links such as `/self-hosting/maintenance`.
+- Add a language to every fenced code block, such as `sh`, `text`, or `json`.
+- Use `tip`, `warning`, or `danger` for VitePress custom containers.
+- Add an explicit heading anchor when another page depends on it.
+- Add new pages to the matching sidebar in `docs/.vitepress/config.mts`.
+- Store site images in `docs/public/` and reference them from `/`.
+- Use real screenshots and commands without exposing private instance data.
+
+## Required checks
+
+```sh
+bun run docs:build
+```
+
+Preview the result when navigation, layout, images, or theme behavior changes:
+
+```sh
+bun run docs:preview
+```
+
+The spelling workflow also checks every pull request.
+
+## Commits and pull requests
+
+Create your branch from `dev` and open the pull request against `dev`.
+
+Use commit messages in this form:
+
+```text
+docs: short description
+```
+
+Use the imperative mood and keep the first line under 72 characters.
+
+The pull request should identify the affected pages, the TypeType behavior used as the source, and the local build result. Include screenshots when the rendered result changes visibly.
+
+All contributors are expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md). Contributions to this repository are distributed under the [MIT License](LICENSE).
