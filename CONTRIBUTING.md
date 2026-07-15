@@ -32,11 +32,16 @@ bun run docs:dev
 
 The local site starts at `http://localhost:5173`.
 
-## Writing guidelines
+## Writing and implementation preferences
 
 - Write for the person performing the task, not for the implementation author.
+- Use plain language in the user guide and introduce implementation terms only when readers need them.
+- Write self-hosting pages for instance operators: state the effect of a command, the expected result, and any risk to data or availability.
+- Keep developer-facing repository documentation technical and precise without turning user-facing pages into implementation references.
+- Use natural, direct language. Do not add marketing slogans, artificial meta descriptions, emojis, or internal workspace details.
 - Put prerequisites before commands and expected results after them.
 - Keep one page focused on one workflow.
+- Verify every command, configuration key, path, and link against the current owning repository.
 - Use root-absolute internal links such as `/self-hosting/maintenance`.
 - Add a language to every fenced code block, such as `sh`, `text`, or `json`.
 - Use `tip`, `warning`, or `danger` for VitePress custom containers.
@@ -44,6 +49,7 @@ The local site starts at `http://localhost:5173`.
 - Add new pages to the matching sidebar in `docs/.vitepress/config.mts`.
 - Store site images in `docs/public/` and reference them from `/`.
 - Use real screenshots and commands without exposing private instance data.
+- Use Bun exclusively for documentation tooling and keep theme changes split into focused Vue, TypeScript, and CSS modules.
 
 ## Required checks
 
