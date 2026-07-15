@@ -56,10 +56,10 @@ cp rollback-before-update/garage.toml garage.toml
 Open `.env` and set these values to the four references recorded before the update:
 
 ```dotenv
-TYPETYPE_WEB_IMAGE=ghcr.io/priveetee/typetype@sha256:WEB_DIGEST
-TYPETYPE_SERVER_IMAGE=ghcr.io/priveetee/typetype-server@sha256:SERVER_DIGEST
-TYPETYPE_DOWNLOADER_IMAGE=ghcr.io/priveetee/typetype-downloader@sha256:DOWNLOADER_DIGEST
-TYPETYPE_TOKEN_IMAGE=ghcr.io/priveetee/typetype-token@sha256:TOKEN_DIGEST
+TYPETYPE_WEB_IMAGE=ghcr.io/typetype-video/typetype@sha256:WEB_DIGEST
+TYPETYPE_SERVER_IMAGE=ghcr.io/typetype-video/typetype-server@sha256:SERVER_DIGEST
+TYPETYPE_DOWNLOADER_IMAGE=ghcr.io/typetype-video/typetype-downloader@sha256:DOWNLOADER_DIGEST
+TYPETYPE_TOKEN_IMAGE=ghcr.io/typetype-video/typetype-token@sha256:TOKEN_DIGEST
 ```
 
 Use the complete values printed by Docker, not the example placeholders. Then

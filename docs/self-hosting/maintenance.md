@@ -9,7 +9,7 @@ the stack files, preserves `.env` and the data volumes, pulls the release images
 waits for the services, and provisions any newly added Garage resources:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/Priveetee/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
 cd ~/typetype-stack
 docker compose ps
 ```

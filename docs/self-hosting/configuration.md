@@ -78,5 +78,5 @@ Off by default. Leave it disabled unless you specifically want the remote-login 
 
 | Variable | Default | What it is |
 | --- | --- | --- |
-| `GITHUB_REPO` | `Priveetee/TypeType-Server` | Repo the in-app bug reporter targets |
+| `GITHUB_REPO` | `TypeType-Video/TypeType` | Repo the in-app bug reporter targets |
 | `GITHUB_ISSUE_TEMPLATE` | `bug_report_backend.md` | Issue template the prefilled link selects, empty for none. See [Reporting issues](./reporting-issues#from-inside-the-app) |

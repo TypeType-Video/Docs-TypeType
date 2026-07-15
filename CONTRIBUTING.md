@@ -20,7 +20,7 @@ The easiest way to contribute is by adding or editing the documentation pages. A
 
 ### Reporting Issues
 
-If you find a typo, outdated information, or have an idea for a new page but don't want to write it yourself, please [open an issue](https://github.com/Priveetee/TypeType/issues) on GitHub. Issues are centralised in the main TypeType repository.
+If you find a typo, outdated information, or have an idea for a new page but don't want to write it yourself, please [open an issue](https://github.com/TypeType-Video/TypeType/issues) on GitHub. Issues are centralised in the main TypeType repository.
 
 ## Code of Conduct
 

@@ -12,7 +12,7 @@ Everything the script does is also documented step by step in
 ## One command
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/Priveetee/TypeType/main/scripts/install-stack.sh | bash
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash
 ```
 
 The installer:
@@ -30,7 +30,7 @@ It is interactive and asks for confirmation before doing anything.
 To fetch the files and review them before starting Docker yourself:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/Priveetee/TypeType/main/scripts/install-stack.sh | bash -s -- --download-only
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --download-only
 ```
 
 ## Check it is up

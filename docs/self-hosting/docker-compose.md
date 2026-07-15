@@ -22,7 +22,7 @@ live in the TypeType repository. The compose file pulls prebuilt images, so ther
 nothing to compile.
 
 ```sh
-git clone https://github.com/Priveetee/TypeType.git
+git clone https://github.com/TypeType-Video/TypeType.git
 cd TypeType
 ```
 
