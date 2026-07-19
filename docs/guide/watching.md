@@ -74,8 +74,7 @@ in [Settings](./settings#playback).
 
 YouTube livestreams use TypeType's native SABR player. The player follows the live
 edge automatically, keeps buffering ahead during short network interruptions, and
-allows seeking within the DVR window when the stream provides one. Quality and audio
-track controls remain available during live playback.
+allows seeking within the DVR window when the stream provides one.
 
 ## Embedded player
 
