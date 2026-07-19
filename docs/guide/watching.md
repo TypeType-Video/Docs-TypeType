@@ -78,10 +78,9 @@ allows seeking within the DVR window when the stream provides one.
 
 ## Embedded player
 
-Embed a YouTube video with `/embed/VIDEO_ID` on your instance. The `t`, `start`, and
-`time_continue` parameters accept seconds or values such as `1h30m`; add `autoplay=1`
-to request autoplay. Framed playback requires guest access to be enabled on the
-instance.
+TypeType provides a dedicated route for embedding YouTube videos. See
+[Embedded player](./embedding) for the URL format, parameters, iframe markup, and guest
+access requirements.
 
 ## Shorts
 
