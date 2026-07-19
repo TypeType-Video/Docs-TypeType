@@ -25,7 +25,7 @@ export default withMermaid({
                 text: "Version",
                 items: [
                     { text: "latest", link: "/" },
-                    { text: "1.0", link: "/" },
+                    { text: "1.1", link: "/" },
                 ],
             },
             {
@@ -81,6 +81,7 @@ export default withMermaid({
                     items: [
                         { text: "Overview", link: "/guide/" },
                         { text: "Watching & the player", link: "/guide/watching" },
+                        { text: "Embedded player", link: "/guide/embedding" },
                         { text: "Your library", link: "/guide/library" },
                         { text: "Finding content", link: "/guide/finding-content" },
                         { text: "Signing in", link: "/guide/accounts" },
