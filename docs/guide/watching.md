@@ -70,6 +70,20 @@ On a touch screen:
 When enabled, the next video starts automatically when the current one ends. Toggle it
 in [Settings](./settings#playback).
 
+## Livestreams
+
+YouTube livestreams use TypeType's native SABR player. The player follows the live
+edge automatically, keeps buffering ahead during short network interruptions, and
+allows seeking within the DVR window when the stream provides one. Quality and audio
+track controls remain available during live playback.
+
+## Embedded player
+
+Embed a YouTube video with `/embed/VIDEO_ID` on your instance. The `t`, `start`, and
+`time_continue` parameters accept seconds or values such as `1h30m`; add `autoplay=1`
+to request autoplay. Framed playback requires guest access to be enabled on the
+instance.
+
 ## Shorts
 
 Shorts play in a dedicated vertical, swipeable player. You can turn the Shorts surface

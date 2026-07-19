@@ -25,7 +25,7 @@ export default withMermaid({
                 text: "Version",
                 items: [
                     { text: "latest", link: "/" },
-                    { text: "1.0", link: "/" },
+                    { text: "1.1", link: "/" },
                 ],
             },
             {

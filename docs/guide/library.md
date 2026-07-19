@@ -36,7 +36,8 @@ You can clear it whenever you want, see [Privacy & blocking](./privacy#your-data
 ## Watch later
 
 Send a video to **Watch later** to come back to it, a simple queue separate from your
-playlists.
+playlists. Open a video's actions menu and select **Save to Watch later** to add it
+immediately; select **Remove from Watch later** from the same menu to remove it.
 
 ## Favorites
 
