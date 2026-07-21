@@ -2,7 +2,7 @@ import { withMermaid } from "vitepress-plugin-mermaid";
 
 export default withMermaid({
     title: "TypeType Docs",
-    description: "Documentation for the TypeType ecosystem: web app, server, downloader, and remote login.",
+    description: "User, self-hosting, architecture, and development documentation for the TypeType ecosystem.",
     base: "/Docs-TypeType/",
     lang: "en-US",
     cleanUrls: true,
@@ -21,19 +21,14 @@ export default withMermaid({
             { text: "Home", link: "/" },
             { text: "Self-hosting", link: "/self-hosting/introduction" },
             { text: "User guide", link: "/guide/" },
+            { text: "Project", link: "/project/" },
             {
-                text: "Version",
-                items: [
-                    { text: "latest", link: "/" },
-                    { text: "1.1", link: "/" },
-                ],
-            },
-            {
-                text: "Project",
+                text: "Source",
                 items: [
                     { text: "Main repository", link: "https://github.com/TypeType-Video/TypeType" },
                     { text: "Frontend", link: "https://github.com/TypeType-Video/TypeType-Frontend" },
                     { text: "Server", link: "https://github.com/TypeType-Video/TypeType-Server" },
+                    { text: "All repositories", link: "/project/repositories" },
                 ],
             },
         ],
@@ -45,6 +40,7 @@ export default withMermaid({
                     items: [
                         { text: "Introduction", link: "/self-hosting/introduction" },
                         { text: "Architecture", link: "/self-hosting/architecture" },
+                        { text: "Security boundaries", link: "/self-hosting/security" },
                     ],
                 },
                 {
@@ -87,6 +83,18 @@ export default withMermaid({
                         { text: "Signing in", link: "/guide/accounts" },
                         { text: "Settings", link: "/guide/settings" },
                         { text: "Privacy & blocking", link: "/guide/privacy" },
+                    ],
+                },
+            ],
+            "/project/": [
+                {
+                    text: "Project",
+                    items: [
+                        { text: "Overview", link: "/project/" },
+                        { text: "Repository guide", link: "/project/repositories" },
+                        { text: "Playback & downloads", link: "/project/playback" },
+                        { text: "Branches & releases", link: "/project/releases" },
+                        { text: "Community sources", link: "/project/community" },
                     ],
                 },
             ],

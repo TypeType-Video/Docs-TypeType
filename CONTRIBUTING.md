@@ -14,6 +14,7 @@ Search existing issues before opening a new one. Do not include passwords, cooki
 | --- | --- |
 | Watching, search, accounts, libraries, settings, or privacy | `docs/guide/` |
 | Installation, configuration, updates, rollback, reverse proxy, or troubleshooting | `docs/self-hosting/` |
+| Architecture, repository ownership, playback internals, releases, or acknowledgements | `docs/project/` |
 | Navigation or sidebar entries | `docs/.vitepress/config.mts` |
 | Screenshots and site images | `docs/public/` |
 | Repository README assets | `assets/` |
@@ -42,6 +43,8 @@ The local site starts at `http://localhost:5173`.
 - Put prerequisites before commands and expected results after them.
 - Keep one page focused on one workflow.
 - Verify every command, configuration key, path, and link against the current owning repository.
+- Credit a public issue or discussion when its reporter supplied a diagnostic, tested configuration, or explanation used by the page. Add material contributors to `docs/project/community.md`.
+- Never copy credentials, cookies, tokens, private domains, or other instance-specific secrets from a community report.
 - Use root-absolute internal links such as `/self-hosting/maintenance`.
 - Add a language to every fenced code block, such as `sh`, `text`, or `json`.
 - Use `tip`, `warning`, or `danger` for VitePress custom containers.
