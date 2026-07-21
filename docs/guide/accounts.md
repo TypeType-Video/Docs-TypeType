@@ -12,6 +12,12 @@ password, use the reset flow from the login page.
 
 ![The sign-in page](/screenshot-login.png)
 
+The browser keeps the account session refreshed automatically. The short-lived access
+token expires after one hour, while the refresh session lasts 30 days. If you are
+signed out while actively using the site, that is not a normal inactivity timeout;
+ask the instance operator to check
+[Unexpected sign-outs](/self-hosting/troubleshooting#unexpected-sign-outs).
+
 ## Single sign-on (OIDC)
 
 If your instance has it configured, the login page shows a **Sign in with...** button

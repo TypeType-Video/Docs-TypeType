@@ -61,6 +61,18 @@ Give the iframe an explicit responsive size in the surrounding page. For example
 
 Add `class="video-embed"` to the iframe when using this example.
 
+### Verify the iframe, not only the URL
+
+Opening `/embed/...` directly and seeing a `200` response proves that the route and
+player work as a top-level page. It does not prove that another site may frame it.
+Test the final URL inside an iframe on a different origin.
+
+A reverse proxy or CDN that adds `X-Frame-Options: DENY` blocks the embed even though
+the direct page and all media requests work. A restrictive Content Security Policy
+`frame-ancestors` directive can do the same. Keep anti-framing protection on normal
+TypeType pages, but do not send `X-Frame-Options: DENY` on `/embed/*`. Use CSP
+`frame-ancestors` on that route if you need to restrict which sites may embed it.
+
 ## Accounts, settings, and guest access
 
 Opening an embed URL directly in a browser tab can reuse the current TypeType account
