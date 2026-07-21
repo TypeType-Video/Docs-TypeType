@@ -53,9 +53,3 @@ All user-facing reports are centralised in the TypeType repository:
 When reporting a problem, include the relevant `/api/version/*` responses and remove
 tokens, cookies, passwords, internal hostnames, and private instance URLs. See
 [Reporting issues](/self-hosting/reporting-issues) for the full checklist.
-
-## Keeping acknowledgements accurate
-
-If a new report materially changes a documented workflow, add the contributor and
-thread here in the same pull request. Link the exact issue or discussion rather than
-a search page, and describe the concrete part of the documentation it improved.

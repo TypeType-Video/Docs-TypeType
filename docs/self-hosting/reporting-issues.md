@@ -44,23 +44,6 @@ When you submit, the report is saved on your instance. What happens next:
 No GitHub token is needed, the app only generates the prefilled link; the issue is
 created when someone submits it on GitHub.
 
-::: warning Current in-app GitHub handoff is not aligned
-The central [issue chooser](https://github.com/TypeType-Video/TypeType/issues/new/choose)
-works and offers the `bug_report.yml` form. The shipped stack nevertheless appends
-`bug_report_backend.md`, a filename that exists only in TypeType-Server, to its
-central-repository URL.
-
-Changing only that value to `bug_report.yml` is not a complete fix: the central YAML
-form expects fields such as `what-happened`, `steps`, and `area`, while the in-app
-generator sends one Markdown `body`. Until the application flow is aligned, open the
-central chooser directly and transfer the relevant description and diagnostics from
-the saved Admin report, removing private values first.
-
-The current **Create GitHub Issue** action only prepares and stores a GitHub
-`issues/new` URL. Confirm that the issue was actually submitted on GitHub; the
-subsequent **View GitHub Issue** label does not prove that an issue exists.
-:::
-
 ### Configuration
 
 Two variables decide where in-app reports point (see
