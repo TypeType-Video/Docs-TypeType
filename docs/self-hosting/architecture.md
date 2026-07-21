@@ -10,16 +10,19 @@ Compose puts every service on one private network and gives each a DNS name equa
 its service name (`typetype-server`, `postgres`, `garage`, ...). Services reach each
 other by those names, never through host ports.
 
-Only a few ports are **published** to the host:
+Only a few ports are **published** to the host. Internal diagnostic ports bind to
+loopback by default:
 
 | Published | Service | Who needs it |
 | --- | --- | --- |
 | `HOST_PORT_WEB` (8082) | web app | your users (put the reverse proxy here) |
-| `HOST_PORT_SERVER` (8080) | API server | optional, direct API access |
-| `HOST_PORT_TOKEN` (8081) | remote login | only if you use that feature |
-| `HOST_PORT_GARAGE_S3` (3900) | object store | only if downloads are served directly |
+| `HOST_BIND_SERVER:HOST_PORT_SERVER` (`127.0.0.1:8080`) | API server | optional host-side health and direct API access |
+| `HOST_BIND_TOKEN:HOST_PORT_TOKEN` (`127.0.0.1:8081`) | Token | optional host-side health diagnostics |
+| `HOST_BIND_GARAGE_S3:HOST_PORT_GARAGE_S3` (`127.0.0.1:3900`) | object store | provisioning and diagnostics |
 
-Everything else (`postgres`, `dragonfly`, the downloader) stays internal.
+Everything else (`postgres`, `dragonfly`, the downloader) stays internal. Do not add
+Token, Downloader, PostgreSQL, or Dragonfly to a public reverse proxy. See
+[Security boundaries](./security).
 
 ## Request path
 
@@ -40,8 +43,26 @@ sequenceDiagram
 ```
 
 The web container serves the static app and proxies anything under `/api/` to the
-server, including WebSocket upgrades. That is why your external reverse proxy only
-ever needs to point at the web container.
+server, including WebSocket upgrades. It also proxies `/sabr/` playback paths. That
+is why your external reverse proxy only ever needs to point at the web container.
+
+## Playback path
+
+```mermaid
+flowchart LR
+    B([Browser]) --> F[Frontend controls]
+    F --> P[TypeType Player]
+    P -->|manifest, init, segments| S[API server]
+    S -->|session metadata and PO tokens| T[Token]
+    S -->|stateful SABR| Y[YouTube]
+```
+
+Token is an internal dependency for YouTube PO tokens, player decoding, SABR session
+metadata, and subtitles. The remote-login feature is optional, but the Token service
+itself remains part of the normal stack. Server owns the upstream session and gives
+the browser TypeType-owned media paths; the browser never calls Token directly.
+
+See [Playback and downloads](/project/playback) for the source-level flow.
 
 ## Download path
 
@@ -50,12 +71,17 @@ flowchart LR
     B([Browser]) -->|request download| S[API server]
     S --> DL[Downloader]
     DL -->|stores file| G[(garage S3)]
-    B -->|fetches file| G
+    B -->|fetch artifact through /api/downloader| S
+    S -->|proxies internal redirect| G
 ```
 
-The downloader writes the finished file to Garage. The browser then fetches it using
-`DOWNLOADER_S3_PUBLIC_ENDPOINT`, which is why that value must be reachable from the
-client, not `localhost`, on a public deployment.
+The downloader writes the finished file to Garage. The bundled stack gives Downloader
+an internal Garage URL. When the artifact endpoint redirects to the internal `garage`
+host, Server fetches and streams it through the public `/api/downloader/...` gateway.
+The browser therefore does not need direct Garage access.
+
+Custom deployments may use a genuinely public S3 endpoint, but that is a Downloader
+service setting rather than a required `.env` value in the supported stack.
 
 ## Where data lives
 
@@ -73,7 +99,11 @@ Back these up to preserve a deployment. See [Maintenance](./maintenance#backups)
 ## Secrets
 
 The `typetype-secrets` init container generates two secrets into the
-`typetype_secrets` volume on first start. The server and the remote-login service read
-them from there. Values you set in `.env` take priority, and placeholder text
+`typetype_secrets` volume on first start. Server and Token read them from there.
+Values you set in `.env` take priority, and placeholder text
 (`SET_ME_...`) is ignored, so leaving the placeholders untouched is safe. See
 [Configuration](./configuration#secrets-handled-automatically).
+
+Garage uses a separate `GARAGE_RPC_SECRET` from `.env`. The installer generates it;
+a script-free setup must generate it before Garage starts. See
+[Manual setup](./docker-compose#create-your-configuration).

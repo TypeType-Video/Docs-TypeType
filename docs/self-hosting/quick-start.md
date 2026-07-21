@@ -18,12 +18,13 @@ curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/script
 The installer:
 
 - creates `~/typetype-stack` with the compose file and its companions,
-- generates the downloader and YouTube remote-login secrets,
+- generates the downloader, Garage RPC, and YouTube session secrets,
 - picks free ports automatically when the defaults are taken,
 - starts every service,
 - and bootstraps Garage, so **downloads work out of the box**.
 
-It is interactive and asks for confirmation before doing anything.
+It is interactive. It downloads and prepares the stack files first, then asks for
+confirmation before pulling images and starting containers.
 
 ### Download only
 
@@ -37,9 +38,12 @@ curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/script
 
 ```sh
 cd ~/typetype-stack
-docker compose ps                 # services running
-curl -fsS http://localhost:8080/health   # the API answers
+docker compose ps
+docker compose exec -T typetype-server wget -qO- http://127.0.0.1:8080/health
 ```
+
+The second command checks Server from inside its container, so it remains correct
+when the installer selects a different host port.
 
 ## Create the admin account
 

@@ -3,7 +3,7 @@
 For a real deployment you put a reverse proxy in front of the stack and serve it over
 HTTPS on your own domain. You only ever expose the **web** container
 (`HOST_PORT_WEB`, default `8082`); it already proxies `/api/` to the server
-internally, including WebSocket upgrades and large uploads.
+internally, including WebSocket upgrades, SABR media, downloads, and large uploads.
 
 ## Before you start
 
@@ -69,9 +69,36 @@ The app uses WebSockets and accepts large uploads (Takeout imports). If you drop
 break. The settings above match what the bundled web container expects.
 :::
 
+## Remote login and WebSockets
+
+Interactive YouTube login starts with a normal HTTP request, then opens a WebSocket
+under `/api/youtube-session/browser/...`. Both the external reverse proxy and the
+bundled nginx configuration must preserve the upgrade.
+
+A characteristic failure looks like this:
+
+```text
+POST /api/youtube-session/browser/start -> 201
+GET  /api/youtube-session/browser/<session-id> -> 404
+```
+
+The `201` shows that Server and Token created the session. The following `404` means
+the browser connection reached Ktor as a plain HTTP GET instead of a WebSocket. Check
+the `Upgrade` and `Connection` headers at every proxy layer.
+
+If you mount `nginx.conf` from the host, refresh it when updating TypeType. An older
+copy can override the fixed configuration shipped by the current project files.
+
+Thanks to [arcoast](https://github.com/arcoast), whose manual deployment in
+[discussion #122](https://github.com/TypeType-Video/TypeType/discussions/122)
+identified a stale nginx file as the missing WebSocket boundary.
+
 ## Downloads behind a domain
 
-If you enabled [downloads](./docker-compose#part-2-object-storage-for-downloads), set
-`DOWNLOADER_S3_PUBLIC_ENDPOINT` in `.env` to a URL the **browser** can reach (not
-`localhost`), and expose the object store's S3 port the same way, on its own
-subdomain for example. Leave it at the default if you do not use downloads.
+The supported stack serves artifacts through `/api/downloader/...`. Server follows
+the internal Garage redirect and streams the result, so a normal deployment does not
+need a second public hostname for Garage.
+
+Only expose Garage separately when a deliberate custom Downloader configuration uses
+a public S3 endpoint. In that topology, protect the endpoint according to the object
+store's documentation and keep the access credentials private.

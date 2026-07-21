@@ -1,11 +1,11 @@
 # Manual setup
 
 This page gets TypeType running on your own machine **by hand**, with Docker Compose.
-The base setup is **three commands**. Everything the helper scripts in the repo do is
-explained here, so you never have to run a script you do not understand.
+The base setup is a short sequence of commands. Everything the helper scripts in the
+repo do is explained here, so you never have to run a script you do not understand.
 
-You do **not** need to generate any secrets by hand: the stack creates the sensitive
-keys it needs on first start, automatically.
+The stack creates the sensitive YouTube keys on first start. A script-free install
+must generate the Garage RPC secret itself, as shown below.
 
 ::: tip Recommended: the install script
 For most people the [Quick start](./quick-start) script is the easiest path, it does
@@ -28,17 +28,29 @@ cd TypeType
 
 ### 2. Create your configuration
 
-Copy the example file. The defaults already work for a local install.
+Copy the example file. Most defaults already work for a local install; replace the
+Garage placeholder in the next command before starting the services.
 
 ```sh
 cp .env.example .env
 ```
 
-::: tip You can ignore the `SET_ME_...` secret lines
-The two `YOUTUBE_*` secret placeholders are filled in **for you** on first start (an
-init container generates them and the server reads them from a private volume). The
-placeholder text is detected and ignored, so leaving it as-is is completely fine.
-The only values worth reviewing now are the ports, in [Configuration](./configuration).
+Generate a unique 32-byte hexadecimal Garage RPC secret and replace its placeholder:
+
+```sh
+GARAGE_RPC_SECRET=$(openssl rand -hex 32)
+sed -i "s/^GARAGE_RPC_SECRET=.*/GARAGE_RPC_SECRET=$GARAGE_RPC_SECRET/" .env
+```
+
+This value authenticates Garage's internal cluster protocol. The supported installer
+generates it automatically; the requirement was identified through
+[arcoast's Garage investigation](https://github.com/TypeType-Video/TypeType/discussions/130).
+
+::: tip The two YouTube placeholders are automatic
+`YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` and `YOUTUBE_SESSION_ENCRYPTION_KEY` are filled
+in **for you** on first start. An init container generates them and Server reads them
+from a private volume. Leave those two `SET_ME_...` values unchanged unless you manage
+the secrets yourself.
 :::
 
 ### 3. Start everything
@@ -53,11 +65,13 @@ Compose downloads the images and starts the stack. Two short init containers
 Check that the long-running services are up:
 
 ```sh
-docker compose ps
+docker compose ps -a
 ```
 
 You should see `typetype`, `typetype-server`, `typetype-token`,
-`typetype-downloader`, `postgres`, `dragonfly`, and `garage` all `running`.
+`typetype-downloader`, `postgres`, `dragonfly`, and `garage` all `running`. The two
+init services should show that they exited successfully. The `-a` flag is needed to
+include those stopped init containers.
 
 ### 4. Open it and create the admin account
 
@@ -132,6 +146,9 @@ use one more than the version shown by `g layout show`.
 :::
 
 Downloads now work from the interface.
+
+The browser downloads through the Server gateway. Garage remains internal; you do
+not need to expose port 3900 publicly or configure a browser-facing S3 endpoint.
 
 ## Everyday commands
 

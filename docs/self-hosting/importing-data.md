@@ -27,6 +27,20 @@ your export includes it).
 No need to unzip anything, upload the Takeout ZIPs exactly as Google gives them to you.
 :::
 
+When you select several archives, the Frontend processes and commits them one at a
+time. Each import removes duplicate subscriptions, playlists, and video URLs; reuses
+an existing playlist when its source mapping or name already matches; and reports
+existing entries as skipped. A later archive therefore skips data already committed
+by an earlier one. YouTube's system playlists are mapped to TypeType **Favorites** and
+**Watch later** instead of appearing as duplicate ordinary playlists.
+
+Older or unavailable Takeout rows can contain only fallback metadata. The playlist
+opens immediately and Server schedules metadata repair in the background rather than
+blocking the whole response while it resolves every item.
+
+These details were reviewed after
+[lelam183 reported slow, reversed, and duplicate imported playlists](https://github.com/TypeType-Video/TypeType/issues/135).
+
 ## From PipePipe
 
 Coming from the PipePipe app? Restore straight from its backup.
@@ -40,3 +54,9 @@ Coming from the PipePipe app? Restore straight from its backup.
 When the import finishes, it shows a short report of what was brought in and anything
 that was skipped, so you can see exactly what happened. Your subscriptions and
 playlists are available right away.
+
+## Source references
+
+- [Takeout parser and deduplication](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/YoutubeTakeoutParserService.kt)
+- [Takeout commit behavior](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/YoutubeTakeoutImporterService.kt)
+- [Background metadata repair](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/UserVideoMetadataRepairService.kt)
