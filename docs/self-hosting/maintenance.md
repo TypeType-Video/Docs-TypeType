@@ -27,12 +27,78 @@ docker compose up -d --force-recreate --wait --wait-timeout 180
 docker compose ps
 ```
 
-::: warning First update after the repository move
-Refresh the stack files before pulling. Older Compose files still reference
-`ghcr.io/priveetee/...`; current releases use `ghcr.io/typetype-video/...`. Keep
-your existing `.env` and do not remove volumes. After this one-time refresh, the
-normal pull and recreate commands above are enough.
+### Migrate an older Priveetee stack
+
+Older installations may still use Compose files that reference
+`ghcr.io/priveetee/...`. Running `docker compose pull` with those files continues to
+pull the old image namespace; it does not move the instance to a current
+`ghcr.io/typetype-video/...` release.
+
+Check the resolved image names from the directory that contains the active Compose
+file:
+
+```sh
+docker compose config --images
+```
+
+If any TypeType image starts with `ghcr.io/priveetee/`, refresh the stack files once.
+First keep the current configuration and a database backup:
+
+```sh
+cd /path/to/your/typetype-stack
+migration_backup="../typetype-stack-before-migration-$(date +%Y%m%d-%H%M%S)"
+mkdir -p "$migration_backup"
+cp -a .env docker-compose.yml "$migration_backup"/
+[ ! -f nginx.conf ] || cp -a nginx.conf "$migration_backup"/
+docker compose exec -T postgres \
+  pg_dump -U typetype typetype > "$migration_backup/typetype.sql"
+```
+
+Download the current supported Compose and companion files into the same directory.
+The installer keeps the existing `.env` file and named volumes while adding current
+required entries:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh \
+  | bash -s -- --dir "$PWD" --download-only --yes
+```
+
+::: warning Custom stack files are replaced
+The command refreshes `docker-compose.yml`, `nginx.conf`, `garage.toml`,
+`.env.example`, and the stack scripts. Compare the backup before restoring a custom
+change; do not copy the old Compose file back, because that would also restore its old
+image references.
 :::
+
+Validate the refreshed stack and inspect the images again:
+
+```sh
+docker compose config -q
+docker compose config --images
+```
+
+The four TypeType application images must now start with
+`ghcr.io/typetype-video/`. Pull them and recreate the services without deleting
+volumes:
+
+```sh
+docker compose pull
+docker compose up -d --force-recreate --wait --wait-timeout 180
+docker compose ps
+```
+
+Finally, replace the example origin below with the instance URL and confirm the
+deployed component revisions:
+
+```sh
+curl -fsS https://watch.example.com/api/version
+curl -fsS https://watch.example.com/api/version/server
+curl -fsS https://watch.example.com/api/version/token
+curl -fsS https://watch.example.com/api/version/downloader
+```
+
+This one-time migration gap was made clear by
+[filippobaroni's follow-up in discussion #133](https://github.com/TypeType-Video/TypeType/discussions/133#discussioncomment-17779201).
 
 When upgrading from a release that did not include Garage, complete
 [the manual setup](./docker-compose#manual-setup), including Part 2, once before

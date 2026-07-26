@@ -124,6 +124,30 @@ no longer be decrypted and affected users must connect YouTube again. It does no
 encrypt the TypeType account login. Pick the value once and keep it. The generated
 value is preserved in `typetype_secrets`, so you usually do not need to touch it.
 
+## Playback reloads and `/api/proxy` returns `422`
+
+An old playback implementation sent signed `googlevideo` URLs through `/api/proxy`.
+Its first range requests could return `206`, followed by `422` responses containing
+`{"error":"Upstream returned 403"}`. The player then rebuilt the source repeatedly,
+and Server could log `ChannelWriteException` after the browser closed an abandoned
+proxy response.
+
+Current playback uses a stateful SABR session and does not consume those signed media
+URLs through the same browser-facing path. If the old request pattern still appears,
+check the four `/api/version/*` responses and run:
+
+```sh
+docker compose config --images
+```
+
+An output containing `ghcr.io/priveetee/...` means the active Compose file still
+points to the former image namespace. Follow
+[Migrate an older Priveetee stack](./maintenance#migrate-an-older-priveetee-stack)
+before investigating Remote Login, the residential IP, or proxy tuning.
+
+The old failure sequence and the successful update were documented by
+[filippobaroni in discussion #133](https://github.com/TypeType-Video/TypeType/discussions/133#discussioncomment-17779201).
+
 ## Token is healthy but YouTube playback fails
 
 `/health` proves only that the Bun service is listening. PO-token, decoder, SABR, and
