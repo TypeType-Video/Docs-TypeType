@@ -69,6 +69,7 @@ default. Use your own fork instead if you run a separate tracker.
 
   ```sh
   curl -fsS https://watch.example.com/api/version
+  curl -fsS https://watch.example.com/api/version/web
   curl -fsS https://watch.example.com/api/version/server
   curl -fsS https://watch.example.com/api/version/token
   curl -fsS https://watch.example.com/api/version/downloader

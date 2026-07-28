@@ -8,8 +8,8 @@ belongs to a component repository.
 
 | Change | Owning repository | Main source path |
 | --- | --- | --- |
-| Docker Compose, installer, nginx, update or rollback | [TypeType](https://github.com/TypeType-Video/TypeType) | `docker-compose*.yml`, `nginx.conf`, `scripts/` |
-| Page, route, settings control, account UI, or player controls | [TypeType-Frontend](https://github.com/TypeType-Video/TypeType-Frontend) | `apps/web/src/` |
+| Docker Compose, installer, update, migration, or rollback | [TypeType](https://github.com/TypeType-Video/TypeType) | `docker-compose*.yml`, `scripts/` |
+| Page, route, nginx, settings control, account UI, or player controls | [TypeType-Frontend](https://github.com/TypeType-Video/TypeType-Frontend) | `apps/web/src/`, `nginx.conf` |
 | Extraction, API route, account data, import, recommendation, or playback session | [TypeType-Server](https://github.com/TypeType-Video/TypeType-Server) | `src/main/kotlin/dev/typetype/server/` |
 | PO token, YouTube player decoder, subtitle metadata, or remote-login browser | [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | `src/` |
 | Download queue, transfer, mux, storage, or artifact | [TypeType-Downloader](https://github.com/TypeType-Video/TypeType-Downloader) | `cmd/`, `internal/`, `migrations/` |
@@ -27,9 +27,11 @@ Important paths:
 - `.env.example` lists supported stack-level settings and image overrides.
 - `docker-compose.yml` defines the stable service graph.
 - `docker-compose.dev.yml` defines the beta graph.
-- `nginx.conf` exposes the web, API, WebSocket, SABR, and version paths.
-- `scripts/` owns install, update, secret generation, Garage provisioning, and stable
-  deployment helpers.
+- `scripts/` owns install, update, migration backups, secret generation, Garage
+  provisioning, and stable deployment helpers.
+
+The default nginx configuration is bundled into the frontend image. The central
+stack therefore does not need to mount a matching host file on every update.
 
 The repository is MIT licensed.
 

@@ -86,8 +86,10 @@ The `201` shows that Server and Token created the session. The following `404` m
 the browser connection reached Ktor as a plain HTTP GET instead of a WebSocket. Check
 the `Upgrade` and `Connection` headers at every proxy layer.
 
-If you mount `nginx.conf` from the host, refresh it when updating TypeType. An older
-copy can override the fixed configuration shipped by the current project files.
+The supported web image includes this nginx configuration, so normal updates refresh
+it with the image. A custom host mount overrides the bundled file; if one is declared
+in `docker-compose.override.yml`, compare it with the current frontend configuration
+when WebSocket or API routing changes.
 
 Thanks to [arcoast](https://github.com/arcoast), whose manual deployment in
 [discussion #122](https://github.com/TypeType-Video/TypeType/discussions/122)

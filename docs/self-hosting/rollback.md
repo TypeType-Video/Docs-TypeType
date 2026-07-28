@@ -17,12 +17,16 @@ manual installation, use the directory containing `docker-compose.yml`.
 ```sh
 cd ~/typetype-stack
 mkdir rollback-before-update
-cp .env docker-compose.yml nginx.conf garage.toml rollback-before-update/
+cp .env docker-compose.yml rollback-before-update/
+for file in docker-compose.arm64.yml docker-compose.override.yml nginx.conf garage.toml; do
+  [ ! -f "$file" ] || cp -a "$file" rollback-before-update/
+done
 docker compose exec -T postgres pg_dump -U typetype typetype > rollback-before-update/typetype.sql
 ```
 
-If your stack uses `docker-compose.arm64.yml`, copy that file into the same
-directory too.
+The supported installer performs the stack-file and image-reference part
+automatically before an update. Its timestamped backups are stored under
+`.typetype-backups/`. A database dump remains a separate operator backup.
 
 Record the four image references currently running:
 
@@ -49,8 +53,9 @@ Restore the previous stack files and configuration:
 ```sh
 cp rollback-before-update/.env .env
 cp rollback-before-update/docker-compose.yml docker-compose.yml
-cp rollback-before-update/nginx.conf nginx.conf
-cp rollback-before-update/garage.toml garage.toml
+for file in docker-compose.arm64.yml docker-compose.override.yml nginx.conf garage.toml; do
+  [ ! -f "rollback-before-update/$file" ] || cp -a "rollback-before-update/$file" "$file"
+done
 ```
 
 Open `.env` and set these values to the four references recorded before the update:
@@ -76,7 +81,7 @@ curl -fsS http://localhost:8082/api/downloader/health/deep
 ```
 
 This changes only the application version. Accounts, history, settings, downloads,
-and secrets remain in the existing volumes.
+Garage configuration, and secrets remain in the existing volumes.
 
 ## Restore the database only when required
 
