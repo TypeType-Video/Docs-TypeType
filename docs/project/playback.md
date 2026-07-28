@@ -119,12 +119,13 @@ The bundled nginx exposes the revision of every application image:
 
 ```sh
 curl -fsS https://watch.example.com/api/version
+curl -fsS https://watch.example.com/api/version/web
 curl -fsS https://watch.example.com/api/version/server
 curl -fsS https://watch.example.com/api/version/token
 curl -fsS https://watch.example.com/api/version/downloader
 ```
 
-Include these four responses when a playback or download report may depend on a
+Include these five responses when a playback or download report may depend on a
 recent component change. Also include whether the instance follows
 [main or beta](/self-hosting/beta-and-main).
 

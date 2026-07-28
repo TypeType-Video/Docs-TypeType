@@ -9,6 +9,11 @@ one place. You can make Subscriptions your default landing page in
 [Settings](./settings#what-you-see), and unsubscribe from everything at once from
 [Privacy & blocking](./privacy).
 
+Scheduled streams follow their scheduled time. A stream that changes from scheduled
+to live is promoted once when that transition is first observed, then returns to its
+chronological place as newer uploads arrive. This keeps long-running 24/7 streams
+from staying permanently above recent videos.
+
 ![Your subscriptions feed](/screenshot-subscriptions.png)
 
 ## Playlists

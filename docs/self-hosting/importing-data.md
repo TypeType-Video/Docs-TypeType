@@ -11,8 +11,9 @@ under **Import** in the sidebar.
 
 ## From YouTube (Google Takeout)
 
-This brings in your **subscriptions, playlists, and watch history** (history only if
-your export includes it).
+This brings in your **subscriptions, playlists, favorites, and watch history**
+(history and favorites only if the export includes the corresponding My Activity
+records).
 
 1. Request a Google Takeout export of **YouTube and YouTube Music**, and add **My
    Activity** too if you want your watch history. The app gives you a one-click link
@@ -33,6 +34,12 @@ an existing playlist when its source mapping or name already matches; and report
 existing entries as skipped. A later archive therefore skips data already committed
 by an earlier one. YouTube's system playlists are mapped to TypeType **Favorites** and
 **Watch later** instead of appearing as duplicate ordinary playlists.
+
+Liked-video activity can also restore Favorites when the system playlist is missing
+or incomplete. The importer keeps the original activity time, understands the
+English and French Takeout date formats, and ignores deleted, private, or unavailable
+liked-video records. This preserves the source order instead of assigning import-time
+timestamps in reverse.
 
 Older or unavailable Takeout rows can contain only fallback metadata. The playlist
 opens immediately and Server schedules metadata repair in the background rather than
