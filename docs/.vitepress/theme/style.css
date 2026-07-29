@@ -60,3 +60,17 @@
     width: auto;
     height: auto;
 }
+
+.mermaid {
+    overflow-x: auto;
+    text-align: center;
+}
+
+.mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.mermaid-loading {
+    min-height: 120px;
+}

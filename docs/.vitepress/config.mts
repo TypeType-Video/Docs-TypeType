@@ -1,6 +1,6 @@
-import { withMermaid } from "vitepress-plugin-mermaid";
+import { defineConfig } from "vitepress";
 
-export default withMermaid({
+export default defineConfig({
     title: "TypeType Docs",
     description: "User, self-hosting, architecture, and development documentation for the TypeType ecosystem.",
     base: "/Docs-TypeType/",
@@ -12,6 +12,23 @@ export default withMermaid({
         ["link", { rel: "icon", href: "/Docs-TypeType/typetype.svg" }],
         ["meta", { name: "theme-color", content: "#ef4444" }],
     ],
+
+    markdown: {
+        config(markdown) {
+            const fence = markdown.renderer.rules.fence?.bind(markdown.renderer.rules);
+            if (!fence) {
+                return;
+            }
+            markdown.renderer.rules.fence = (tokens, index, options, env, self) => {
+                const token = tokens[index];
+                if (token.info.trim() !== "mermaid") {
+                    return fence(tokens, index, options, env, self);
+                }
+                const graph = encodeURIComponent(token.content);
+                return `<ClientOnly><MermaidDiagram id="mermaid-${index}" graph="${graph}" /></ClientOnly>`;
+            };
+        },
+    },
 
     themeConfig: {
         logo: "/typetype.svg",
@@ -116,8 +133,4 @@ export default withMermaid({
         },
     },
 
-    vite: {
-        optimizeDeps: { include: ["mermaid"] },
-        ssr: { noExternal: ["mermaid"] },
-    },
 });

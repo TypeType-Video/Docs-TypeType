@@ -1,11 +1,16 @@
 import DefaultTheme from "vitepress/theme";
+import { defineAsyncComponent } from "vue";
 import "./style.css";
 
 // Persist scroll position per page and restore it on refresh (F5).
 // Normal in-app link navigation keeps VitePress's default (scroll to top).
 export default {
     extends: DefaultTheme,
-    enhanceApp() {
+    enhanceApp({ app }) {
+        app.component(
+            "MermaidDiagram",
+            defineAsyncComponent(() => import("./MermaidDiagram.vue"))
+        );
         if (typeof window === "undefined") {
             return;
         }
