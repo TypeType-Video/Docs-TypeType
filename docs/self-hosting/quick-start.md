@@ -17,14 +17,18 @@ curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/script
 
 The installer:
 
-- creates `~/typetype-stack` with the compose file and its companions,
+- creates `~/typetype-stack` with the Compose file and stack scripts,
 - generates the downloader, Garage RPC, and YouTube session secrets,
 - picks free ports automatically when the defaults are taken,
-- starts every service,
+- validates the resolved configuration and starts every service,
 - and bootstraps Garage, so **downloads work out of the box**.
 
 It is interactive. It downloads and prepares the stack files first, then asks for
 confirmation before pulling images and starting containers.
+
+On an update, the installer first creates a timestamped backup of the managed stack
+files and records the current image references. It then waits for the refreshed
+services and verifies their version endpoints before finishing.
 
 ### Download only
 

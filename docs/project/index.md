@@ -70,7 +70,8 @@ licenses, and where a change belongs.
 Use this order when documentation and implementation appear to disagree:
 
 1. The source and tests in the repository that owns the behavior.
-2. The central stack's current Compose, nginx, and installer files.
+2. The central stack's current Compose and installer files, plus the frontend's
+   bundled nginx configuration.
 3. The central [issues](https://github.com/TypeType-Video/TypeType/issues) and
    [discussions](https://github.com/TypeType-Video/TypeType/discussions) for known
    behavior, operator experience, and decisions.
@@ -83,6 +84,6 @@ specification; the owning source still decides what the current version does.
 ## Source references
 
 - [Central Compose stack](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.yml)
-- [Bundled nginx configuration](https://github.com/TypeType-Video/TypeType/blob/main/nginx.conf)
+- [Bundled nginx configuration](https://github.com/TypeType-Video/TypeType-Frontend/blob/dev/nginx.conf)
 - [Server application wiring](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/Application.kt)
 - [Frontend source tree](https://github.com/TypeType-Video/TypeType-Frontend/tree/dev/apps/web/src)

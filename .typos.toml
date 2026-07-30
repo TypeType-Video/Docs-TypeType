@@ -5,3 +5,6 @@ BiliBili = "BiliBili"
 danmaku = "danmaku"
 lofi = "lofi"
 sherif = "sherif"
+
+[files]
+extend-exclude = ["docs/fr/**", "docs/es/**"]

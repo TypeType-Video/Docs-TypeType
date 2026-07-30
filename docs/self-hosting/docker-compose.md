@@ -17,9 +17,10 @@ manual guide if you want full control or to understand each step.
 
 ### 1. Download the files
 
-The compose file and its companions (`nginx.conf`, `garage.toml`, `.env.example`)
-live in the TypeType repository. The compose file pulls prebuilt images, so there is
-nothing to compile.
+The Compose file, `.env.example`, and stack scripts live in the TypeType repository.
+The web image already includes the supported nginx configuration, and Compose creates
+Garage's default configuration in a named volume. The stack pulls prebuilt images, so
+there is nothing to compile.
 
 ```sh
 git clone https://github.com/TypeType-Video/TypeType.git
@@ -59,8 +60,9 @@ the secrets yourself.
 docker compose up -d
 ```
 
-Compose downloads the images and starts the stack. Two short init containers
-(`typetype-secrets`, `postgres-init`) run once and exit on their own, that is normal.
+Compose downloads the images and starts the stack. Three short init containers
+(`typetype-secrets`, `postgres-init`, and `garage-config`) run once and exit on their
+own, that is normal.
 
 Check that the long-running services are up:
 
@@ -69,8 +71,8 @@ docker compose ps -a
 ```
 
 You should see `typetype`, `typetype-server`, `typetype-token`,
-`typetype-downloader`, `postgres`, `dragonfly`, and `garage` all `running`. The two
-init services should show that they exited successfully. The `-a` flag is needed to
+`typetype-downloader`, `postgres`, `dragonfly`, and `garage` all `running`. The init
+services should show that they exited successfully. The `-a` flag is needed to
 include those stopped init containers.
 
 ### 4. Open it and create the admin account
@@ -119,11 +121,12 @@ docker compose up -d
 ### 2. Provision Garage
 
 Run these once. They assign storage, create the bucket, register your key, and grant
-it access. `garage.toml` is mounted in the container, so the CLI uses it.
+it access. Garage reads the initialized configuration through
+`GARAGE_CONFIG_FILE`, so the CLI automatically uses it.
 
 ```sh
 # short alias for the Garage CLI inside the container
-g() { docker compose exec -T garage /garage -c /etc/garage.toml "$@"; }
+g() { docker compose exec -T garage /garage "$@"; }
 
 # 1. give the node a storage layout
 NODE_ID=$(g node id | head -n1 | cut -d@ -f1)
@@ -149,6 +152,34 @@ Downloads now work from the interface.
 
 The browser downloads through the Server gateway. Garage remains internal; you do
 not need to expose port 3900 publicly or configure a browser-facing S3 endpoint.
+
+## Custom nginx or Garage configuration
+
+The supported defaults do not require host configuration files. To customize either
+service, keep the custom files outside the managed stack files and mount them with a
+`docker-compose.override.yml`:
+
+```yaml
+services:
+  typetype:
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  garage:
+    volumes:
+      - ./config/garage.toml:/etc/garage/garage.toml:ro
+```
+
+Create `config/nginx.conf` or `config/garage.toml` only when the default topology does
+not fit the deployment. Compose loads the override automatically. Validate the
+resolved mounts before starting:
+
+```sh
+docker compose config -q
+docker compose config
+```
+
+The installer preserves `docker-compose.override.yml` and files that are not part of
+the managed stack. Keep those files in backups with `.env`.
 
 ## Everyday commands
 

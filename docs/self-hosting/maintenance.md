@@ -5,8 +5,9 @@ Day-to-day operation once the stack is running.
 ## Updating
 
 If you installed TypeType with the recommended installer, run it again. It updates
-the stack files, preserves `.env` and the data volumes, pulls the release images,
-waits for the services, and provisions any newly added Garage resources:
+the managed stack files, preserves `.env`, Compose overrides, and the data volumes,
+pulls the release images, waits for the services, verifies the component versions,
+and provisions any newly added Garage resources:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
@@ -16,9 +17,13 @@ docker compose ps
 
 Configured ports remain unchanged when the installer is run again. Accounts,
 history, downloads, and service secrets remain in `.env` and the named volumes.
+Before changing managed files, the installer creates a timestamped directory under
+`.typetype-backups/` containing the previous stack files and, when the old
+configuration is valid, its resolved and running image references.
 
-For a script-free installation, first replace the Compose and companion files with
-the current release while keeping `.env`. Then validate and recreate the stack:
+For a script-free installation, first replace the Compose file and scripts with the
+current release while keeping `.env`, any override, and custom configuration. Then
+validate and recreate the stack:
 
 ```sh
 docker compose config -q
@@ -50,13 +55,14 @@ migration_backup="../typetype-stack-before-migration-$(date +%Y%m%d-%H%M%S)"
 mkdir -p "$migration_backup"
 cp -a .env docker-compose.yml "$migration_backup"/
 [ ! -f nginx.conf ] || cp -a nginx.conf "$migration_backup"/
+[ ! -f garage.toml ] || cp -a garage.toml "$migration_backup"/
 docker compose exec -T postgres \
   pg_dump -U typetype typetype > "$migration_backup/typetype.sql"
 ```
 
-Download the current supported Compose and companion files into the same directory.
-The installer keeps the existing `.env` file and named volumes while adding current
-required entries:
+Download the current supported Compose file and scripts into the same directory.
+The installer keeps the existing `.env` file, Compose override, unmanaged files, and
+named volumes while adding current required entries:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh \
@@ -64,11 +70,16 @@ curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/script
 ```
 
 ::: warning Custom stack files are replaced
-The command refreshes `docker-compose.yml`, `nginx.conf`, `garage.toml`,
-`.env.example`, and the stack scripts. Compare the backup before restoring a custom
-change; do not copy the old Compose file back, because that would also restore its old
-image references.
+The command refreshes `docker-compose.yml`, `.env.example`, and the stack scripts.
+Compare the timestamped backup before restoring a custom change; do not copy the old
+Compose file back, because that would also restore its old image references. Keep
+custom service changes in `docker-compose.override.yml`.
 :::
+
+An old host `nginx.conf` is backed up but is no longer mounted by the default stack,
+because nginx now ships in the web image. An old `garage.toml` is staged for a
+one-time import into the `garage_config` volume. The initializer never overwrites a
+configuration that is already present in that volume.
 
 Validate the refreshed stack and inspect the images again:
 
@@ -92,6 +103,7 @@ deployed component revisions:
 
 ```sh
 curl -fsS https://watch.example.com/api/version
+curl -fsS https://watch.example.com/api/version/web
 curl -fsS https://watch.example.com/api/version/server
 curl -fsS https://watch.example.com/api/version/token
 curl -fsS https://watch.example.com/api/version/downloader

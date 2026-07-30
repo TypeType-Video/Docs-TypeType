@@ -10,8 +10,9 @@ instance.
 - **Autoplay next video**, start the next video automatically when one ends.
 - **Default quality**, the resolution videos open at.
 - **Enable high quality playback**, allow higher-quality streams when available.
-- **Compatibility playback mode**, prioritize reliable playback on devices that
-  struggle with the default behavior.
+
+YouTube playback uses the stateful SABR path on every supported browser. NicoNico
+and BiliBili keep their provider-specific playback paths.
 
 ## Captions
 
@@ -55,3 +56,10 @@ Shape your surfaces:
 
 Pick the active service, **YouTube, NicoNico, or BiliBili**, so search and browsing
 target the right source.
+
+## About
+
+The About section shows the version, full revision, and build time reported by the
+web app, Server, Token, and Downloader. Each component is checked independently, so
+an unavailable internal service does not hide the version information returned by
+the others. Use the refresh button after an update to request the current values.

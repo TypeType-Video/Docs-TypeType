@@ -61,14 +61,14 @@ The download feature needs the object store set up. Make sure you:
 Check the object store sees your key and bucket:
 
 ```sh
-docker compose exec -T garage /garage -c /etc/garage.toml bucket list
-docker compose exec -T garage /garage -c /etc/garage.toml key list
+docker compose exec -T garage /garage bucket list
+docker compose exec -T garage /garage key list
 ```
 
 The browser uses `/api/downloader/...`; it does not need to resolve the internal
 `garage` hostname. A `401 Authentication required` in Downloader logs instead means
 the job's extraction request did not retain a valid user session. Include Server and
-Downloader logs plus the four `/api/version/*` responses in the report.
+Downloader logs plus the five component version responses in the report.
 
 This failure was exposed while following up
 [nanhoes's iOS download report](https://github.com/TypeType-Video/TypeType/issues/116)
@@ -85,9 +85,10 @@ proxy_set_header Upgrade $http_upgrade;
 proxy_set_header Connection $connection_upgrade;
 ```
 
-Also compare a host-mounted `nginx.conf` with the current file in the central
-repository. See [Remote login and WebSockets](./reverse-proxy#remote-login-and-websockets)
-and the original [community diagnosis](https://github.com/TypeType-Video/TypeType/discussions/122).
+The supported nginx configuration is bundled into the web image. If the stack uses a
+custom host mount, compare it with the current file in the frontend repository. See
+[Remote login and WebSockets](./reverse-proxy#remote-login-and-websockets) and the
+original [community diagnosis](https://github.com/TypeType-Video/TypeType/discussions/122).
 
 ## Unexpected sign-outs {#unexpected-sign-outs}
 
@@ -134,7 +135,7 @@ proxy response.
 
 Current playback uses a stateful SABR session and does not consume those signed media
 URLs through the same browser-facing path. If the old request pattern still appears,
-check the four `/api/version/*` responses and run:
+check the five component version responses and run:
 
 ```sh
 docker compose config --images
@@ -183,8 +184,8 @@ cd ~/typetype-stack
 docker compose ps
 ```
 
-Script-free stack, after replacing the Compose and companion files with the current
-release while keeping `.env`:
+Script-free stack, after replacing the managed Compose file and scripts with the
+current release while keeping `.env` and any custom override:
 
 ```sh
 docker compose config -q

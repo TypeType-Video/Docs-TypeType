@@ -1,6 +1,6 @@
-import { withMermaid } from "vitepress-plugin-mermaid";
+import { defineConfig } from "vitepress";
 
-export default withMermaid({
+export default defineConfig({
     title: "TypeType Docs",
     description: "User, self-hosting, architecture, and development documentation for the TypeType ecosystem.",
     base: "/Docs-TypeType/",
@@ -8,14 +8,155 @@ export default withMermaid({
     cleanUrls: true,
     appearance: "dark",
 
+    locales: {
+        root: {
+            label: "English",
+            lang: "en-US",
+        },
+        fr: {
+            label: "Français",
+            lang: "fr-FR",
+            link: "/fr/",
+            title: "Documentation TypeType",
+            description: "Documentation TypeType pour les utilisateurs et l'auto-hébergement.",
+            themeConfig: {
+                nav: [
+                    { text: "Accueil", link: "/fr/" },
+                    { text: "Prérequis", link: "/fr/self-hosting/prerequisites" },
+                    { text: "Guide en anglais", link: "/" },
+                    { text: "Code source", link: "https://github.com/TypeType-Video/TypeType" },
+                ],
+                sidebar: {
+                    "/fr/self-hosting/": [
+                        {
+                            text: "Auto-hébergement",
+                            items: [
+                                {
+                                    text: "Prérequis et ressources",
+                                    link: "/fr/self-hosting/prerequisites",
+                                },
+                            ],
+                        },
+                    ],
+                },
+                search: {
+                    provider: "local",
+                    options: {
+                        translations: {
+                            button: {
+                                buttonText: "Rechercher",
+                                buttonAriaLabel: "Rechercher",
+                            },
+                            modal: {
+                                noResultsText: "Aucun résultat trouvé",
+                                resetButtonTitle: "Effacer la recherche",
+                                backButtonTitle: "Fermer la recherche",
+                            },
+                        },
+                    },
+                },
+                outline: { label: "Sur cette page" },
+                lastUpdated: { text: "Dernière mise à jour" },
+                docFooter: { prev: "Page précédente", next: "Page suivante" },
+                editLink: {
+                    pattern: "https://github.com/TypeType-Video/Docs-TypeType/edit/main/docs/:path",
+                    text: "Modifier cette page sur GitHub",
+                },
+                darkModeSwitchLabel: "Apparence",
+                lightModeSwitchTitle: "Passer au thème clair",
+                darkModeSwitchTitle: "Passer au thème sombre",
+                langMenuLabel: "Changer de langue",
+                sidebarMenuLabel: "Menu",
+                returnToTopLabel: "Retour en haut",
+                skipToContentLabel: "Aller au contenu",
+            },
+        },
+        es: {
+            label: "Español",
+            lang: "es-ES",
+            link: "/es/",
+            title: "Documentación de TypeType",
+            description: "Documentación de TypeType para usuarios y administradores.",
+            themeConfig: {
+                nav: [
+                    { text: "Inicio", link: "/es/" },
+                    { text: "Requisitos", link: "/es/self-hosting/prerequisites" },
+                    { text: "Guía en inglés", link: "/" },
+                    { text: "Código fuente", link: "https://github.com/TypeType-Video/TypeType" },
+                ],
+                sidebar: {
+                    "/es/self-hosting/": [
+                        {
+                            text: "Alojamiento propio",
+                            items: [
+                                {
+                                    text: "Requisitos y recursos",
+                                    link: "/es/self-hosting/prerequisites",
+                                },
+                            ],
+                        },
+                    ],
+                },
+                search: {
+                    provider: "local",
+                    options: {
+                        translations: {
+                            button: {
+                                buttonText: "Buscar",
+                                buttonAriaLabel: "Buscar",
+                            },
+                            modal: {
+                                noResultsText: "No se encontraron resultados",
+                                resetButtonTitle: "Borrar la búsqueda",
+                                backButtonTitle: "Cerrar la búsqueda",
+                            },
+                        },
+                    },
+                },
+                outline: { label: "En esta página" },
+                lastUpdated: { text: "Última actualización" },
+                docFooter: { prev: "Página anterior", next: "Página siguiente" },
+                editLink: {
+                    pattern: "https://github.com/TypeType-Video/Docs-TypeType/edit/main/docs/:path",
+                    text: "Editar esta página en GitHub",
+                },
+                darkModeSwitchLabel: "Apariencia",
+                lightModeSwitchTitle: "Cambiar al tema claro",
+                darkModeSwitchTitle: "Cambiar al tema oscuro",
+                langMenuLabel: "Cambiar idioma",
+                sidebarMenuLabel: "Menú",
+                returnToTopLabel: "Volver arriba",
+                skipToContentLabel: "Ir al contenido",
+            },
+        },
+    },
+
     head: [
         ["link", { rel: "icon", href: "/Docs-TypeType/typetype.svg" }],
         ["meta", { name: "theme-color", content: "#ef4444" }],
     ],
 
+    markdown: {
+        config(markdown) {
+            const fence = markdown.renderer.rules.fence?.bind(markdown.renderer.rules);
+            if (!fence) {
+                return;
+            }
+            markdown.renderer.rules.fence = (tokens, index, options, env, self) => {
+                const token = tokens[index];
+                if (token.info.trim() !== "mermaid") {
+                    return fence(tokens, index, options, env, self);
+                }
+                const graph = encodeURIComponent(token.content);
+                return `<ClientOnly><MermaidDiagram id="mermaid-${index}" graph="${graph}" /></ClientOnly>`;
+            };
+        },
+    },
+
     themeConfig: {
         logo: "/typetype.svg",
         search: { provider: "local" },
+        i18nRouting: false,
 
         nav: [
             { text: "Home", link: "/" },
@@ -116,8 +257,4 @@ export default withMermaid({
         },
     },
 
-    vite: {
-        optimizeDeps: { include: ["mermaid"] },
-        ssr: { noExternal: ["mermaid"] },
-    },
 });

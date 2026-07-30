@@ -97,6 +97,24 @@ supported `.env`.
 `GARAGE_RPC_SECRET` generation was added after
 [arcoast raised the missing secret in discussion #130](https://github.com/TypeType-Video/TypeType/discussions/130).
 
+## Bundled and custom service configuration
+
+The web image owns the supported nginx configuration. The central stack does not
+mount `nginx.conf` from the host, so proxy fixes arrive with normal web image
+updates.
+
+The `garage-config` init service writes Garage's default configuration to the
+`garage_config` named volume only when that volume does not already contain a
+configuration. Existing contents are never overwritten. During migration from an
+older stack, the installer stages the previous host `garage.toml` and the init
+service imports it on first use.
+
+Keep deliberate nginx or Garage changes in separate files and mount them through
+`docker-compose.override.yml`. The installer preserves the override and does not
+replace unmanaged configuration files. See
+[Custom nginx or Garage configuration](./docker-compose#custom-nginx-or-garage-configuration)
+for an example.
+
 ## YouTube and Token
 
 Token stays enabled because YouTube playback uses its PO-token, decoder, subtitle,

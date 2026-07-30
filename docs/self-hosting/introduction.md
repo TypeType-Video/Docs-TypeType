@@ -87,7 +87,9 @@ Playback in action:
 12. [Troubleshooting](./troubleshooting) — common issues and fixes.
 
 ::: tip Where do the files come from?
-The `docker-compose.yml`, `nginx.conf`, `garage.toml`, and `.env.example` referenced
-throughout this guide live in the TypeType repository. Clone it first (see
-[Manual setup](./docker-compose) or [Quick start](./quick-start)).
+The `docker-compose.yml`, `.env.example`, and stack scripts referenced throughout
+this guide live in the TypeType repository. The web image includes its nginx
+configuration, while Compose initializes Garage's default configuration in a named
+volume. Clone the central repository first (see [Manual setup](./docker-compose) or
+[Quick start](./quick-start)).
 :::
