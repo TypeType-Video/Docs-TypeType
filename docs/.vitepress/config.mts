@@ -23,6 +23,7 @@ export default defineConfig({
                 nav: [
                     { text: "Accueil", link: "/fr/" },
                     { text: "Prérequis", link: "/fr/self-hosting/prerequisites" },
+                    { text: "Sessions", link: "/fr/self-hosting/authentication" },
                     { text: "Guide en anglais", link: "/" },
                     { text: "Code source", link: "https://github.com/TypeType-Video/TypeType" },
                 ],
@@ -34,6 +35,10 @@ export default defineConfig({
                                 {
                                     text: "Prérequis et ressources",
                                     link: "/fr/self-hosting/prerequisites",
+                                },
+                                {
+                                    text: "Sessions de compte",
+                                    link: "/fr/self-hosting/authentication",
                                 },
                             ],
                         },
@@ -81,6 +86,7 @@ export default defineConfig({
                 nav: [
                     { text: "Inicio", link: "/es/" },
                     { text: "Requisitos", link: "/es/self-hosting/prerequisites" },
+                    { text: "Sesiones", link: "/es/self-hosting/authentication" },
                     { text: "Guía en inglés", link: "/" },
                     { text: "Código fuente", link: "https://github.com/TypeType-Video/TypeType" },
                 ],
@@ -92,6 +98,10 @@ export default defineConfig({
                                 {
                                     text: "Requisitos y recursos",
                                     link: "/es/self-hosting/prerequisites",
+                                },
+                                {
+                                    text: "Sesiones de cuenta",
+                                    link: "/es/self-hosting/authentication",
                                 },
                             ],
                         },

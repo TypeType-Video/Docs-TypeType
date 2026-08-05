@@ -92,13 +92,13 @@ original [community diagnosis](https://github.com/TypeType-Video/TypeType/discus
 
 ## Unexpected sign-outs {#unexpected-sign-outs}
 
-An account access token lasts one hour, but the refresh session lasts 30 days. The
-Frontend refreshes automatically when an authenticated request returns `401`, so a
-sign-out at the one-hour mark is not expected normal behavior.
+An account access token lasts one hour, but the refresh session lasts 30 days by
+default. The Frontend refreshes automatically when an authenticated request returns
+`401`, so a sign-out at the one-hour mark is not expected normal behavior.
 
 Check:
 
-1. The page uses HTTPS on a public domain. The refresh cookie is `Secure`.
+1. The page uses HTTPS. The refresh cookie is `Secure` by default.
 2. `ALLOWED_ORIGINS` contains the exact browser origin.
 3. Login and `/api/auth/refresh` requests include credentials and are not stripped by
    a custom proxy.
@@ -110,9 +110,15 @@ sets `JWT_SECRET`. That invalidates the old one-hour access token, but the norma
 refresh flow should recover immediately when the PostgreSQL session and refresh
 cookie are still present. A restart alone should therefore not require a new login.
 
-There is no admin setting that extends the 30-day lifetime. If the problem continues,
-capture Server logs around `/auth/refresh`, the browser response status, and the
-deployed revisions. Do not include the cookie or any bearer token.
+For a trusted local-only instance that cannot use HTTPS, set
+`AUTH_ALLOW_INSECURE_COOKIES=true` and recreate `typetype-server`. This deliberately
+weakens cookie transport security and must not be used on a public or untrusted
+network. `AUTH_SESSION_TTL_DAYS` can change the refresh lifetime from 1 to 365 days.
+See [Session lifetime](./authentication#session-lifetime).
+
+If the problem continues, capture Server logs around `/auth/refresh`, the browser
+response status, and the deployed revisions. Do not include the cookie or any bearer
+token.
 
 This checklist follows the unexpected behavior reported by
 [Toni-Vide in discussion #162](https://github.com/TypeType-Video/TypeType/discussions/162).
