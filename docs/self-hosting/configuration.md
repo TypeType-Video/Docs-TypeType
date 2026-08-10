@@ -50,6 +50,27 @@ docker compose up -d --force-recreate typetype-server
 This diagnostic was confirmed through
 [hulmgulm's first-admin report](https://github.com/TypeType-Video/TypeType/discussions/151).
 
+## Account sessions
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `AUTH_SESSION_TTL_DAYS` | `30` | Refresh-session lifetime in days, clamped to `1`–`365` |
+| `AUTH_ALLOW_INSECURE_COOKIES` | `false` | Allows refresh cookies over plain HTTP with `SameSite=Lax` |
+
+Access tokens always last one hour. A valid refresh session renews them silently, so
+`AUTH_SESSION_TTL_DAYS` controls how long an account can remain signed in without a
+new login.
+
+Keep `AUTH_ALLOW_INSECURE_COOKIES=false` for HTTPS and every public deployment. Set
+it to `true` only when a trusted local-only instance must run over plain HTTP. This
+weakens transport security; see [Session lifetime](./authentication#session-lifetime).
+
+Recreate Server after changing either value:
+
+```sh
+docker compose up -d --force-recreate typetype-server
+```
+
 ## Database and cache
 
 The bundled PostgreSQL service uses these values:

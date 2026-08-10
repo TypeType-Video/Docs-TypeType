@@ -95,14 +95,40 @@ reference and the current provider documentation for its exact schema.
 ## Session lifetime
 
 After local or OIDC login, the access token lasts one hour. The browser also receives
-a rotating refresh cookie valid for 30 days, so normal access-token expiry should be
-silent. There is no separate “remember me” duration setting.
+a rotating refresh cookie, so normal access-token expiry should be silent. The refresh
+session lasts 30 days by default. Set `AUTH_SESSION_TTL_DAYS` in `.env` to choose a
+value from 1 to 365 days:
+
+```dotenv
+AUTH_SESSION_TTL_DAYS=90
+```
+
+This duration applies to newly issued and renewed sessions. Existing database rows
+keep their current expiry until the next successful refresh or login.
 
 The refresh cookie is `HttpOnly`, `Secure`, and `SameSite=None`. A public deployment
 therefore needs HTTPS, the correct `ALLOWED_ORIGINS`, and proxy handling that keeps
 credentialed requests intact. See
 [Unexpected sign-outs](./troubleshooting#unexpected-sign-outs) if a user is logged out
 while active.
+
+For a trusted local network that cannot use HTTPS, an explicit compatibility option
+can issue the refresh cookie without `Secure` and with `SameSite=Lax`:
+
+```dotenv
+AUTH_ALLOW_INSECURE_COOKIES=true
+```
+
+::: danger
+Do not enable this option on a public or untrusted network. Account refresh cookies
+can travel over unencrypted HTTP. HTTPS remains the supported default.
+:::
+
+After changing either variable, recreate Server:
+
+```sh
+docker compose up -d --force-recreate typetype-server
+```
 
 This explanation follows the behavior questioned by
 [Toni-Vide in discussion #162](https://github.com/TypeType-Video/TypeType/discussions/162)
