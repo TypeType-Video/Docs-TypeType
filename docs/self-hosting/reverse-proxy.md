@@ -69,6 +69,40 @@ The app uses WebSockets and accepts large uploads (Takeout imports). If you drop
 break. The settings above match what the bundled web container expects.
 :::
 
+## Option C - Traefik
+
+Traefik obtains and renews TLS certificates automatically.
+
+For a label based configuration, add these labels to your TypeType container, remember to add the TypeType container to your Traefik network and change `DOMAIN.COM` as appropriate. 
+
+```yaml
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: "proxy"
+      traefik.http.services.typetype.loadbalancer.server.port: "80"
+      traefik.http.routers.typetype.service: "typetype"
+      traefik.http.routers.typetype.entrypoints: "websecure"
+      traefik.http.routers.typetype.rule: "Host(`typetype.DOMAIN.COM`)"
+```
+
+Alternatively, if you use a yaml based Traefik configuration.
+
+```yaml
+http:
+  routers:
+    typetype:
+      entryPoints:
+        - websecure
+      rule: 'Host(`typetype.DOMAIN.COM`)'
+      service: typetype
+
+  services:
+    typetype:
+      loadBalancer:
+        servers:
+          - url: https://typetype:80
+```
+
 ## Remote login and WebSockets
 
 Interactive YouTube login starts with a normal HTTP request, then opens a WebSocket
