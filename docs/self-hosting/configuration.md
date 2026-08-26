@@ -145,6 +145,7 @@ and SABR endpoints. The following flag controls only interactive remote login:
 | --- | --- | --- |
 | `YOUTUBE_REMOTE_LOGIN_ENABLED` | `false` | Enables the interactive YouTube sign-in flow |
 | `YOUTUBE_OUTBOUND_PROXY_URL` | empty | Optional outbound proxy used for YouTube traffic |
+| `YOUTUBE_REMOTE_LOGIN_CALLBACK_BASE_URL` | `http://localhost:8080` | Internal Server origin that receives the Token completion callback |
 | `YOUTUBE_REMOTE_LOGIN_CALLBACK_ORIGIN` | `http://typetype-server:8080` | Internal callback origin used by Token |
 | `YOUTUBE_REMOTE_LOGIN_TTL_MS` | `480000` | Lifetime requested by Server, clamped to 1–10 minutes |
 | `YOUTUBE_REMOTE_LOGIN_MAX_SESSIONS` | `2` | Concurrent remote browser sessions, clamped to 1–8 |
@@ -154,6 +155,12 @@ and SABR endpoints. The following flag controls only interactive remote login:
 Keep the default callback as an internal Server URL. The browser reaches the login
 session through the public web origin and a WebSocket; it does not call that callback
 address directly.
+
+Both callback settings must use the same internal Server origin in a custom Compose
+stack. Set `YOUTUBE_REMOTE_LOGIN_CALLBACK_BASE_URL` on Server and
+`YOUTUBE_REMOTE_LOGIN_CALLBACK_ORIGIN` on Token to the hostname and port that Token
+can reach on the Compose network, for example `http://typetype-server:8080`. Do not
+use the public web URL for either setting.
 
 In the supported Compose file, Token keeps its own eight-minute default cap because
 this TTL variable is passed only to Server. Values above eight minutes therefore do
