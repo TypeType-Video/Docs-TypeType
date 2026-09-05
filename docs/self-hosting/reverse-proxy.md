@@ -71,21 +71,43 @@ break. The settings above match what the bundled web container expects.
 
 ## Option C - Traefik
 
-Traefik obtains and renews TLS certificates automatically.
+These examples assume an existing Traefik installation with a `websecure`
+entry point listening on port 443 and an
+[ACME certificate resolver](https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/acme/)
+configured in Traefik's static configuration. Replace `YOUR_CERT_RESOLVER` with
+that resolver's name and `watch.example.com` with your domain. Traefik uses the
+resolver to obtain and renew TLS certificates; the snippets below do not create it.
 
-For a label based configuration, add these labels to your TypeType container, remember to add the TypeType container to your Traefik network and change `DOMAIN.COM` as appropriate. 
+Attach Traefik and the TypeType web service (`typetype`) to the same Docker network.
+The examples use an existing external network named `proxy`; replace that name
+with your Traefik network. Keep the web service on its existing `default` network
+as well so it can still reach the TypeType server.
+
+For Traefik's Docker provider, merge the following into your Compose configuration:
 
 ```yaml
+services:
+  typetype:
+    networks:
+      - default
+      - proxy
     labels:
       traefik.enable: "true"
       traefik.docker.network: "proxy"
       traefik.http.services.typetype.loadbalancer.server.port: "80"
       traefik.http.routers.typetype.service: "typetype"
       traefik.http.routers.typetype.entrypoints: "websecure"
-      traefik.http.routers.typetype.rule: "Host(`typetype.DOMAIN.COM`)"
+      traefik.http.routers.typetype.rule: "Host(`watch.example.com`)"
+      traefik.http.routers.typetype.tls: "true"
+      traefik.http.routers.typetype.tls.certresolver: "YOUR_CERT_RESOLVER"
+
+networks:
+  proxy:
+    external: true
 ```
 
-Alternatively, if you use a yaml based Traefik configuration.
+Alternatively, keep the same network attachments and use this dynamic YAML
+configuration with Traefik's file provider instead of the labels:
 
 ```yaml
 http:
@@ -93,15 +115,20 @@ http:
     typetype:
       entryPoints:
         - websecure
-      rule: 'Host(`typetype.DOMAIN.COM`)'
+      rule: 'Host(`watch.example.com`)'
       service: typetype
+      tls:
+        certResolver: YOUR_CERT_RESOLVER
 
   services:
     typetype:
       loadBalancer:
         servers:
-          - url: https://typetype:80
+          - url: http://typetype:80
 ```
+
+The web container serves plain HTTP on port 80; Traefik terminates HTTPS.
+Enable the Docker or file provider in Traefik according to the example you choose.
 
 ## Remote login and WebSockets
 
