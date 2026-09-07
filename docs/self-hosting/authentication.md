@@ -49,10 +49,11 @@ page. Apply the override with `docker compose up -d --force-recreate typetype-se
 
 ## Redirect URI
 
-Register this callback URL with your provider:
+Register these callback URLs with your provider:
 
 ```text
 https://<your-domain>/auth/oidc/callback
+dev.typetype.android://oidc/callback
 ```
 
 Use your real domain (or `http://localhost:8082/auth/oidc/callback` for a local test).
@@ -72,7 +73,7 @@ Create a confidential client with:
 
 | Pocket ID setting | Value |
 | --- | --- |
-| Callback URL | `https://watch.example.com/auth/oidc/callback` |
+| Callback URL | `https://watch.example.com/auth/oidc/callback` `dev.typetype.android://oidc/callback` |
 | Client launch URL | `https://watch.example.com/` |
 | Public client | off |
 | Requires re-authentication | off |

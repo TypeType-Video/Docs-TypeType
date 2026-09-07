@@ -14,9 +14,9 @@ env:
 jobs:
   spelling:
     name: Spell Check with Typos
-    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-24.04' || fromJSON('["self-hosted","Linux","X64","arko","typetype"]') }}
+    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-24.04' || fromJSON('["self-hosted","Linux","X64","r730","typetype"]') }}
     steps:
     - name: Checkout Actions Repository
       uses: actions/checkout@v7
     - name: Spell Check Repo
-      uses: crate-ci/typos@v1.48.0
+      uses: crate-ci/typos@v1.50.0
