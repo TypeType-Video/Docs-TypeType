@@ -19,6 +19,7 @@ threads that directly shaped the current documentation.
 | [Toni-Vide](https://github.com/Toni-Vide) | [Unexpected sign-outs, discussion #162](https://github.com/TypeType-Video/TypeType/discussions/162) | Access-token, refresh-cookie, and session troubleshooting |
 | [nanhoes](https://github.com/nanhoes) | [iOS download flow, issue #116](https://github.com/TypeType-Video/TypeType/issues/116) | Authentication propagation and artifact-path review |
 | [lelam183](https://github.com/lelam183) | [Imported playlist behavior, issue #135](https://github.com/TypeType-Video/TypeType/issues/135) | Import deduplication, system-playlist mapping, and background metadata repair |
+| [BuggyPasta](https://github.com/BuggyPasta) | [Dockge deployment instructions, discussion #277](https://github.com/TypeType-Video/TypeType/discussions/277) | Dockge stack layout, one-time bootstrap, and operator feedback on the manual setup |
 | [hugoghx](https://github.com/hugoghx) | [Livestream playback, issue #145](https://github.com/TypeType-Video/TypeType/issues/145) | Live playback and moving-window review |
 | [Priveetee](https://github.com/Priveetee) | [Live quality changes, issue #163](https://github.com/TypeType-Video/TypeType/issues/163) | Live-session and quality-switching concepts in the playback guide |
 
