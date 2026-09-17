@@ -4,19 +4,21 @@ import { useData, useRoute, withBase } from "vitepress";
 
 // Pages that actually have a translation. Keep this in sync with docs/fr and
 // docs/es: bare, extension-less paths, "" for the locale homepage.
+const GUIDE_PAGES = [
+    "guide",
+    "guide/watching",
+    "guide/embedding",
+    "guide/library",
+    "guide/finding-content",
+    "guide/accounts",
+    "guide/settings",
+    "guide/discord-rich-presence",
+    "guide/privacy",
+];
+
 const TRANSLATED_PAGES: Record<string, string[]> = {
-    fr: [
-        "",
-        "self-hosting/prerequisites",
-        "self-hosting/authentication",
-        "guide/discord-rich-presence",
-    ],
-    es: [
-        "",
-        "self-hosting/prerequisites",
-        "self-hosting/authentication",
-        "guide/discord-rich-presence",
-    ],
+    fr: ["", "self-hosting/prerequisites", "self-hosting/authentication", ...GUIDE_PAGES],
+    es: ["", "self-hosting/prerequisites", "self-hosting/authentication", ...GUIDE_PAGES],
 };
 
 const props = withDefaults(defineProps<{ mode?: "nav" | "screen" }>(), { mode: "nav" });
