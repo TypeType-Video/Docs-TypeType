@@ -9,7 +9,7 @@ over its local connection, the same mechanism Spotify or a game uses.
 
 - A TypeType account. Guests can't create a presence key.
 - [Discord desktop](https://discord.com/download), or a compatible client such as
-  Vesktop, running on the same machine.
+  [Vesktop](https://vesktop.dev/), running on the same machine.
 - The [TypeType RPC](https://github.com/TypeType-Video/TypeType-RPC) app installed.
 
 ## Create a presence key
