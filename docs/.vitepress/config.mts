@@ -48,10 +48,18 @@ export default defineConfig({
                         {
                             text: "Guide utilisateur",
                             items: [
+                                { text: "Aperçu (en anglais)", link: "/guide/" },
+                                { text: "Lecture et le lecteur (en anglais)", link: "/guide/watching" },
+                                { text: "Lecteur intégré (en anglais)", link: "/guide/embedding" },
+                                { text: "Votre bibliothèque (en anglais)", link: "/guide/library" },
+                                { text: "Trouver du contenu (en anglais)", link: "/guide/finding-content" },
+                                { text: "Connexion (en anglais)", link: "/guide/accounts" },
+                                { text: "Paramètres (en anglais)", link: "/guide/settings" },
                                 {
                                     text: "Discord Rich Presence",
                                     link: "/fr/guide/discord-rich-presence",
                                 },
+                                { text: "Confidentialité et blocage (en anglais)", link: "/guide/privacy" },
                             ],
                         },
                     ],
@@ -123,10 +131,18 @@ export default defineConfig({
                         {
                             text: "Guía del usuario",
                             items: [
+                                { text: "Resumen (en inglés)", link: "/guide/" },
+                                { text: "Reproducción y el reproductor (en inglés)", link: "/guide/watching" },
+                                { text: "Reproductor incrustado (en inglés)", link: "/guide/embedding" },
+                                { text: "Tu biblioteca (en inglés)", link: "/guide/library" },
+                                { text: "Buscar contenido (en inglés)", link: "/guide/finding-content" },
+                                { text: "Inicio de sesión (en inglés)", link: "/guide/accounts" },
+                                { text: "Configuración (en inglés)", link: "/guide/settings" },
                                 {
                                     text: "Discord Rich Presence",
                                     link: "/es/guide/discord-rich-presence",
                                 },
+                                { text: "Privacidad y bloqueo (en inglés)", link: "/guide/privacy" },
                             ],
                         },
                     ],
