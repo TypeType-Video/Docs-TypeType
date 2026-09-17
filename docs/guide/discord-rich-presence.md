@@ -1,5 +1,8 @@
 # Discord Rich Presence
 
+**Languages:** English · [Français](/fr/guide/discord-rich-presence) ·
+[Español](/es/guide/discord-rich-presence)
+
 Show what you're watching on TypeType as your Discord status: title, channel, and a
 link back to the video. It uses a small desktop companion,
 [TypeType RPC](https://github.com/TypeType-Video/TypeType-RPC), that talks to Discord

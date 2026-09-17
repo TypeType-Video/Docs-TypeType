@@ -24,6 +24,7 @@ export default defineConfig({
                     { text: "Accueil", link: "/fr/" },
                     { text: "Prérequis", link: "/fr/self-hosting/prerequisites" },
                     { text: "Sessions", link: "/fr/self-hosting/authentication" },
+                    { text: "Discord Rich Presence", link: "/fr/guide/discord-rich-presence" },
                     { text: "Guide en anglais", link: "/" },
                     { text: "Code source", link: "https://github.com/TypeType-Video/TypeType" },
                 ],
@@ -39,6 +40,17 @@ export default defineConfig({
                                 {
                                     text: "Sessions de compte",
                                     link: "/fr/self-hosting/authentication",
+                                },
+                            ],
+                        },
+                    ],
+                    "/fr/guide/": [
+                        {
+                            text: "Guide utilisateur",
+                            items: [
+                                {
+                                    text: "Discord Rich Presence",
+                                    link: "/fr/guide/discord-rich-presence",
                                 },
                             ],
                         },
@@ -87,6 +99,7 @@ export default defineConfig({
                     { text: "Inicio", link: "/es/" },
                     { text: "Requisitos", link: "/es/self-hosting/prerequisites" },
                     { text: "Sesiones", link: "/es/self-hosting/authentication" },
+                    { text: "Discord Rich Presence", link: "/es/guide/discord-rich-presence" },
                     { text: "Guía en inglés", link: "/" },
                     { text: "Código fuente", link: "https://github.com/TypeType-Video/TypeType" },
                 ],
@@ -102,6 +115,17 @@ export default defineConfig({
                                 {
                                     text: "Sesiones de cuenta",
                                     link: "/es/self-hosting/authentication",
+                                },
+                            ],
+                        },
+                    ],
+                    "/es/guide/": [
+                        {
+                            text: "Guía del usuario",
+                            items: [
+                                {
+                                    text: "Discord Rich Presence",
+                                    link: "/es/guide/discord-rich-presence",
                                 },
                             ],
                         },
