@@ -166,7 +166,7 @@ export default defineConfig({
     themeConfig: {
         logo: "/typetype.svg",
         search: { provider: "local" },
-        i18nRouting: false,
+        i18nRouting: true,
 
         nav: [
             { text: "Home", link: "/" },
