@@ -1,8 +1,5 @@
 # Requisitos previos
 
-**Idiomas:** [English](/self-hosting/prerequisites) ·
-[Français](/fr/self-hosting/prerequisites) · Español
-
 ## Sistemas compatibles
 
 TypeType necesita un sistema Linux de 64 bits. Las imágenes publicadas son compatibles

@@ -1,8 +1,5 @@
 # Discord Rich Presence
 
-**Idiomas:** [English](/guide/discord-rich-presence) ·
-[Français](/fr/guide/discord-rich-presence) · Español
-
 Muestra lo que estás viendo en TypeType como tu estado de Discord: título, canal, y un
 enlace de vuelta al vídeo. Utiliza un pequeño complemento de escritorio,
 [TypeType RPC](https://github.com/TypeType-Video/TypeType-RPC), que se comunica con

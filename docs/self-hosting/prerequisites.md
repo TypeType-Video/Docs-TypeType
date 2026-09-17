@@ -1,8 +1,5 @@
 # Prerequisites
 
-**Languages:** English · [Français](/fr/self-hosting/prerequisites) ·
-[Español](/es/self-hosting/prerequisites)
-
 ## Supported hosts
 
 TypeType needs a 64-bit Linux host. The published images support `linux/amd64` and
