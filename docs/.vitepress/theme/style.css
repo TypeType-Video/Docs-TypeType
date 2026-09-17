@@ -74,3 +74,10 @@
 .mermaid-loading {
     min-height: 120px;
 }
+
+/* Replaced by our own LangSwitcher (see theme/index.ts): the built-in
+   switcher can send you to a 404 when a page has no translation. */
+.VPNavBarTranslations,
+.VPNavScreenTranslations {
+    display: none !important;
+}

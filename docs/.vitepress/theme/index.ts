@@ -1,11 +1,22 @@
 import DefaultTheme from "vitepress/theme";
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent, h } from "vue";
+import LangSwitcher from "./LangSwitcher.vue";
 import "./style.css";
 
 // Persist scroll position per page and restore it on refresh (F5).
 // Normal in-app link navigation keeps VitePress's default (scroll to top).
 export default {
     extends: DefaultTheme,
+    Layout() {
+        // Replaces the built-in language switcher: VitePress's own one can
+        // send you to a 404 (or, after one, a corrupted URL) when the
+        // current page has no translation. Ours falls back to the locale
+        // homepage instead. The built-in ones are hidden via style.css.
+        return h(DefaultTheme.Layout, null, {
+            "nav-bar-content-after": () => h(LangSwitcher, { mode: "nav" }),
+            "nav-screen-content-after": () => h(LangSwitcher, { mode: "screen" }),
+        });
+    },
     enhanceApp({ app }) {
         app.component(
             "MermaidDiagram",
