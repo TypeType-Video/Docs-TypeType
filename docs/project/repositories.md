@@ -14,6 +14,7 @@ belongs to a component repository.
 | PO token, YouTube player decoder, subtitle metadata, or remote-login browser | [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | `src/` |
 | Download queue, transfer, mux, storage, or artifact | [TypeType-Downloader](https://github.com/TypeType-Video/TypeType-Downloader) | `cmd/`, `internal/`, `migrations/` |
 | MSE buffering, segment scheduling, seek, quality switch, or playback recovery | [TypeType-Player](https://github.com/TypeType-Video/TypeType-Player) | `src/` |
+| Discord presence detail, RPC handshake, or desktop tray behavior | [TypeType-RPC](https://github.com/TypeType-Video/TypeType-RPC) | `src-tauri/src/` |
 | User, operator, or project explanation | [Docs-TypeType](https://github.com/TypeType-Video/Docs-TypeType) | `docs/` |
 
 ## Central stack
@@ -152,6 +153,34 @@ bun run build
 
 The repository is MIT licensed.
 
+## RPC
+
+RPC is the desktop companion that turns a user's current TypeType playback into a
+Discord Rich Presence status. It is a Tauri 2 app with a from-scratch Rust
+implementation of the Discord IPC protocol, no Electron and no Discord SDK
+dependency. It lives in the system tray and polls Server's presence endpoint only
+while sharing is turned on.
+
+Useful entry points:
+
+- `src-tauri/src/discord_frame.rs` and `discord_socket.rs` for the IPC wire format
+  and local socket discovery;
+- `src-tauri/src/discord_rpc.rs` for the handshake and activity commands;
+- `src-tauri/src/presence.rs` for polling the presence endpoint;
+- `src-tauri/src/tray.rs` for the tray menu and polling lifecycle;
+- `src/main.ts` for the Settings window.
+
+Checks:
+
+```sh
+cargo fmt --manifest-path src-tauri/Cargo.toml --check
+cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings
+cargo test --manifest-path src-tauri/Cargo.toml
+bun run build
+```
+
+The repository is MIT licensed.
+
 ## Documentation and organisation profile
 
 Docs-TypeType is a VitePress site. User pages live in `docs/guide`, operator pages in
@@ -182,3 +211,4 @@ Documentation pull requests also target `dev`.
 - [Token README](https://github.com/TypeType-Video/TypeType-Token/blob/dev/README.md)
 - [Downloader README](https://github.com/TypeType-Video/TypeType-Downloader/blob/dev/README.md)
 - [Player README](https://github.com/TypeType-Video/TypeType-Player/blob/dev/README.md)
+- [RPC README](https://github.com/TypeType-Video/TypeType-RPC/blob/dev/README.md)

@@ -233,6 +233,7 @@ export default defineConfig({
                         { text: "Finding content", link: "/guide/finding-content" },
                         { text: "Signing in", link: "/guide/accounts" },
                         { text: "Settings", link: "/guide/settings" },
+                        { text: "Discord Rich Presence", link: "/guide/discord-rich-presence" },
                         { text: "Privacy & blocking", link: "/guide/privacy" },
                     ],
                 },
