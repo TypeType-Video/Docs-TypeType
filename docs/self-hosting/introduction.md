@@ -73,18 +73,18 @@ Playback in action:
 
 ## How this guide is organised
 
-1. [Architecture](./architecture) — how the pieces communicate, and where data lives.
-2. [Security boundaries](./security) — what is public, internal, and browser-backed.
-3. [Prerequisites](./prerequisites) — what you need before you start.
-4. [Quick start](./quick-start) — the recommended one-command install.
-5. [Manual setup](./docker-compose) — the same thing by hand, step by step.
-6. [Configuration](./configuration) — every environment variable, explained.
-7. [Importing your data](./importing-data) — bring in subscriptions, playlists, history.
-8. [Reverse proxy and HTTPS](./reverse-proxy) — exposing it on your domain.
-9. [Maintenance](./maintenance) — updates, backups, and logs.
-10. [Beta and main](./beta-and-main) — running the stable and preview channels.
-11. [Reporting issues](./reporting-issues) — how to report bugs.
-12. [Troubleshooting](./troubleshooting) — common issues and fixes.
+1. [Architecture](./architecture) - how the pieces communicate, and where data lives.
+2. [Security boundaries](./security) - what is public, internal, and browser-backed.
+3. [Prerequisites](./prerequisites) - what you need before you start.
+4. [Quick start](./quick-start) - the recommended one-command install.
+5. [Manual setup](./docker-compose) - the same thing by hand, step by step.
+6. [Configuration](./configuration) - every environment variable, explained.
+7. [Importing your data](./importing-data) - bring in subscriptions, playlists, history.
+8. [Reverse proxy and HTTPS](./reverse-proxy) - exposing it on your domain.
+9. [Maintenance](./maintenance) - updates, backups, and logs.
+10. [Beta and main](./beta-and-main) - running the stable and preview channels.
+11. [Reporting issues](./reporting-issues) - how to report bugs.
+12. [Troubleshooting](./troubleshooting) - common issues and fixes.
 
 ::: tip Where do the files come from?
 The `docker-compose.yml`, `.env.example`, and stack scripts referenced throughout

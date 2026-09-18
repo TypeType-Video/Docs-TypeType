@@ -13,7 +13,7 @@ everything on this page for you, including the object store for downloads. Use t
 manual guide if you want full control or to understand each step.
 :::
 
-## Part 1 — Get it running
+## Part 1 - Get it running
 
 ### 1. Download the files
 
@@ -96,7 +96,7 @@ The whole flow from the empty form to the admin home:
 That is the entire base install. To put it on a real domain with HTTPS, see
 [Reverse proxy and HTTPS](./reverse-proxy).
 
-## Part 2 — Object storage for downloads {#part-2-object-storage-for-downloads}
+## Part 2 - Object storage for downloads {#part-2-object-storage-for-downloads}
 
 The **download** feature needs an S3-compatible object store, which the stack already
 includes (Garage). The [install script](./quick-start) sets this up automatically; the
@@ -154,7 +154,7 @@ Downloads now work from the interface.
 The browser downloads through the Server gateway. Garage remains internal; you do
 not need to expose port 3900 publicly or configure a browser-facing S3 endpoint.
 
-## Part 3 — Deploy with Dockge {#deploy-with-dockge}
+## Part 3 - Deploy with Dockge {#deploy-with-dockge}
 
 [Dockge](https://github.com/louislam/dockge) is a web interface for Docker Compose.
 It can manage the TypeType stack alongside your other stacks, but it does not replace
