@@ -13,72 +13,6 @@ everything on this page for you, including the object store for downloads. Use t
 manual guide if you want full control or to understand each step.
 :::
 
-## Deploy with Dockge {#deploy-with-dockge}
-
-[Dockge](https://github.com/louislam/dockge) is a web interface for Docker Compose.
-It can manage the TypeType stack, but it does not replace TypeType's one-time
-bootstrap. Keep the official service names and files so the internal URLs and Garage
-commands continue to match the supported stack.
-
-### 1. Prepare the stack directory
-
-Use the host directory that is mounted as Dockge's stacks directory. The example
-below creates a `typetype` stack under `$HOME/dockge-stacks`; choose another path if
-your Dockge installation uses a different one.
-
-```sh
-mkdir -p "$HOME/dockge-stacks"
-git clone --depth 1 https://github.com/TypeType-Video/TypeType.git \
-  "$HOME/dockge-stacks/typetype"
-cd "$HOME/dockge-stacks/typetype"
-cp .env.example .env
-mkdir -p .typetype-migration
-```
-
-Generate the Garage secret before deploying. Keep the value in `.env`; never paste it
-into a public issue or a Dockge screenshot.
-
-```sh
-GARAGE_RPC_SECRET=$(openssl rand -hex 32)
-sed -i "s/^GARAGE_RPC_SECRET=.*/GARAGE_RPC_SECRET=$GARAGE_RPC_SECRET/" .env
-```
-
-Refresh Dockge and select the `typetype` stack. Edit `.env` from Dockge or from the
-stack directory, and set `ALLOWED_ORIGINS` to the exact origin users will open. Do
-not paste the older community Compose examples over the current file; the supported
-Compose file already contains the current `typetype-init` flow.
-
-### 2. Run the one-time bootstrap
-
-Run this once from the stack directory, before starting the application services:
-
-```sh
-./scripts/run-stack-init.sh
-```
-
-The command runs `typetype-init` with `--rm`. It generates the YouTube session
-secrets, creates Garage's configuration, and creates the Downloader database. It is
-safe to run again when updating the stack; existing secrets and Garage configuration
-are preserved.
-
-### 3. Start and manage the stack in Dockge
-
-After the bootstrap exits successfully, use Dockge's **Deploy** or **Start** action.
-The equivalent host command is:
-
-```sh
-docker compose up -d --remove-orphans --wait --wait-timeout 180
-```
-
-Check the stack from Dockge or with `docker compose ps`. The bootstrap container is
-removed after success, so it does not need to remain running. Keep the PostgreSQL,
-Garage, and secrets volumes when stopping or updating the stack; never use
-`docker compose down -v` for a normal update.
-
-The community-tested Dockge workflow was proposed in [the follow-up to issue
-#254](https://github.com/TypeType-Video/TypeType/issues/254#issuecomment-5701725080)
-and published in [discussion #277](https://github.com/TypeType-Video/TypeType/discussions/277).
-
 ## Part 1 — Get it running
 
 ### 1. Download the files
@@ -219,6 +153,94 @@ Downloads now work from the interface.
 
 The browser downloads through the Server gateway. Garage remains internal; you do
 not need to expose port 3900 publicly or configure a browser-facing S3 endpoint.
+
+## Part 3 — Deploy with Dockge {#deploy-with-dockge}
+
+[Dockge](https://github.com/louislam/dockge) is a web interface for Docker Compose.
+It can manage the TypeType stack alongside your other stacks, but it does not replace
+TypeType's one-time bootstrap. Keep the official service names and files so the
+internal URLs and Garage commands continue to match the supported stack.
+
+### 1. Prepare the stack directory
+
+Use the host directory that is mounted as Dockge's stacks directory. The example
+below creates a `typetype` stack under `$HOME/dockge-stacks`; choose another path if
+your Dockge installation uses a different one.
+
+```sh
+mkdir -p "$HOME/dockge-stacks"
+git clone --depth 1 https://github.com/TypeType-Video/TypeType.git \
+  "$HOME/dockge-stacks/typetype"
+cd "$HOME/dockge-stacks/typetype"
+cp .env.example .env
+mkdir -p .typetype-migration
+```
+
+Generate the Garage secret before deploying. Keep the value in `.env`; never paste it
+into a public issue or a Dockge screenshot.
+
+```sh
+GARAGE_RPC_SECRET=$(openssl rand -hex 32)
+sed -i "s/^GARAGE_RPC_SECRET=.*/GARAGE_RPC_SECRET=$GARAGE_RPC_SECRET/" .env
+```
+
+Refresh Dockge and select the `typetype` stack. Edit `.env` from Dockge or from the
+stack directory, and set `ALLOWED_ORIGINS` to the exact origin users will open. Do
+not paste the older community Compose examples over the current file; the supported
+Compose file already contains the current `typetype-init` flow.
+
+### 2. Run the one-time bootstrap
+
+Run this once from the stack directory, before starting the application services:
+
+```sh
+./scripts/run-stack-init.sh
+```
+
+The command runs `typetype-init` with `--rm`. It generates the YouTube session
+secrets, creates Garage's configuration, and creates the Downloader database. It is
+safe to run again when updating the stack; existing secrets and Garage configuration
+are preserved.
+
+### 3. Start and manage the stack in Dockge
+
+After the bootstrap exits successfully, use Dockge's **Deploy** or **Start** action.
+The equivalent host command is:
+
+```sh
+docker compose up -d --remove-orphans --wait --wait-timeout 180
+```
+
+Check the stack from Dockge or with `docker compose ps`. The bootstrap container is
+removed after success, so it does not need to remain running. Keep the PostgreSQL,
+Garage, and secrets volumes when stopping or updating the stack; never use
+`docker compose down -v` for a normal update.
+
+### 4. Update the stack without losing anything
+
+Use Dockge's **Update** action, which pulls the new images and restarts the
+containers, then run **System Prune** to reclaim disk space from the old image
+layers.
+
+::: warning Never prune while the stack is stopped
+Garage's layout and bucket registration live in the same named volumes described in
+[Part 2](#part-2-object-storage-for-downloads), which prune does not remove. But if
+you ever prune while the stack is stopped, the safe recovery is simply to re-run the
+Garage provisioning steps from Part 2, it takes a few seconds and does not touch your
+accounts, history, or settings.
+:::
+
+::: tip The Garage node ID is not stable
+If you ever wipe Garage's metadata volume entirely (not a normal update), its node ID
+changes and you must re-run the layout assignment in [Part 2](#part-2-object-storage-for-downloads)
+with the newly generated ID, not one from a previous run.
+:::
+
+Thanks to [@BuggyPasta](https://github.com/BuggyPasta) for working through this
+end-to-end on a real Dockge install and writing it up in [the follow-up to issue
+#254](https://github.com/TypeType-Video/TypeType/issues/254#issuecomment-5701725080)
+and [discussion #277](https://github.com/TypeType-Video/TypeType/discussions/277),
+which this section is adapted from.
 
 ## Custom nginx or Garage configuration
 
