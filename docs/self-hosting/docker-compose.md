@@ -156,6 +156,14 @@ not need to expose port 3900 publicly or configure a browser-facing S3 endpoint.
 
 ## Part 3 - Deploy with Dockge {#deploy-with-dockge}
 
+::: tip Credit
+This section is adapted from [@BuggyPasta](https://github.com/BuggyPasta)'s writeup,
+who worked through the whole flow end-to-end on a real Dockge install and published
+it in [the follow-up to issue #254](https://github.com/TypeType-Video/TypeType/issues/254#issuecomment-5701725080)
+and [discussion #277](https://github.com/TypeType-Video/TypeType/discussions/277).
+Thank you.
+:::
+
 [Dockge](https://github.com/louislam/dockge) is a web interface for Docker Compose.
 It can manage the TypeType stack alongside your other stacks, but it does not replace
 TypeType's one-time bootstrap. Keep the official service names and files so the
@@ -236,11 +244,6 @@ changes and you must re-run the layout assignment in [Part 2](#part-2-object-sto
 with the newly generated ID, not one from a previous run.
 :::
 
-Thanks to [@BuggyPasta](https://github.com/BuggyPasta) for working through this
-end-to-end on a real Dockge install and writing it up in [the follow-up to issue
-#254](https://github.com/TypeType-Video/TypeType/issues/254#issuecomment-5701725080)
-and [discussion #277](https://github.com/TypeType-Video/TypeType/discussions/277),
-which this section is adapted from.
 
 ## Custom nginx or Garage configuration
 
