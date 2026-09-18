@@ -1,8 +1,5 @@
 # Prérequis
 
-**Langues :** [English](/self-hosting/prerequisites) · Français ·
-[Español](/es/self-hosting/prerequisites)
-
 ## Hôtes pris en charge
 
 TypeType nécessite un hôte Linux 64 bits. Les images publiées prennent en charge

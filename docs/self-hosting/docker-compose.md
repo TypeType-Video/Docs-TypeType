@@ -4,14 +4,80 @@ This page gets TypeType running on your own machine **by hand**, with Docker Com
 The base setup is a short sequence of commands. Everything the helper scripts in the
 repo do is explained here, so you never have to run a script you do not understand.
 
-The stack creates the sensitive YouTube keys on first start. A script-free install
-must generate the Garage RPC secret itself, as shown below.
+The stack creates the sensitive YouTube keys during its one-time bootstrap. A
+script-free install must generate the Garage RPC secret itself, as shown below.
 
 ::: tip Recommended: the install script
 For most people the [Quick start](./quick-start) script is the easiest path, it does
 everything on this page for you, including the object store for downloads. Use this
 manual guide if you want full control or to understand each step.
 :::
+
+## Deploy with Dockge {#deploy-with-dockge}
+
+[Dockge](https://github.com/louislam/dockge) is a web interface for Docker Compose.
+It can manage the TypeType stack, but it does not replace TypeType's one-time
+bootstrap. Keep the official service names and files so the internal URLs and Garage
+commands continue to match the supported stack.
+
+### 1. Prepare the stack directory
+
+Use the host directory that is mounted as Dockge's stacks directory. The example
+below creates a `typetype` stack under `$HOME/dockge-stacks`; choose another path if
+your Dockge installation uses a different one.
+
+```sh
+mkdir -p "$HOME/dockge-stacks"
+git clone --depth 1 https://github.com/TypeType-Video/TypeType.git \
+  "$HOME/dockge-stacks/typetype"
+cd "$HOME/dockge-stacks/typetype"
+cp .env.example .env
+mkdir -p .typetype-migration
+```
+
+Generate the Garage secret before deploying. Keep the value in `.env`; never paste it
+into a public issue or a Dockge screenshot.
+
+```sh
+GARAGE_RPC_SECRET=$(openssl rand -hex 32)
+sed -i "s/^GARAGE_RPC_SECRET=.*/GARAGE_RPC_SECRET=$GARAGE_RPC_SECRET/" .env
+```
+
+Refresh Dockge and select the `typetype` stack. Edit `.env` from Dockge or from the
+stack directory, and set `ALLOWED_ORIGINS` to the exact origin users will open. Do
+not paste the older community Compose examples over the current file; the supported
+Compose file already contains the current `typetype-init` flow.
+
+### 2. Run the one-time bootstrap
+
+Run this once from the stack directory, before starting the application services:
+
+```sh
+./scripts/run-stack-init.sh
+```
+
+The command runs `typetype-init` with `--rm`. It generates the YouTube session
+secrets, creates Garage's configuration, and creates the Downloader database. It is
+safe to run again when updating the stack; existing secrets and Garage configuration
+are preserved.
+
+### 3. Start and manage the stack in Dockge
+
+After the bootstrap exits successfully, use Dockge's **Deploy** or **Start** action.
+The equivalent host command is:
+
+```sh
+docker compose up -d --remove-orphans --wait --wait-timeout 180
+```
+
+Check the stack from Dockge or with `docker compose ps`. The bootstrap container is
+removed after success, so it does not need to remain running. Keep the PostgreSQL,
+Garage, and secrets volumes when stopping or updating the stack; never use
+`docker compose down -v` for a normal update.
+
+The community-tested Dockge workflow was proposed in [the follow-up to issue
+#254](https://github.com/TypeType-Video/TypeType/issues/254#issuecomment-5701725080)
+and published in [discussion #277](https://github.com/TypeType-Video/TypeType/discussions/277).
 
 ## Part 1 — Get it running
 
@@ -54,15 +120,16 @@ from a private volume. Leave those two `SET_ME_...` values unchanged unless you 
 the secrets yourself.
 :::
 
-### 3. Start everything
+### 3. Bootstrap and start everything
 
 ```sh
-docker compose up -d
+./scripts/run-stack-init.sh
+docker compose up -d --remove-orphans --wait --wait-timeout 180
 ```
 
-Compose downloads the images and starts the stack. Three short init containers
-(`typetype-secrets`, `postgres-init`, and `garage-config`) run once and exit on their
-own, that is normal.
+The bootstrap runs one short-lived `typetype-init` task and removes it after a
+successful run. It prepares the private secrets volume, Garage configuration, and
+Downloader database before the long-running services start.
 
 Check that the long-running services are up:
 
@@ -71,9 +138,9 @@ docker compose ps -a
 ```
 
 You should see `typetype`, `typetype-server`, `typetype-token`,
-`typetype-downloader`, `postgres`, `dragonfly`, and `garage` all `running`. The init
-services should show that they exited successfully. The `-a` flag is needed to
-include those stopped init containers.
+`typetype-downloader`, `postgres`, `dragonfly`, and `garage` all `running` or
+`healthy`. The initializer was run with `--rm`, so it is expected not to appear in
+the list after a successful bootstrap.
 
 ### 4. Open it and create the admin account
 

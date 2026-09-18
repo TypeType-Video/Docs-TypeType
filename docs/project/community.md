@@ -19,12 +19,29 @@ threads that directly shaped the current documentation.
 | [Toni-Vide](https://github.com/Toni-Vide) | [Unexpected sign-outs, discussion #162](https://github.com/TypeType-Video/TypeType/discussions/162) | Access-token, refresh-cookie, and session troubleshooting |
 | [nanhoes](https://github.com/nanhoes) | [iOS download flow, issue #116](https://github.com/TypeType-Video/TypeType/issues/116) | Authentication propagation and artifact-path review |
 | [lelam183](https://github.com/lelam183) | [Imported playlist behavior, issue #135](https://github.com/TypeType-Video/TypeType/issues/135) | Import deduplication, system-playlist mapping, and background metadata repair |
+| [BuggyPasta](https://github.com/BuggyPasta) | [Dockge deployment instructions, discussion #277](https://github.com/TypeType-Video/TypeType/discussions/277) | Dockge stack layout, one-time bootstrap, and operator feedback on the manual setup |
 | [hugoghx](https://github.com/hugoghx) | [Livestream playback, issue #145](https://github.com/TypeType-Video/TypeType/issues/145) | Live playback and moving-window review |
 | [Priveetee](https://github.com/Priveetee) | [Live quality changes, issue #163](https://github.com/TypeType-Video/TypeType/issues/163) | Live-session and quality-switching concepts in the playback guide |
 
 Thank you to everyone above for publishing reproducible symptoms, configuration
 context, and follow-up results. Their reports made the supported workflow clearer for
 people who will encounter the same boundary later.
+
+## Project supporters
+
+### Recurring sponsor
+
+Thank you to [@Toastienergy](https://github.com/Toastienergy) for supporting
+TypeType through a recurring GitHub Sponsors contribution. It helps me cover the
+infrastructure and spend more time improving the project.
+
+### One-time donor
+
+I also thank [@filippobaroni](https://github.com/filippobaroni) for the one-time
+GitHub Sponsors donation that helped support TypeType.
+
+If you want to support TypeType financially, you can do so through
+[GitHub Sponsors](https://github.com/sponsors/Priveetee).
 
 ## How community material is used
 

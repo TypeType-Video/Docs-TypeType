@@ -24,6 +24,14 @@ records).
    ZIP files** (you can select several at once).
 4. Start the import, then check your subscriptions and playlists.
 
+::: warning Import progress stays at zero
+If the preview succeeds but an import remains at `00` categories with no progress,
+save the job identifier and the preview counts before cancelling it. This behavior is
+tracked in [issue #276](https://github.com/TypeType-Video/TypeType/issues/276); it is
+different from a Takeout file that failed detection. Do not include the archive or
+any account data in a report.
+:::
+
 ::: tip
 No need to unzip anything, upload the Takeout ZIPs exactly as Google gives them to you.
 :::

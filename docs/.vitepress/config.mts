@@ -24,7 +24,7 @@ export default defineConfig({
                     { text: "Accueil", link: "/fr/" },
                     { text: "Prérequis", link: "/fr/self-hosting/prerequisites" },
                     { text: "Sessions", link: "/fr/self-hosting/authentication" },
-                    { text: "Guide en anglais", link: "/" },
+                    { text: "Guide utilisateur", link: "/fr/guide/" },
                     { text: "Code source", link: "https://github.com/TypeType-Video/TypeType" },
                 ],
                 sidebar: {
@@ -40,6 +40,25 @@ export default defineConfig({
                                     text: "Sessions de compte",
                                     link: "/fr/self-hosting/authentication",
                                 },
+                            ],
+                        },
+                    ],
+                    "/fr/guide/": [
+                        {
+                            text: "Guide utilisateur",
+                            items: [
+                                { text: "Aperçu", link: "/fr/guide/" },
+                                { text: "Lecture et le lecteur", link: "/fr/guide/watching" },
+                                { text: "Lecteur intégré", link: "/fr/guide/embedding" },
+                                { text: "Votre bibliothèque", link: "/fr/guide/library" },
+                                { text: "Trouver du contenu", link: "/fr/guide/finding-content" },
+                                { text: "Connexion", link: "/fr/guide/accounts" },
+                                { text: "Paramètres", link: "/fr/guide/settings" },
+                                {
+                                    text: "Discord Rich Presence",
+                                    link: "/fr/guide/discord-rich-presence",
+                                },
+                                { text: "Confidentialité et blocage", link: "/fr/guide/privacy" },
                             ],
                         },
                     ],
@@ -87,7 +106,7 @@ export default defineConfig({
                     { text: "Inicio", link: "/es/" },
                     { text: "Requisitos", link: "/es/self-hosting/prerequisites" },
                     { text: "Sesiones", link: "/es/self-hosting/authentication" },
-                    { text: "Guía en inglés", link: "/" },
+                    { text: "Guía del usuario", link: "/es/guide/" },
                     { text: "Código fuente", link: "https://github.com/TypeType-Video/TypeType" },
                 ],
                 sidebar: {
@@ -103,6 +122,25 @@ export default defineConfig({
                                     text: "Sesiones de cuenta",
                                     link: "/es/self-hosting/authentication",
                                 },
+                            ],
+                        },
+                    ],
+                    "/es/guide/": [
+                        {
+                            text: "Guía del usuario",
+                            items: [
+                                { text: "Resumen", link: "/es/guide/" },
+                                { text: "Reproducción y el reproductor", link: "/es/guide/watching" },
+                                { text: "Reproductor incrustado", link: "/es/guide/embedding" },
+                                { text: "Tu biblioteca", link: "/es/guide/library" },
+                                { text: "Buscar contenido", link: "/es/guide/finding-content" },
+                                { text: "Inicio de sesión", link: "/es/guide/accounts" },
+                                { text: "Configuración", link: "/es/guide/settings" },
+                                {
+                                    text: "Discord Rich Presence",
+                                    link: "/es/guide/discord-rich-presence",
+                                },
+                                { text: "Privacidad y bloqueo", link: "/es/guide/privacy" },
                             ],
                         },
                     ],
@@ -166,7 +204,7 @@ export default defineConfig({
     themeConfig: {
         logo: "/typetype.svg",
         search: { provider: "local" },
-        i18nRouting: false,
+        i18nRouting: true,
 
         nav: [
             { text: "Home", link: "/" },
@@ -233,6 +271,7 @@ export default defineConfig({
                         { text: "Finding content", link: "/guide/finding-content" },
                         { text: "Signing in", link: "/guide/accounts" },
                         { text: "Settings", link: "/guide/settings" },
+                        { text: "Discord Rich Presence", link: "/guide/discord-rich-presence" },
                         { text: "Privacy & blocking", link: "/guide/privacy" },
                     ],
                 },

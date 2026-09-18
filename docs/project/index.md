@@ -50,6 +50,7 @@ Downloader, PostgreSQL, Dragonfly, and Garage are internal services.
 | [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | YouTube PO tokens, player decoding, SABR metadata, subtitles, and remote-login browser sessions |
 | [TypeType-Downloader](https://github.com/TypeType-Video/TypeType-Downloader) | Persistent download jobs, media transfer, muxing, and artifacts |
 | [TypeType-Player](https://github.com/TypeType-Video/TypeType-Player) | Browser Media Source Extensions pipeline used by the frontend |
+| [TypeType-RPC](https://github.com/TypeType-Video/TypeType-RPC) | Desktop companion that shows your playback as a Discord Rich Presence status |
 | [Docs-TypeType](https://github.com/TypeType-Video/Docs-TypeType) | User, operator, and project documentation |
 | [TypeType-Video/.github](https://github.com/TypeType-Video/.github) | Organisation profile and shared public assets |
 
