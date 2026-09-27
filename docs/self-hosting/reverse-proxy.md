@@ -19,7 +19,7 @@ internally, including WebSocket upgrades, SABR media, downloads, and large uploa
    docker compose up -d
    ```
 
-## Option A — Caddy (recommended)
+## Option A - Caddy (recommended)
 
 Caddy obtains and renews TLS certificates automatically. A two-line `Caddyfile` is
 enough:
@@ -32,7 +32,7 @@ watch.example.com {
 
 Caddy forwards WebSockets and the right headers out of the box. That is all you need.
 
-## Option B — nginx
+## Option B - nginx
 
 ```nginx
 map $http_upgrade $connection_upgrade {

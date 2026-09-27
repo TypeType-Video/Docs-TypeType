@@ -37,9 +37,9 @@ Server supports these variables:
 
 | Variable | Required | Default | What it is |
 | --- | --- | --- | --- |
-| `OIDC_ISSUER` | yes | — | Your provider's issuer URL (e.g. `https://id.example.com`). `OIDC_ISSUER_URL` also works. |
-| `OIDC_CLIENT_ID` | yes | — | The client ID from your provider |
-| `OIDC_CLIENT_SECRET` | yes | — | The client secret from your provider |
+| `OIDC_ISSUER` | yes | - | Your provider's issuer URL (e.g. `https://id.example.com`). `OIDC_ISSUER_URL` also works. |
+| `OIDC_CLIENT_ID` | yes | - | The client ID from your provider |
+| `OIDC_CLIENT_SECRET` | yes | - | The client secret from your provider |
 | `OIDC_DISCOVERY_URL` | no | `<issuer>/.well-known/openid-configuration` | Override only if discovery lives elsewhere |
 | `OIDC_SCOPES` | no | `openid email profile` | Scopes requested |
 | `OIDC_PROVIDER_NAME` | no | `OIDC` | Name shown on the "Sign in with..." button |
