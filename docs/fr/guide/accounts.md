@@ -3,11 +3,11 @@
 Vos abonnements, playlists, historique, et paramètres sont liés à votre compte sur
 l'instance.
 
-## Compte local
+## Compte local {#local-account}
 
 Créez un compte avec un nom, un email, et un mot de passe, puis connectez-vous. Sur
 une instance toute neuve, le **premier compte devient administrateur** (voir
-[Démarrage rapide](/self-hosting/quick-start#create-the-admin-account)). Si vous
+[Démarrage rapide](/fr/self-hosting/quick-start#create-the-admin-account)). Si vous
 oubliez votre mot de passe, utilisez le parcours de réinitialisation depuis la page de
 connexion.
 
@@ -18,9 +18,9 @@ de courte durée expire après une heure, tandis que la session de rafraîchisse
 30 jours. Si vous êtes déconnecté pendant une utilisation active du site, ce n'est pas
 une déconnexion normale pour inactivité ; demandez à l'opérateur de l'instance de
 vérifier
-[Déconnexions inattendues](/self-hosting/troubleshooting#unexpected-sign-outs).
+[Déconnexions inattendues](/fr/self-hosting/troubleshooting#unexpected-sign-outs).
 
-## Authentification unique (OIDC)
+## Authentification unique (OIDC) {#single-sign-on-oidc}
 
 Si votre instance l'a configurée, la page de connexion affiche un bouton
 **Se connecter avec...** pour votre fournisseur d'identité (Google, Authentik,
@@ -34,9 +34,9 @@ Selon la façon dont l'administrateur l'a configurée :
   unique est le seul moyen de se connecter.
 
 La configuration de cela se fait côté administrateur, voir
-[Authentification (OIDC)](/self-hosting/authentication).
+[Authentification (OIDC)](/fr/self-hosting/authentication).
 
-## Votre profil
+## Votre profil {#your-profile}
 
 Depuis votre profil, vous gérez les détails de votre compte. Les administrateurs
 disposent aussi d'une zone **Admin** pour examiner les signalements de bugs et gérer

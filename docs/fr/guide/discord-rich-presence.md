@@ -5,7 +5,7 @@ un lien vers la vidéo. Cela passe par un petit compagnon de bureau,
 [TypeType RPC](https://github.com/TypeType-Video/TypeType-RPC), qui communique avec
 Discord via sa connexion locale, le même mécanisme utilisé par Spotify ou un jeu.
 
-## Ce qu'il faut
+## Ce qu'il faut {#what-it-needs}
 
 - Un compte TypeType. Les invités ne peuvent pas créer de clé de présence.
 - [Discord desktop](https://discord.com/download), ou un client compatible comme
@@ -13,7 +13,7 @@ Discord via sa connexion locale, le même mécanisme utilisé par Spotify ou un 
 - L'application [TypeType RPC](https://github.com/TypeType-Video/TypeType-RPC)
   installée.
 
-## Créer une clé de présence
+## Créer une clé de présence {#create-a-presence-key}
 
 1. Ouvrez **Paramètres**, puis **API**.
 2. Sous **Accès à la présence**, nommez la clé pour la reconnaître plus tard, puis
@@ -26,7 +26,7 @@ Discord via sa connexion locale, le même mécanisme utilisé par Spotify ou un 
 Vous pouvez avoir jusqu'à 10 clés actives en même temps. Révoquez-en une à tout moment
 depuis le même écran, indépendamment de vos sessions de connexion.
 
-## Connecter TypeType RPC
+## Connecter TypeType RPC {#connect-typetype-rpc}
 
 1. Installez et ouvrez [TypeType RPC](https://github.com/TypeType-Video/TypeType-RPC).
 2. Cliquez sur l'icône dans la zone de notification, puis **Paramètres…**.
@@ -39,7 +39,7 @@ depuis le même écran, indépendamment de vos sessions de connexion.
 Le partage reprend automatiquement la prochaine fois que vous ouvrez l'application,
 c'est donc une configuration à faire une seule fois.
 
-## Ce qu'elle peut voir
+## Ce qu'elle peut voir {#what-it-can-see}
 
 La portée de la clé est `presence:read`, en lecture seule et restreinte : ce qui est
 en cours de lecture, son titre, sa chaîne, et sa position, rien d'autre. Elle ne peut
@@ -47,7 +47,7 @@ pas voir votre historique, vos abonnements, les détails de votre compte, ni vot
 session, et TypeType RPC n'interroge le serveur que tant que son propre interrupteur
 est activé.
 
-## Dépannage
+## Dépannage {#troubleshooting}
 
 - **Rien ne s'affiche dans Discord** : les boutons Rich Presence et la carte
   d'activité sont invisibles sur votre *propre* profil, c'est une limitation de

@@ -45,12 +45,12 @@ Lo que cambia en tu pila al añadirlo:
 
 Tus datos existentes no se migran ni se reescriben. Aun así, haz antes una copia de
 seguridad de la base de datos, como antes de cualquier cambio en la pila: consulta
-[Maintenance](/self-hosting/maintenance#backups).
+[Mantenimiento](/es/self-hosting/maintenance#backups).
 
 Los comandos de esta página usan `$STACK_DIR` para el directorio donde está tu pila.
 Defínela una vez en tu terminal. `~/typetype-stack` es solo el valor por defecto del
 instalador: pon el directorio que elegiste, sea cual sea. Consulta
-[Choose the directory](/self-hosting/quick-start#stack-directory).
+[Elegir el directorio](/es/self-hosting/quick-start#stack-directory).
 
 ```sh
 STACK_DIR=~/typetype-stack
@@ -467,7 +467,7 @@ docker compose -f docker-compose.yml -f docker-compose.recommender.yml logs --ta
 | La página de inicio sigue siendo la habitual | La página no estuvo lista a tiempo, o la cuenta no tiene datos | Recarga pasados unos segundos. En la consola de administración, **Returns to the standard home page** cuenta cuántas veces ocurre. |
 | **State of the service** dice **Not answering** | El servicio está parado o todavía arranca | Comprueba su estado y su registro como arriba. Mientras tanto, las páginas de inicio son las habituales. |
 
-## Referencias
+## Referencias {#source-references}
 
 - [Repositorio de Signals](https://github.com/TypeType-Video/TypeType-Signals)
 - [Archivo Compose del servicio](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.recommender.yml)

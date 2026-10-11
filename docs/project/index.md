@@ -51,6 +51,7 @@ Downloader, PostgreSQL, Dragonfly, and Garage are internal services.
 | [TypeType-Downloader](https://github.com/TypeType-Video/TypeType-Downloader) | Persistent download jobs, media transfer, muxing, and artifacts |
 | [TypeType-Player](https://github.com/TypeType-Video/TypeType-Player) | Browser Media Source Extensions pipeline used by the frontend |
 | [TypeType-RPC](https://github.com/TypeType-Video/TypeType-RPC) | Desktop companion that shows your playback as a Discord Rich Presence status |
+| [TypeType-Signals](https://github.com/TypeType-Video/TypeType-Signals) | Optional recommender: the home page algorithms each user picks and tunes |
 | [Docs-TypeType](https://github.com/TypeType-Video/Docs-TypeType) | User, operator, and project documentation |
 | [TypeType-Video/.github](https://github.com/TypeType-Video/.github) | Organisation profile and shared public assets |
 
@@ -63,6 +64,8 @@ licenses, and where a change belongs.
   Downloader boundaries.
 - [Branches and releases](./releases) explains `dev`, `main`, component images,
   submodule pins, and the beta/stable channels.
+- [Signals, the recommender](./signals) explains the optional home page algorithms and
+  how the service fits with Server.
 - [Community sources](./community) records the reports and discussions that improved
   both TypeType and this documentation.
 

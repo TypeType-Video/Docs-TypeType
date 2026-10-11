@@ -6,7 +6,7 @@ enlace de vuelta al vídeo. Utiliza un pequeño complemento de escritorio,
 Discord a través de su conexión local, el mismo mecanismo que usan Spotify o un
 videojuego.
 
-## Qué necesitas
+## Qué necesitas {#what-it-needs}
 
 - Una cuenta de TypeType. Los invitados no pueden crear una clave de presencia.
 - [Discord de escritorio](https://discord.com/download), o un cliente compatible como
@@ -14,7 +14,7 @@ videojuego.
 - La aplicación [TypeType RPC](https://github.com/TypeType-Video/TypeType-RPC)
   instalada.
 
-## Crear una clave de presencia
+## Crear una clave de presencia {#create-a-presence-key}
 
 1. Abre **Configuración**, luego **API**.
 2. En **Acceso a la presencia**, nombra la clave para reconocerla más tarde, luego
@@ -27,7 +27,7 @@ videojuego.
 Puedes tener hasta 10 claves activas a la vez. Revoca cualquiera en cualquier momento
 desde la misma pantalla, de forma independiente a tus sesiones de inicio de sesión.
 
-## Conectar TypeType RPC
+## Conectar TypeType RPC {#connect-typetype-rpc}
 
 1. Instala y abre [TypeType RPC](https://github.com/TypeType-Video/TypeType-RPC).
 2. Haz clic en el icono de la bandeja del sistema, luego en **Configuración…**.
@@ -40,14 +40,14 @@ desde la misma pantalla, de forma independiente a tus sesiones de inicio de sesi
 El uso compartido se reanuda automáticamente la próxima vez que abras la aplicación,
 así que esta es una configuración que solo haces una vez.
 
-## Qué puede ver
+## Qué puede ver {#what-it-can-see}
 
 El alcance de la clave es `presence:read`, de solo lectura y muy limitado: lo que se
 está reproduciendo, su título, canal y posición, nada más. No puede ver tu historial,
 suscripciones, datos de la cuenta ni tu sesión, y TypeType RPC solo consulta el
 servidor mientras su propio interruptor está activado.
 
-## Solución de problemas
+## Solución de problemas {#troubleshooting}
 
 - **No aparece nada en Discord**: los botones de Rich Presence y la tarjeta de
   actividad son invisibles en tu *propio* perfil, es una limitación de Discord, no

@@ -69,7 +69,7 @@ sont conservés.
 
 ## La page Algorithme, section par section {#page}
 
-### Vue d'ensemble
+### Vue d'ensemble {#overview}
 
 Deux graphiques : de quoi votre accueil est fait (vidéos commencées, regardé
 récemment, abonnements, vos centres d'intérêt, nouveaux créateurs, tendances) et la
@@ -180,7 +180,7 @@ Désactivez **Construire mon accueil avec un algorithme que je choisis**. Vous
 retrouvez aussitôt l'accueil habituel. Vos choix, corrections et avis sont conservés
 au cas où vous reviendriez.
 
-## Références
+## Références {#source-references}
 
 - [Dépôt de Signals](https://github.com/TypeType-Video/TypeType-Signals)
 - [Installer le service de recommandations](/fr/self-hosting/recommender)

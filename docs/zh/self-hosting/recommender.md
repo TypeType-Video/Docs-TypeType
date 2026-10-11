@@ -29,9 +29,9 @@
 - `postgres` 服务从 `postgres:17` 换成 `pgvector/pgvector:pg17`，即带有 `pgvector` 扩展的同一个 PostgreSQL 17，使用同一个数据卷。PostgreSQL 会重启一次，实例有几秒钟不可用；
 - Server 会带着该服务的地址重新创建。
 
-你现有的数据不会被迁移或改写。尽管如此，还是请先备份数据库，就像对部署做任何改动之前一样：见 [Maintenance](/self-hosting/maintenance#backups)。
+你现有的数据不会被迁移或改写。尽管如此，还是请先备份数据库，就像对部署做任何改动之前一样：见 [维护](/zh/self-hosting/maintenance#backups)。
 
-本页的命令用 `$STACK_DIR` 表示你的部署所在的目录。请在终端里设置一次。`~/typetype-stack` 只是安装脚本的默认值：请填写你自己选择的目录，无论它是哪一个。见 [Choose the directory](/self-hosting/quick-start#stack-directory)。
+本页的命令用 `$STACK_DIR` 表示你的部署所在的目录。请在终端里设置一次。`~/typetype-stack` 只是安装脚本的默认值：请填写你自己选择的目录，无论它是哪一个。见 [选择目录](/zh/self-hosting/quick-start#stack-directory)。
 
 ```sh
 STACK_DIR=~/typetype-stack
@@ -396,7 +396,7 @@ docker compose -f docker-compose.yml -f docker-compose.recommender.yml logs --ta
 | 首页仍然是标准首页 | 页面没有及时准备好，或者账号没有数据 | 几秒钟后重新加载。管理控制台中的 **退回标准首页的次数** 统计了这种情况发生的次数。 |
 | **服务状态** 显示 **无响应** | 服务已停止或仍在启动 | 按上面的方法检查它的状态和日志。在此期间，首页都是标准首页。 |
 
-## 参考链接
+## 参考链接 {#source-references}
 
 - [Signals 仓库](https://github.com/TypeType-Video/TypeType-Signals)
 - [服务的 Compose 文件](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.recommender.yml)

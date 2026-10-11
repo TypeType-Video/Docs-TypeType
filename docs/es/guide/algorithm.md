@@ -74,7 +74,7 @@ conservan.
 
 ## La página Algorithm, sección por sección {#page}
 
-### Overview
+### Overview {#overview}
 
 Dos gráficos: de qué está hecha tu página de inicio (vídeos empezados, vistos
 recientemente, suscripciones, tus intereses, creadores nuevos, tendencias) y la parte
@@ -182,7 +182,7 @@ Desactiva **Build my home page with an algorithm I choose**. Recuperas al instan
 página de inicio habitual. Tus elecciones, correcciones y opiniones se conservan por
 si vuelves.
 
-## Referencias
+## Referencias {#source-references}
 
 - [Repositorio de Signals](https://github.com/TypeType-Video/TypeType-Signals)
 - [Instalar el servicio de recomendaciones](/es/self-hosting/recommender)

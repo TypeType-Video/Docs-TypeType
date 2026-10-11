@@ -53,7 +53,7 @@ the home page** 设置默认关闭；启用后，Shorts 也可以影响普通视
 
 ## 算法页面，逐节说明 {#page}
 
-### 概览
+### 概览 {#overview}
 
 两张图表：你的首页由什么组成（未看完的视频、最近观看、订阅、你的兴趣、新创作者、热门），以及你每个兴趣所占的比例。每一部分都能跳转到对应的设置位置。
 
@@ -123,7 +123,7 @@ the home page** 设置默认关闭；启用后，Shorts 也可以影响普通视
 
 关闭 **用我选择的算法生成我的首页**。你会立刻回到平常的首页。你的选择、更正和意见都会保留，以便你再回来。
 
-## 参考链接
+## 参考链接 {#source-references}
 
 - [Signals 仓库](https://github.com/TypeType-Video/TypeType-Signals)
 - [安装推荐服务](/zh/self-hosting/recommender)

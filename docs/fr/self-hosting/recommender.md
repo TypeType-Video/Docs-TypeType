@@ -39,12 +39,12 @@ Ce qui change sur votre stack quand vous l'ajoutez :
 
 Vos données existantes ne sont ni migrées ni réécrites. Faites quand même une
 sauvegarde de la base avant, comme avant tout changement de la stack : voir
-[Maintenance](/self-hosting/maintenance#backups).
+[Maintenance](/fr/self-hosting/maintenance#backups).
 
 Les commandes de cette page utilisent `$STACK_DIR` pour le dossier où se trouve votre
 stack. Définissez-la une fois dans votre terminal. `~/typetype-stack` n'est que la
 valeur par défaut de l'installateur : mettez le dossier que vous avez choisi, quel
-qu'il soit. Voir [Choisir le dossier](/self-hosting/quick-start#stack-directory).
+qu'il soit. Voir [Choisir le dossier](/fr/self-hosting/quick-start#stack-directory).
 
 ```sh
 STACK_DIR=~/typetype-stack
@@ -464,7 +464,7 @@ docker compose -f docker-compose.yml -f docker-compose.recommender.yml logs --ta
 | L'accueil reste l'accueil habituel | La page n'était pas prête à temps, ou le compte n'a pas de données | Rechargez après quelques secondes. Dans la console d'administration, **Retours à l'accueil habituel** compte combien de fois cela arrive. |
 | **État du service** affiche **Ne répond pas** | Le service est arrêté ou démarre encore | Vérifiez son état et son journal comme ci-dessus. En attendant, les accueils sont les accueils habituels. |
 
-## Références
+## Références {#source-references}
 
 - [Dépôt de Signals](https://github.com/TypeType-Video/TypeType-Signals)
 - [Fichier Compose du service](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.recommender.yml)

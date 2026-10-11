@@ -3,27 +3,30 @@ layout: home
 
 hero:
     name: "TypeType"
-    text: "Aloja el ecosistema en tu servidor."
-    tagline: TypeType es un ecosistema de vídeo autoalojable con una aplicación web, un servidor API, un motor de reproducción, un servicio Token, un descargador y almacenes de datos privados.
+    text: "Autoaloja el ecosistema."
+    tagline: TypeType es un ecosistema de vídeo autoalojable con una aplicación web, un servidor API, un motor de reproducción, un servicio de tokens, un descargador y almacenes de datos privados.
     image:
         src: /typetype.svg
         alt: TypeType
     actions:
         - theme: brand
-          text: Comprobar los requisitos
-          link: /es/self-hosting/prerequisites
+          text: Empezar
+          link: /es/self-hosting/introduction
         - theme: alt
-          text: Guía completa en inglés
-          link: /
+          text: Ver en GitHub
+          link: https://github.com/TypeType-Video/TypeType
 
 features:
-    - title: Recursos necesarios
-      details: Dimensiona el procesador, la memoria, el almacenamiento y la red antes de instalar.
-      link: /es/self-hosting/prerequisites
-    - title: Instalación
-      details: Instala toda la pila con un comando o usa Docker Compose manualmente.
-      link: /self-hosting/quick-start
-    - title: Código fuente
-      details: Consulta la pila TypeType y todos sus componentes en GitHub.
-      link: https://github.com/TypeType-Video/TypeType
+    - title: El ecosistema
+      details: Cómo encajan la aplicación web, el servidor API, el reproductor, Token, Downloader y los almacenes de datos.
+      link: /es/self-hosting/introduction
+    - title: Autoalojamiento
+      details: Un comando para instalar toda la pila, o hazlo a mano con Docker Compose.
+      link: /es/self-hosting/quick-start
+    - title: Guía del usuario
+      details: Ver vídeos, crear una biblioteca, buscar, iniciar sesión y ajustar cada opción.
+      link: /es/guide/
+    - title: El proyecto por dentro
+      details: Explora qué repositorio es dueño de cada componente, la reproducción, las versiones y las fuentes de la comunidad.
+      link: /es/project/
 ---
