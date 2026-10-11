@@ -46,10 +46,15 @@ No hay una respuesta correcta, solo distintas maneras de ver vídeos.
 | --- | --- | --- |
 | Subscriptions | Los vídeos más recientes de los canales que sigues, por orden de publicación: hoy, los últimos siete días, antes. No se deduce nada sobre ti. | Suscripciones |
 | Discovery | Vídeos nuevos de tus suscripciones, vídeos relacionados con ellos y con tus favoritos de canales que no sigues, y tendencias. | Suscripciones y favoritos. Nunca tu historial. |
-| Signals | Vídeos que empezaste, más vídeos de los creadores que viste, filas por tema y una fila de creadores que nunca viste. Reacciona en minutos a lo que acabas de ver. | Historial de vídeos, favoritos, suscripciones |
-| Signals, channels | Los vídeos más recientes de los creadores que más ves, y de tus suscripciones. | Historial de vídeos, favoritos, suscripciones |
-| Signals, videos | Los temas de lo que ves, sea quien sea el autor del vídeo. | Historial de vídeos, favoritos |
-| Signals, mix | Los creadores que ves, y vídeos sobre tus temas de cualquier creador. | Historial de vídeos, favoritos, suscripciones |
+| Signals | Vídeos que empezaste, más vídeos de los creadores que viste, filas por tema y una fila de creadores que nunca viste. Reacciona en minutos a lo que acabas de ver. | Historial de vídeos, favoritos, suscripciones; historial de Shorts solo si está activado |
+| Signals, channels | Los vídeos más recientes de los creadores que más ves, y de tus suscripciones. | Historial de vídeos, favoritos, suscripciones; historial de Shorts solo si está activado |
+| Signals, videos | Los temas de lo que ves, sea quien sea el autor del vídeo. | Historial de vídeos, favoritos; historial de Shorts solo si está activado |
+| Signals, mix | Los creadores que ves, y vídeos sobre tus temas de cualquier creador. | Historial de vídeos, favoritos, suscripciones; historial de Shorts solo si está activado |
+
+Por defecto, los Shorts se mantienen aparte y no influyen en las recomendaciones de
+vídeos normales. En la familia Signals, **Let Shorts shape the home page** está
+desactivado por defecto; al activarlo, los Shorts también pueden influir en los vídeos
+normales.
 
 En la guía, cada algoritmo lleva tres medidores, de ninguno a alto:
 

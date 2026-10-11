@@ -19,7 +19,7 @@ Server and how an algorithm is written. For what users see, read
 | Talking to YouTube | Fetches every video, through its extraction and cache | Never does |
 | Blocking, family filters | Applies them to whatever comes back | Cannot bypass them |
 | Choosing and ordering videos | Falls back to its built-in home page | Owns the algorithms |
-| What is kept | Choices, corrections, opinions, built pages | Public title vectors; temporary keyed history snapshots |
+| What is kept | Choices, corrections, opinions, built pages | Public title vectors and a public video catalogue; temporary keyed history snapshots |
 
 Server is the only caller of the service. If the service is absent, slow or failing,
 Server serves its built-in home page, so a home page never breaks.
@@ -130,7 +130,9 @@ The Signals family (Signals, channels, videos, mix) shares one reading of the hi
 - **Recent watches.** A video just watched steers the page at once; its effect halves
   over time and stops after a few hours.
 
-Shorts are read apart and never feed long-form recommendations.
+Shorts are tracked apart and do not steer regular-video recommendations by default. In
+the Signals family, **Let Shorts shape the home page** is off by default; turning it on
+lets Shorts also influence the regular videos in the feed.
 
 The model runs locally in the service, on CPU. It is downloaded once on first start
 and nothing is sent to a third party afterwards.

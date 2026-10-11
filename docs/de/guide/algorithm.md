@@ -44,10 +44,14 @@ Es gibt keine richtige Antwort, nur verschiedene Arten zu schauen.
 | --- | --- | --- |
 | Subscriptions | Die neuesten Videos der Kanäle, denen Sie folgen, in der Reihenfolge der Veröffentlichung: heute, die letzten sieben Tage, früher. Über Sie wird nichts abgeleitet. | Abos |
 | Discovery | Neue Videos Ihrer Abos, dazu verwandte Videos und Videos zu Ihren Favoriten von Kanälen, denen Sie nicht folgen, und Trends. | Abos und Favoriten. Nie Ihren Verlauf. |
-| Signals | Angefangene Videos, mehr von den Erstellern, die Sie gesehen haben, Reihen nach Thema und eine Reihe mit Erstellern, die Sie nie gesehen haben. Er reagiert innerhalb von Minuten auf das, was Sie gerade angesehen haben. | Videoverlauf, Favoriten, Abos |
-| Signals, channels | Die neuesten Videos der Ersteller, die Sie am meisten sehen, und Ihrer Abos. | Videoverlauf, Favoriten, Abos |
-| Signals, videos | Die Themen dessen, was Sie sehen, egal von wem das Video stammt. | Videoverlauf, Favoriten |
-| Signals, mix | Die Ersteller, die Sie sehen, und Videos zu Ihren Themen von beliebigen Erstellern. | Videoverlauf, Favoriten, Abos |
+| Signals | Angefangene Videos, mehr von den Erstellern, die Sie gesehen haben, Reihen nach Thema und eine Reihe mit Erstellern, die Sie nie gesehen haben. Er reagiert innerhalb von Minuten auf das, was Sie gerade angesehen haben. | Videoverlauf, Favoriten, Abos; Shorts-Verlauf nur bei aktivierter Option |
+| Signals, channels | Die neuesten Videos der Ersteller, die Sie am meisten sehen, und Ihrer Abos. | Videoverlauf, Favoriten, Abos; Shorts-Verlauf nur bei aktivierter Option |
+| Signals, videos | Die Themen dessen, was Sie sehen, egal von wem das Video stammt. | Videoverlauf, Favoriten; Shorts-Verlauf nur bei aktivierter Option |
+| Signals, mix | Die Ersteller, die Sie sehen, und Videos zu Ihren Themen von beliebigen Erstellern. | Videoverlauf, Favoriten, Abos; Shorts-Verlauf nur bei aktivierter Option |
+
+Shorts bleiben standardmäßig getrennt und beeinflussen keine Empfehlungen für normale
+Videos. In der Signals-Familie ist **Let Shorts shape the home page** standardmäßig
+ausgeschaltet; wenn Sie es aktivieren, können Shorts auch normale Videos beeinflussen.
 
 Im Leitfaden trägt jeder Algorithmus drei Anzeigen, von keine bis hoch:
 

@@ -286,9 +286,13 @@ keine Konten und weiß nicht, wer ein Nutzer ist.
 | Was | Wo | Wie lange |
 | --- | --- | --- |
 | Vektoren öffentlicher Videotitel | Eigene PostgreSQL-Datenbank, Tabelle `title_vectors` | Bis zur Löschung. Kein Nutzer wird genannt. |
-| Der Verlauf eines Nutzers, von Server unter einem Schlüssel gesendet | Arbeitsspeicher und gemeinsamer Cache | Arbeitsspeicher: wird beim nächsten Aufruf nach 30 Minuten Inaktivität entfernt; gemeinsamer Cache: 30 Minuten ab Upload |
+| Öffentliche Videodaten von Server | Eigene PostgreSQL-Datenbank, Tabelle `catalogue_videos` | Bis die Zeile gelöscht wird; neue Daten ersetzen die alten. Keinem Konto zugeordnet. |
+| Der Verlauf eines Nutzers, von Server unter einem Schlüssel gesendet | Arbeitsspeicher und gemeinsamer Cache | Arbeitsspeicher: läuft nach 30 Minuten Inaktivität ab und wird bei der nächsten Verlaufs- oder Empfehlungsanfrage bereinigt; gemeinsamer Cache: 30 Minuten ab Upload |
 | Der Plan einer Seite im Aufbau | Arbeitsspeicher und gemeinsamer Cache | 2 Minuten |
 | Was aus einem Verlauf abgeleitet wurde | Nur Arbeitsspeicher | 10 Minuten, solange der Verlauf unverändert ist |
+
+Der Videokatalog speichert Video-ID, Titel, Kanal-URL, Kategorie, bis zu 12 Tags und
+bis zu 300 Zeichen der Beschreibung. Er läuft nicht automatisch ab.
 
 Server behält außerdem jede aufgebaute Startseite 30 Minuten in Dragonfly und die
 Wahl des Algorithmus, die Korrekturen und die Rückmeldungen jedes Nutzers in seiner

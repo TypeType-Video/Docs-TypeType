@@ -284,9 +284,14 @@ recommandations n'a pas de comptes et ne sait pas qui est un utilisateur.
 | Quoi | Où | Combien de temps |
 | --- | --- | --- |
 | Les vecteurs des titres de vidéos publiques | Sa propre base PostgreSQL, table `title_vectors` | Jusqu'à suppression. Aucun utilisateur n'est nommé. |
-| L'historique d'un utilisateur, envoyé par Server sous une clé | La mémoire, et le cache partagé | Mémoire : supprimée au prochain appel après 30 min d'inactivité ; cache partagé : expire 30 min après l'envoi |
+| Les détails publics des vidéos envoyés par Server | Sa propre base PostgreSQL, table `catalogue_videos` | Jusqu'à suppression de la ligne ; les nouvelles données remplacent les anciennes. Non associé à un compte. |
+| L'historique d'un utilisateur, envoyé par Server sous une clé | La mémoire, et le cache partagé | Mémoire : expire après 30 min d'inactivité et est purgée à la prochaine requête d'historique ou de recommandation ; cache partagé : expire 30 min après l'envoi |
 | Le plan d'une page en construction | La mémoire, et le cache partagé | 2 minutes |
 | Ce qui a été conclu d'un historique | La mémoire seulement | 10 minutes, tant que l'historique ne change pas |
+
+Le catalogue conserve l'identifiant de la vidéo, son titre, l'URL de sa chaîne, sa
+catégorie, jusqu'à 12 tags et 300 caractères de description. Il n'a pas d'expiration
+automatique.
 
 Server garde aussi chaque accueil construit dans Dragonfly pendant 30 minutes, et le
 choix d'algorithme, les corrections et les avis de chaque utilisateur dans sa propre

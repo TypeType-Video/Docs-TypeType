@@ -279,9 +279,13 @@ does not know who a user is.
 | What | Where | For how long |
 | --- | --- | --- |
 | Vectors of public video titles | Its own PostgreSQL database, table `title_vectors` | Until deleted. No user is named. |
-| A user's history, sent by Server under a key | Memory, and the shared cache | Memory: expires after 30 minutes idle and is pruned on the next request; shared cache: 30 minutes from upload |
+| Public video details sent by Server | Its own PostgreSQL database, table `catalogue_videos` | Until the row is removed; newer details replace it. Not linked to an account. |
+| A user's history, sent by Server under a key | Memory, and the shared cache | Memory: expires after 30 minutes idle and is pruned on the next history or recommendation request; shared cache: 30 minutes from upload |
 | The plan of a page being built | Memory, and the shared cache | 2 minutes |
 | What was concluded from a history | Memory only | 10 minutes, while the history is unchanged |
+
+The video catalogue stores the video ID, title, channel URL, category, up to 12 tags
+and up to 300 characters of description. It has no automatic expiry.
 
 Server also keeps each built home page in Dragonfly for 30 minutes, and each user's
 choice of algorithm, corrections and opinions in its own database. A user's export

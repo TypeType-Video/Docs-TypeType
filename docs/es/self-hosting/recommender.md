@@ -288,9 +288,13 @@ recomendaciones no tiene cuentas y no sabe quién es un usuario.
 | Qué | Dónde | Durante cuánto tiempo |
 | --- | --- | --- |
 | Los vectores de títulos de vídeos públicos | Su propia base de datos PostgreSQL, tabla `title_vectors` | Hasta que se borren. No se nombra a ningún usuario. |
-| El historial de un usuario, enviado por Server con una clave | La memoria y la caché compartida | Memoria: se elimina en la siguiente solicitud tras 30 minutos de inactividad; caché compartida: 30 minutos desde el envío |
+| Datos públicos de vídeos enviados por Server | Su propia base de datos PostgreSQL, tabla `catalogue_videos` | Hasta que se borre la fila; los datos nuevos sustituyen a los anteriores. No se vincula a una cuenta. |
+| El historial de un usuario, enviado por Server con una clave | La memoria y la caché compartida | Memoria: caduca tras 30 minutos de inactividad y se purga en la siguiente solicitud de historial o recomendación; caché compartida: 30 minutos desde el envío |
 | El plan de una página en construcción | La memoria y la caché compartida | 2 minutos |
 | Lo que se dedujo de un historial | Solo la memoria | 10 minutos, mientras el historial no cambie |
+
+El catálogo guarda el ID del vídeo, el título, la URL del canal, la categoría, hasta 12
+etiquetas y hasta 300 caracteres de descripción. No tiene caducidad automática.
 
 Server guarda además cada página de inicio construida en Dragonfly durante 30
 minutos, y la elección de algoritmo, las correcciones y las opiniones de cada usuario

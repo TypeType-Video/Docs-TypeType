@@ -41,10 +41,15 @@ Il n'y a pas de bonne réponse, seulement différentes façons de regarder.
 | --- | --- | --- |
 | Abonnements | Les dernières vidéos des chaînes que vous suivez, dans l'ordre de publication : aujourd'hui, les sept derniers jours, avant. Rien n'est déduit de vous. | Abonnements |
 | Découverte | Les nouvelles vidéos de vos abonnements, des vidéos liées à celles-ci et à vos favoris venant de chaînes que vous ne suivez pas, et les tendances. | Abonnements et favoris. Jamais votre historique. |
-| Signals | Les vidéos commencées, d'autres vidéos des créateurs que vous avez regardés, des rangées par sujet, et une rangée de créateurs que vous n'avez jamais regardés. Il réagit en quelques minutes à ce que vous venez de regarder. | Historique des vidéos, favoris, abonnements |
-| Signals, chaînes | Les dernières vidéos des créateurs que vous regardez le plus, et de vos abonnements. | Historique des vidéos, favoris, abonnements |
-| Signals, vidéos | Les sujets de ce que vous regardez, quel que soit l'auteur de la vidéo. | Historique des vidéos, favoris |
-| Signals, mélange | Les créateurs que vous regardez, et des vidéos sur vos sujets venant de n'importe quel créateur. | Historique des vidéos, favoris, abonnements |
+| Signals | Les vidéos commencées, d'autres vidéos des créateurs que vous avez regardés, des rangées par sujet, et une rangée de créateurs que vous n'avez jamais regardés. Il réagit en quelques minutes à ce que vous venez de regarder. | Historique des vidéos, favoris, abonnements ; historique des Shorts si activé |
+| Signals, chaînes | Les dernières vidéos des créateurs que vous regardez le plus, et de vos abonnements. | Historique des vidéos, favoris, abonnements ; historique des Shorts si activé |
+| Signals, vidéos | Les sujets de ce que vous regardez, quel que soit l'auteur de la vidéo. | Historique des vidéos, favoris ; historique des Shorts si activé |
+| Signals, mélange | Les créateurs que vous regardez, et des vidéos sur vos sujets venant de n'importe quel créateur. | Historique des vidéos, favoris, abonnements ; historique des Shorts si activé |
+
+Par défaut, les Shorts restent à part et n'influencent pas les recommandations de vidéos
+classiques. Dans la famille Signals, l'option **Laisser les Shorts influencer l'accueil**
+est désactivée par défaut ; l'activer permet aussi aux Shorts d'influencer les vidéos
+classiques.
 
 Dans le guide, chaque algorithme porte trois jauges, de nulle à élevée :
 
