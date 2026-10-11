@@ -100,6 +100,134 @@ export default defineConfig({
                 skipToContentLabel: "Aller au contenu",
             },
         },
+        de: {
+            label: "Deutsch",
+            lang: "de-DE",
+            link: "/de/",
+            title: "TypeType-Dokumentation",
+            description: "TypeType-Dokumentation für Nutzer und Selbsthoster.",
+            themeConfig: {
+                nav: [
+                    { text: "Start", link: "/de/" },
+                    { text: "Den eigenen Algorithmus wählen", link: "/de/guide/algorithm" },
+                    { text: "Empfehlungsdienst", link: "/de/self-hosting/recommender" },
+                    { text: "Quellcode", link: "https://github.com/TypeType-Video/TypeType" },
+                ],
+                sidebar: {
+                    "/de/self-hosting/": [
+                        {
+                            text: "Selbst hosten",
+                            items: [
+                                {
+                                    text: "Empfehlungsdienst (experimentell)",
+                                    link: "/de/self-hosting/recommender",
+                                },
+                            ],
+                        },
+                    ],
+                    "/de/guide/": [
+                        {
+                            text: "Benutzerhandbuch",
+                            items: [{ text: "Den eigenen Algorithmus wählen", link: "/de/guide/algorithm" }],
+                        },
+                    ],
+                },
+                search: {
+                    provider: "local",
+                    options: {
+                        translations: {
+                            button: {
+                                buttonText: "Suchen",
+                                buttonAriaLabel: "Suchen",
+                            },
+                            modal: {
+                                noResultsText: "Keine Ergebnisse gefunden",
+                                resetButtonTitle: "Suche zurücksetzen",
+                                backButtonTitle: "Suche schließen",
+                            },
+                        },
+                    },
+                },
+                outline: { label: "Auf dieser Seite" },
+                lastUpdated: { text: "Zuletzt aktualisiert" },
+                docFooter: { prev: "Vorherige Seite", next: "Nächste Seite" },
+                editLink: {
+                    pattern: "https://github.com/TypeType-Video/Docs-TypeType/edit/main/docs/:path",
+                    text: "Diese Seite auf GitHub bearbeiten",
+                },
+                darkModeSwitchLabel: "Erscheinungsbild",
+                lightModeSwitchTitle: "Zum hellen Design wechseln",
+                darkModeSwitchTitle: "Zum dunklen Design wechseln",
+                langMenuLabel: "Sprache wechseln",
+                sidebarMenuLabel: "Menü",
+                returnToTopLabel: "Nach oben",
+                skipToContentLabel: "Zum Inhalt springen",
+            },
+        },
+        zh: {
+            label: "简体中文",
+            lang: "zh-Hans-CN",
+            link: "/zh/",
+            title: "TypeType 文档",
+            description: "面向用户和自托管者的 TypeType 文档。",
+            themeConfig: {
+                nav: [
+                    { text: "首页", link: "/zh/" },
+                    { text: "选择你的算法", link: "/zh/guide/algorithm" },
+                    { text: "推荐服务", link: "/zh/self-hosting/recommender" },
+                    { text: "源代码", link: "https://github.com/TypeType-Video/TypeType" },
+                ],
+                sidebar: {
+                    "/zh/self-hosting/": [
+                        {
+                            text: "自托管",
+                            items: [
+                                {
+                                    text: "推荐服务（实验性）",
+                                    link: "/zh/self-hosting/recommender",
+                                },
+                            ],
+                        },
+                    ],
+                    "/zh/guide/": [
+                        {
+                            text: "用户指南",
+                            items: [{ text: "选择你的算法", link: "/zh/guide/algorithm" }],
+                        },
+                    ],
+                },
+                search: {
+                    provider: "local",
+                    options: {
+                        translations: {
+                            button: {
+                                buttonText: "搜索",
+                                buttonAriaLabel: "搜索",
+                            },
+                            modal: {
+                                noResultsText: "没有找到结果",
+                                resetButtonTitle: "清除搜索",
+                                backButtonTitle: "关闭搜索",
+                            },
+                        },
+                    },
+                },
+                outline: { label: "本页内容" },
+                lastUpdated: { text: "最后更新" },
+                docFooter: { prev: "上一页", next: "下一页" },
+                editLink: {
+                    pattern: "https://github.com/TypeType-Video/Docs-TypeType/edit/main/docs/:path",
+                    text: "在 GitHub 上编辑此页",
+                },
+                darkModeSwitchLabel: "外观",
+                lightModeSwitchTitle: "切换到浅色主题",
+                darkModeSwitchTitle: "切换到深色主题",
+                langMenuLabel: "切换语言",
+                sidebarMenuLabel: "菜单",
+                returnToTopLabel: "返回顶部",
+                skipToContentLabel: "跳到正文",
+            },
+        },
         es: {
             label: "Español",
             lang: "es-ES",
