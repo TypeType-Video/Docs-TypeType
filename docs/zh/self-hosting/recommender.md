@@ -392,7 +392,7 @@ docker compose -f docker-compose.yml -f docker-compose.recommender.yml logs --ta
 | 首页仍然是标准首页 | 页面没有及时准备好，或者账号没有数据 | 几秒钟后重新加载。管理控制台中的 **退回标准首页的次数** 统计了这种情况发生的次数。 |
 | **服务状态** 显示 **无响应** | 服务已停止或仍在启动 | 按上面的方法检查它的状态和日志。在此期间，首页都是标准首页。 |
 
-## 参考链接
+## 参考链接 {#source-references}
 
 - [Signals 仓库](https://github.com/TypeType-Video/TypeType-Signals)
 - [服务的 Compose 文件](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.recommender.yml)
