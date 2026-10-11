@@ -463,7 +463,7 @@ docker compose -f docker-compose.yml -f docker-compose.recommender.yml logs --ta
 | La página de inicio sigue siendo la habitual | La página no estuvo lista a tiempo, o la cuenta no tiene datos | Recarga pasados unos segundos. En la consola de administración, **Returns to the standard home page** cuenta cuántas veces ocurre. |
 | **State of the service** dice **Not answering** | El servicio está parado o todavía arranca | Comprueba su estado y su registro como arriba. Mientras tanto, las páginas de inicio son las habituales. |
 
-## Referencias
+## Referencias {#source-references}
 
 - [Repositorio de Signals](https://github.com/TypeType-Video/TypeType-Signals)
 - [Archivo Compose del servicio](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.recommender.yml)

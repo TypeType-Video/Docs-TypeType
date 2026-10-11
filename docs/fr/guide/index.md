@@ -10,7 +10,7 @@ votre instance.
 
 ![TypeType en fonctionnement sur une instance auto-hébergée](/screenshot-home.png)
 
-## En un coup d'œil
+## En un coup d'œil {#at-a-glance}
 
 - **Regardez** YouTube, NicoNico et BiliBili au même endroit, avec un vrai lecteur, un
   contrôle de la qualité et de la vitesse, le mode cinéma, le picture-in-picture
@@ -28,13 +28,13 @@ votre instance.
 - **Gardez le contrôle**, effacez votre historique, bloquez des chaînes, et gérez vos
   données. Voir [Confidentialité et blocage](./privacy).
 
-## Importer vos données
+## Importer vos données {#bringing-your-data-in}
 
 Vous avez déjà des abonnements et des playlists ailleurs ? Vous pouvez les importer
 depuis un export Google Takeout ou une sauvegarde PipePipe, voir
 [Importer vos données](/self-hosting/importing-data).
 
-## Première visite ?
+## Première visite ? {#first-time-here}
 
 Si vous n'avez pas encore configuré d'instance, commencez par le
 [guide d'auto-hébergement](/self-hosting/introduction). Ce guide utilisateur suppose

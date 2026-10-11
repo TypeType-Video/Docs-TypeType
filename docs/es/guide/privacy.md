@@ -5,13 +5,13 @@ gestionarlos.
 
 ![Gestiona tus datos almacenados](/screenshot-privacy.png)
 
-## Bloquear canales
+## Bloquear canales {#blocking-channels}
 
 Bloquea un canal y sus vídeos dejan de aparecer en todos tus feeds, inicio, búsqueda,
 vídeos relacionados, y el resto. Gestiona tus canales bloqueados desde la
 configuración, y desbloquea cualquiera de ellos cuando quieras.
 
-## Tus datos
+## Tus datos {#your-data}
 
 Mantienes el control de lo que se almacena:
 
@@ -22,7 +22,7 @@ Mantienes el control de lo que se almacena:
 Estas acciones son inmediatas y no se pueden deshacer, así que la aplicación te pide
 confirmar primero.
 
-## Qué se almacena
+## Qué se almacena {#what-is-stored}
 
 Tu cuenta contiene tus suscripciones, listas de reproducción, historial, ver más
 tarde, favoritos, y configuración, nada más, y todo en la instancia que tú (o tu

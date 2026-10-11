@@ -459,7 +459,7 @@ docker compose -f docker-compose.yml -f docker-compose.recommender.yml logs --ta
 | L'accueil reste l'accueil habituel | La page n'était pas prête à temps, ou le compte n'a pas de données | Rechargez après quelques secondes. Dans la console d'administration, **Retours à l'accueil habituel** compte combien de fois cela arrive. |
 | **État du service** affiche **Ne répond pas** | Le service est arrêté ou démarre encore | Vérifiez son état et son journal comme ci-dessus. En attendant, les accueils sont les accueils habituels. |
 
-## Références
+## Références {#source-references}
 
 - [Dépôt de Signals](https://github.com/TypeType-Video/TypeType-Signals)
 - [Fichier Compose du service](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.recommender.yml)

@@ -10,7 +10,7 @@ instancia.
 
 ![TypeType funcionando en una instancia autoalojada](/screenshot-home.png)
 
-## De un vistazo
+## De un vistazo {#at-a-glance}
 
 - **Mira** contenido de YouTube, NicoNico y BiliBili en un solo lugar, con un
   reproductor real, control de calidad y velocidad, modo cine, imagen en imagen
@@ -28,13 +28,13 @@ instancia.
 - **Mantén el control**, borra tu historial, bloquea canales, y gestiona tus datos.
   Consulta [Privacidad y bloqueo](./privacy).
 
-## Importar tus datos
+## Importar tus datos {#bringing-your-data-in}
 
 ¿Ya tienes suscripciones y listas de reproducción en otro sitio? Puedes importarlas
 desde una exportación de Google Takeout o una copia de seguridad de PipePipe, consulta
 [Importar tus datos](/self-hosting/importing-data).
 
-## ¿Primera vez aquí?
+## ¿Primera vez aquí? {#first-time-here}
 
 Si todavía no has configurado una instancia, empieza por la
 [guía de autoalojamiento](/self-hosting/introduction). Esta guía del usuario asume que

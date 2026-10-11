@@ -3,7 +3,7 @@
 Tus suscripciones, listas de reproducción, historial, y configuración están
 vinculados a tu cuenta en la instancia.
 
-## Cuenta local
+## Cuenta local {#local-account}
 
 Crea una cuenta con un nombre, correo electrónico, y contraseña, y luego inicia
 sesión. En una instancia completamente nueva, la **primera cuenta se convierte en
@@ -20,7 +20,7 @@ eso no es un cierre de sesión normal por inactividad; pide al operador de la
 instancia que revise
 [Cierres de sesión inesperados](/self-hosting/troubleshooting#unexpected-sign-outs).
 
-## Inicio de sesión único (OIDC)
+## Inicio de sesión único (OIDC) {#single-sign-on-oidc}
 
 Si tu instancia lo tiene configurado, la página de inicio de sesión muestra un botón
 **Iniciar sesión con...** para tu proveedor de identidad (Google, Authentik,
@@ -37,7 +37,7 @@ Dependiendo de cómo lo haya configurado el administrador:
 Configurar esto es cosa del administrador, consulta
 [Autenticación (OIDC)](/self-hosting/authentication).
 
-## Tu perfil
+## Tu perfil {#your-profile}
 
 Desde tu perfil gestionas los detalles de tu cuenta. Los administradores también
 obtienen un área **Admin** para revisar informes de errores y gestionar la instancia.

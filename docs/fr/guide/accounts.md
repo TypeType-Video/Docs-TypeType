@@ -3,7 +3,7 @@
 Vos abonnements, playlists, historique, et paramètres sont liés à votre compte sur
 l'instance.
 
-## Compte local
+## Compte local {#local-account}
 
 Créez un compte avec un nom, un email, et un mot de passe, puis connectez-vous. Sur
 une instance toute neuve, le **premier compte devient administrateur** (voir
@@ -20,7 +20,7 @@ une déconnexion normale pour inactivité ; demandez à l'opérateur de l'instan
 vérifier
 [Déconnexions inattendues](/self-hosting/troubleshooting#unexpected-sign-outs).
 
-## Authentification unique (OIDC)
+## Authentification unique (OIDC) {#single-sign-on-oidc}
 
 Si votre instance l'a configurée, la page de connexion affiche un bouton
 **Se connecter avec...** pour votre fournisseur d'identité (Google, Authentik,
@@ -36,7 +36,7 @@ Selon la façon dont l'administrateur l'a configurée :
 La configuration de cela se fait côté administrateur, voir
 [Authentification (OIDC)](/self-hosting/authentication).
 
-## Votre profil
+## Votre profil {#your-profile}
 
 Depuis votre profil, vous gérez les détails de votre compte. Les administrateurs
 disposent aussi d'une zone **Admin** pour examiner les signalements de bugs et gérer

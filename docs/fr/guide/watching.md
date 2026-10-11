@@ -9,7 +9,7 @@ détails, les vidéos apparentées, et les commentaires.
 
 ![Une vidéo en cours de lecture sur une instance auto-hébergée](/watch.gif)
 
-## Contrôles du lecteur
+## Contrôles du lecteur {#player-controls}
 
 Le lecteur dispose des contrôles habituels (lecture et pause, défilement, volume,
 plein écran) plus un menu de paramètres où vous choisissez :
@@ -21,7 +21,7 @@ plein écran) plus un menu de paramètres où vous choisissez :
 - **La piste audio**, changez de langue quand plusieurs sont disponibles. Une langue
   audio préférée peut être définie dans les [Paramètres](./settings#languages).
 
-## Mode cinéma et picture-in-picture
+## Mode cinéma et picture-in-picture {#cinema-mode-and-picture-in-picture}
 
 - Le **mode cinéma** élargit le lecteur et assombrit la page, pour une vue centrée,
   façon théâtre.
@@ -31,14 +31,14 @@ plein écran) plus un menu de paramètres où vous choisissez :
 
 ![Le mode cinéma, le lecteur élargi avec la page assombrie](/cinema.gif)
 
-## SponsorBlock
+## SponsorBlock {#sponsorblock}
 
 Les segments marqués par la communauté (sponsors, autopromotion, et plus) s'affichent
 sur la barre de défilement et peuvent être **passés automatiquement ou simplement
 marqués**. Vous décidez du comportement et des catégories concernées, voir les
 [Paramètres](./settings#sponsorblock).
 
-## Raccourcis clavier
+## Raccourcis clavier {#keyboard-shortcuts}
 
 Les touches standard du lecteur sont disponibles :
 
@@ -61,32 +61,32 @@ En plus de ça, TypeType ajoute :
 | `,` | Reculer d'une image (en pause) |
 | `.` | Avancer d'une image (en pause) |
 
-## Gestes tactiles
+## Gestes tactiles {#touch-gestures}
 
 Sur un écran tactile :
 
 - **Glissez à gauche ou à droite** sur la vidéo pour la faire défiler.
 - **Appuyez et maintenez** la vidéo pour avancer rapidement.
 
-## Lecture automatique
+## Lecture automatique {#autoplay}
 
 Une fois activée, la vidéo suivante démarre automatiquement quand la vidéo en cours se
 termine. Basculez-la dans les [Paramètres](./settings#playback).
 
-## Lives
+## Lives {#livestreams}
 
 Les lives YouTube utilisent le lecteur SABR natif de TypeType. Le lecteur suit le
 direct automatiquement, continue de mettre en mémoire tampon pendant de courtes
 interruptions réseau, et permet de naviguer dans la fenêtre DVR quand le live en
 propose une.
 
-## Lecteur intégré
+## Lecteur intégré {#embedded-player}
 
 TypeType propose une route dédiée pour intégrer des vidéos YouTube. Voir
 [Lecteur intégré](./embedding) pour le format d'URL, les paramètres, le balisage
 iframe, et les conditions d'accès invité.
 
-## Shorts
+## Shorts {#shorts}
 
 Les Shorts se lisent dans un lecteur vertical dédié, défilable au doigt. Vous pouvez
 désactiver entièrement la surface Shorts dans les [Paramètres](./settings#what-you-see).

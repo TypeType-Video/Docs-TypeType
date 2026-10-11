@@ -1,6 +1,6 @@
 # Prérequis
 
-## Hôtes pris en charge
+## Hôtes pris en charge {#supported-hosts}
 
 TypeType nécessite un hôte Linux 64 bits. Les images publiées prennent en charge
 `linux/amd64` et `linux/arm64` ; l'installateur sélectionne automatiquement la
@@ -12,7 +12,7 @@ une petite instance personnelle. Utilisez un SSD USB 3 plutôt qu'une carte micr
 pour Docker, PostgreSQL et les données Garage.
 :::
 
-## Dimensionnement des ressources
+## Dimensionnement des ressources {#resource-sizing}
 
 Ces valeurs correspondent aux ressources totales de l'hôte pour l'ensemble de la
 stack Compose : application web, Server, Token, Downloader, PostgreSQL, cache et
@@ -35,7 +35,7 @@ La lecture ne charge pas et ne stocke pas toute la vidéo en mémoire. Une vidé
 heures ne nécessite donc pas dix heures de RAM ; ce sont les sessions simultanées et
 leurs tampons actifs qui augmentent l'utilisation de la mémoire.
 
-## Stockage et téléchargements longs
+## Stockage et téléchargements longs {#storage-and-long-downloads}
 
 Réservez de l'espace disque pour quatre usages distincts :
 
@@ -82,7 +82,7 @@ docker system df -v
 docker compose exec -T garage /garage -c /etc/garage.toml status
 ```
 
-## Capacité réseau
+## Capacité réseau {#network-capacity}
 
 Le trafic de lecture YouTube transite par l'hôte TypeType. Pour un utilisateur
 distant, l'hôte reçoit le média sélectionné puis le renvoie ; ses débits descendant et
@@ -95,7 +95,7 @@ Par exemple, une lecture à 40 Mbit/s nécessite environ 40 Mbit/s en réception
 double. Gardez une marge supplémentaire pour l'extraction, les miniatures, les
 téléchargements et les autres utilisateurs.
 
-## Logiciels requis
+## Logiciels requis {#required-software}
 
 Installez les outils suivants sur l'hôte :
 
@@ -119,7 +119,7 @@ git --version
 Si `docker compose version` échoue, installez le plugin Compose de votre distribution
 avant de continuer.
 
-## Facultatif pour un déploiement public
+## Facultatif pour un déploiement public {#optional-for-a-public-deployment}
 
 - Un **nom de domaine** pointant vers votre serveur.
 - Un proxy inverse (Caddy, nginx ou Traefik) pour terminer TLS. Cette étape est

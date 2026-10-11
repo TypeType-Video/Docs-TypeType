@@ -3,7 +3,7 @@
 TypeType ofrece una ruta de reproductor dedicada para incrustar vídeos de YouTube sin
 el resto de la página de reproducción.
 
-## Formato de URL
+## Formato de URL {#url-format}
 
 Usa el identificador del vídeo de YouTube después de `/embed/`:
 
@@ -15,7 +15,7 @@ El identificador es el valor de 11 caracteres después de `v=` en una URL de
 reproducción normal de YouTube. Por ejemplo,
 `https://www.youtube.com/watch?v=dQw4w9WgXcQ` se convierte en `/embed/dQw4w9WgXcQ`.
 
-## Posición de inicio y reproducción automática
+## Posición de inicio y reproducción automática {#start-position-and-autoplay}
 
 | Parámetro | Valor | Comportamiento |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ hay varios parámetros de inicio presentes, TypeType usa `t`, luego `start`, lue
 La reproducción automática sigue sujeta a la política de medios del navegador. Un
 navegador puede requerir un gesto del usuario antes de iniciar el audio.
 
-## Añadir un iframe
+## Añadir un iframe {#add-an-iframe}
 
 ```html
 <iframe
@@ -61,7 +61,7 @@ Dale al iframe un tamaño responsivo explícito en la página que lo rodea. Por 
 
 Añade `class="video-embed"` al iframe si usas este ejemplo.
 
-### Verifica el iframe, no solo la URL
+### Verifica el iframe, no solo la URL {#verify-the-iframe-not-only-the-url}
 
 Abrir `/embed/...` directamente y obtener una respuesta `200` demuestra que la ruta y
 el reproductor funcionan como una página de nivel superior. No demuestra que otro
@@ -75,7 +75,7 @@ hacer lo mismo. Mantén la protección contra encuadrado en las páginas normale
 TypeType, pero no envíes `X-Frame-Options: DENY` en `/embed/*`. Usa la directiva CSP
 `frame-ancestors` en esa ruta si necesitas restringir qué sitios pueden incrustarla.
 
-## Cuentas, configuración, y acceso de invitados
+## Cuentas, configuración, y acceso de invitados {#accounts-settings-and-guest-access}
 
 Abrir una URL de incrustación directamente en una pestaña del navegador puede
 reutilizar la cuenta de TypeType actual y su configuración de reproducción. Dentro de
