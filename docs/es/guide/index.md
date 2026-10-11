@@ -32,10 +32,10 @@ instancia.
 
 ¿Ya tienes suscripciones y listas de reproducción en otro sitio? Puedes importarlas
 desde una exportación de Google Takeout o una copia de seguridad de PipePipe, consulta
-[Importar tus datos](/self-hosting/importing-data).
+[Importar tus datos](/es/self-hosting/importing-data).
 
 ## ¿Primera vez aquí? {#first-time-here}
 
 Si todavía no has configurado una instancia, empieza por la
-[guía de autoalojamiento](/self-hosting/introduction). Esta guía del usuario asume que
+[guía de autoalojamiento](/es/self-hosting/introduction). Esta guía del usuario asume que
 ya tienes una instancia y una cuenta.

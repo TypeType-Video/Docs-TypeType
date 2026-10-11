@@ -121,7 +121,7 @@ antes de continuar.
 
 - Un **nombre de dominio** que apunte al servidor.
 - Un proxy inverso (Caddy, nginx o Traefik) para terminar TLS. Este paso se explica en
-  la [guía del proxy inverso y HTTPS](/self-hosting/reverse-proxy). Para una instalación
+  la [guía del proxy inverso y HTTPS](/es/self-hosting/reverse-proxy). Para una instalación
   exclusivamente local, puedes usar `http://localhost:8082`.
 
 ::: warning Ejecutar Docker sin root

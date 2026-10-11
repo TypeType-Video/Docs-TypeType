@@ -45,12 +45,12 @@ Lo que cambia en tu pila al añadirlo:
 
 Tus datos existentes no se migran ni se reescriben. Aun así, haz antes una copia de
 seguridad de la base de datos, como antes de cualquier cambio en la pila: consulta
-[Maintenance](/self-hosting/maintenance#backups).
+[Mantenimiento](/es/self-hosting/maintenance#backups).
 
 Los comandos de esta página usan `$STACK_DIR` para el directorio donde está tu pila.
 Defínela una vez en tu terminal. `~/typetype-stack` es solo el valor por defecto del
 instalador: pon el directorio que elegiste, sea cual sea. Consulta
-[Choose the directory](/self-hosting/quick-start#stack-directory).
+[Elegir el directorio](/es/self-hosting/quick-start#stack-directory).
 
 ```sh
 STACK_DIR=~/typetype-stack

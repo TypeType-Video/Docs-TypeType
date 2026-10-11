@@ -123,7 +123,7 @@ avant de continuer.
 
 - Un **nom de domaine** pointant vers votre serveur.
 - Un proxy inverse (Caddy, nginx ou Traefik) pour terminer TLS. Cette étape est
-  détaillée dans le [guide du proxy inverse et de HTTPS](/self-hosting/reverse-proxy).
+  détaillée dans le [guide du proxy inverse et de HTTPS](/fr/self-hosting/reverse-proxy).
   Pour une installation strictement locale, vous pouvez utiliser
   `http://localhost:8082`.
 

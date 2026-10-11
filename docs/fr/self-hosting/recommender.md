@@ -39,12 +39,12 @@ Ce qui change sur votre stack quand vous l'ajoutez :
 
 Vos données existantes ne sont ni migrées ni réécrites. Faites quand même une
 sauvegarde de la base avant, comme avant tout changement de la stack : voir
-[Maintenance](/self-hosting/maintenance#backups).
+[Maintenance](/fr/self-hosting/maintenance#backups).
 
 Les commandes de cette page utilisent `$STACK_DIR` pour le dossier où se trouve votre
 stack. Définissez-la une fois dans votre terminal. `~/typetype-stack` n'est que la
 valeur par défaut de l'installateur : mettez le dossier que vous avez choisi, quel
-qu'il soit. Voir [Choisir le dossier](/self-hosting/quick-start#stack-directory).
+qu'il soit. Voir [Choisir le dossier](/fr/self-hosting/quick-start#stack-directory).
 
 ```sh
 STACK_DIR=~/typetype-stack

@@ -39,13 +39,13 @@ Was sich an Ihrem Stack ändert, wenn Sie ihn hinzufügen:
 
 Ihre vorhandenen Daten werden weder migriert noch umgeschrieben. Sichern Sie die
 Datenbank trotzdem vorher, wie vor jeder Änderung am Stack: siehe
-[Maintenance](/self-hosting/maintenance#backups).
+[Wartung](/de/self-hosting/maintenance#backups).
 
 Die Befehle dieser Seite verwenden `$STACK_DIR` für das Verzeichnis, in dem Ihr Stack
 liegt. Setzen Sie die Variable einmal in Ihrem Terminal. `~/typetype-stack` ist nur
 der Standardwert des Installers: Tragen Sie das Verzeichnis ein, das Sie gewählt
 haben, welches auch immer. Siehe
-[Choose the directory](/self-hosting/quick-start#stack-directory).
+[Das Verzeichnis wählen](/de/self-hosting/quick-start#stack-directory).
 
 ```sh
 STACK_DIR=~/typetype-stack

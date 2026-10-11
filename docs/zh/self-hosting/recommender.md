@@ -29,9 +29,9 @@
 - `postgres` 服务从 `postgres:17` 换成 `pgvector/pgvector:pg17`，即带有 `pgvector` 扩展的同一个 PostgreSQL 17，使用同一个数据卷。PostgreSQL 会重启一次，实例有几秒钟不可用；
 - Server 会带着该服务的地址重新创建。
 
-你现有的数据不会被迁移或改写。尽管如此，还是请先备份数据库，就像对部署做任何改动之前一样：见 [Maintenance](/self-hosting/maintenance#backups)。
+你现有的数据不会被迁移或改写。尽管如此，还是请先备份数据库，就像对部署做任何改动之前一样：见 [维护](/zh/self-hosting/maintenance#backups)。
 
-本页的命令用 `$STACK_DIR` 表示你的部署所在的目录。请在终端里设置一次。`~/typetype-stack` 只是安装脚本的默认值：请填写你自己选择的目录，无论它是哪一个。见 [Choose the directory](/self-hosting/quick-start#stack-directory)。
+本页的命令用 `$STACK_DIR` 表示你的部署所在的目录。请在终端里设置一次。`~/typetype-stack` 只是安装脚本的默认值：请填写你自己选择的目录，无论它是哪一个。见 [选择目录](/zh/self-hosting/quick-start#stack-directory)。
 
 ```sh
 STACK_DIR=~/typetype-stack

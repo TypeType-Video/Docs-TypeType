@@ -7,7 +7,7 @@ l'instance.
 
 Créez un compte avec un nom, un email, et un mot de passe, puis connectez-vous. Sur
 une instance toute neuve, le **premier compte devient administrateur** (voir
-[Démarrage rapide](/self-hosting/quick-start#create-the-admin-account)). Si vous
+[Démarrage rapide](/fr/self-hosting/quick-start#create-the-admin-account)). Si vous
 oubliez votre mot de passe, utilisez le parcours de réinitialisation depuis la page de
 connexion.
 
@@ -18,7 +18,7 @@ de courte durée expire après une heure, tandis que la session de rafraîchisse
 30 jours. Si vous êtes déconnecté pendant une utilisation active du site, ce n'est pas
 une déconnexion normale pour inactivité ; demandez à l'opérateur de l'instance de
 vérifier
-[Déconnexions inattendues](/self-hosting/troubleshooting#unexpected-sign-outs).
+[Déconnexions inattendues](/fr/self-hosting/troubleshooting#unexpected-sign-outs).
 
 ## Authentification unique (OIDC) {#single-sign-on-oidc}
 
@@ -34,7 +34,7 @@ Selon la façon dont l'administrateur l'a configurée :
   unique est le seul moyen de se connecter.
 
 La configuration de cela se fait côté administrateur, voir
-[Authentification (OIDC)](/self-hosting/authentication).
+[Authentification (OIDC)](/fr/self-hosting/authentication).
 
 ## Votre profil {#your-profile}
 

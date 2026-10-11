@@ -8,7 +8,7 @@ vinculados a tu cuenta en la instancia.
 Crea una cuenta con un nombre, correo electrónico, y contraseña, y luego inicia
 sesión. En una instancia completamente nueva, la **primera cuenta se convierte en
 administradora** (consulta
-[Inicio rápido](/self-hosting/quick-start#create-the-admin-account)). Si olvidas tu
+[Inicio rápido](/es/self-hosting/quick-start#create-the-admin-account)). Si olvidas tu
 contraseña, usa el proceso de restablecimiento desde la página de inicio de sesión.
 
 ![La página de inicio de sesión](/screenshot-login.png)
@@ -18,7 +18,7 @@ acceso de corta duración expira después de una hora, mientras que la sesión d
 renovación dura 30 días. Si se cierra tu sesión mientras usas el sitio activamente,
 eso no es un cierre de sesión normal por inactividad; pide al operador de la
 instancia que revise
-[Cierres de sesión inesperados](/self-hosting/troubleshooting#unexpected-sign-outs).
+[Cierres de sesión inesperados](/es/self-hosting/troubleshooting#unexpected-sign-outs).
 
 ## Inicio de sesión único (OIDC) {#single-sign-on-oidc}
 
@@ -35,7 +35,7 @@ Dependiendo de cómo lo haya configurado el administrador:
   único es la única forma de entrar.
 
 Configurar esto es cosa del administrador, consulta
-[Autenticación (OIDC)](/self-hosting/authentication).
+[Autenticación (OIDC)](/es/self-hosting/authentication).
 
 ## Tu perfil {#your-profile}
 

@@ -32,10 +32,10 @@ votre instance.
 
 Vous avez déjà des abonnements et des playlists ailleurs ? Vous pouvez les importer
 depuis un export Google Takeout ou une sauvegarde PipePipe, voir
-[Importer vos données](/self-hosting/importing-data).
+[Importer vos données](/fr/self-hosting/importing-data).
 
 ## Première visite ? {#first-time-here}
 
 Si vous n'avez pas encore configuré d'instance, commencez par le
-[guide d'auto-hébergement](/self-hosting/introduction). Ce guide utilisateur suppose
+[guide d'auto-hébergement](/fr/self-hosting/introduction). Ce guide utilisateur suppose
 que vous avez déjà une instance et un compte.
