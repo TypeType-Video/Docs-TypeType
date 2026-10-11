@@ -286,9 +286,13 @@ keine Konten und weiß nicht, wer ein Nutzer ist.
 | Was | Wo | Wie lange |
 | --- | --- | --- |
 | Vektoren öffentlicher Videotitel | Eigene PostgreSQL-Datenbank, Tabelle `title_vectors` | Bis zur Löschung. Kein Nutzer wird genannt. |
-| Der Verlauf eines Nutzers, von Server unter einem Schlüssel gesendet | Arbeitsspeicher und gemeinsamer Cache | 30 Minuten nach der letzten Nutzung |
+| Öffentliche Videodaten von Server | Eigene PostgreSQL-Datenbank, Tabelle `catalogue_videos` | Bis die Zeile gelöscht wird; neue Daten ersetzen die alten. Keinem Konto zugeordnet. |
+| Der Verlauf eines Nutzers, von Server unter einem Schlüssel gesendet | Arbeitsspeicher und gemeinsamer Cache | Arbeitsspeicher: läuft nach 30 Minuten Inaktivität ab und wird bei der nächsten Verlaufs- oder Empfehlungsanfrage bereinigt; gemeinsamer Cache: 30 Minuten ab Upload |
 | Der Plan einer Seite im Aufbau | Arbeitsspeicher und gemeinsamer Cache | 2 Minuten |
 | Was aus einem Verlauf abgeleitet wurde | Nur Arbeitsspeicher | 10 Minuten, solange der Verlauf unverändert ist |
+
+Der Videokatalog speichert Video-ID, Titel, Kanal-URL, Kategorie, bis zu 12 Tags und
+bis zu 300 Zeichen der Beschreibung. Er läuft nicht automatisch ab.
 
 Server behält außerdem jede aufgebaute Startseite 30 Minuten in Dragonfly und die
 Wahl des Algorithmus, die Korrekturen und die Rückmeldungen jedes Nutzers in seiner
@@ -350,7 +354,7 @@ setzen:
 
 | Variable | Standard | Zweck |
 | --- | --- | --- |
-| `RECOMMENDER_HISTORY_TTL_SECONDS` | `1800` | Wie lange ein von Server gesendeter Verlauf nach der letzten Nutzung behalten wird |
+| `RECOMMENDER_HISTORY_TTL_SECONDS` | `1800` | Einträge im Arbeitsspeicher werden beim nächsten Aufruf nach Ablauf des Leerlauf-Timeouts entfernt; Cache-TTL beginnt beim Upload |
 | `RECOMMENDER_HISTORY_ITEMS_KEPT` | `400000` | Wiedergaben und Likes aller Verläufe, die gleichzeitig im Arbeitsspeicher gehalten werden, etwa 0,5 MB je 1.000 |
 | `RECOMMENDER_PLAN_TTL_SECONDS` | `120` | Wie lange der Plan einer Seite behalten wird |
 | `RECOMMENDER_PROFILE_TTL_SECONDS` | `600` | Wie lange das aus einem unveränderten Verlauf Abgeleitete behalten wird; `0` schaltet es ab |

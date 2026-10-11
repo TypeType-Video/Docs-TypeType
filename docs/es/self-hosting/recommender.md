@@ -288,9 +288,13 @@ recomendaciones no tiene cuentas y no sabe quién es un usuario.
 | Qué | Dónde | Durante cuánto tiempo |
 | --- | --- | --- |
 | Los vectores de títulos de vídeos públicos | Su propia base de datos PostgreSQL, tabla `title_vectors` | Hasta que se borren. No se nombra a ningún usuario. |
-| El historial de un usuario, enviado por Server con una clave | La memoria y la caché compartida | 30 minutos después de su último uso |
+| Datos públicos de vídeos enviados por Server | Su propia base de datos PostgreSQL, tabla `catalogue_videos` | Hasta que se borre la fila; los datos nuevos sustituyen a los anteriores. No se vincula a una cuenta. |
+| El historial de un usuario, enviado por Server con una clave | La memoria y la caché compartida | Memoria: caduca tras 30 minutos de inactividad y se purga en la siguiente solicitud de historial o recomendación; caché compartida: 30 minutos desde el envío |
 | El plan de una página en construcción | La memoria y la caché compartida | 2 minutos |
 | Lo que se dedujo de un historial | Solo la memoria | 10 minutos, mientras el historial no cambie |
+
+El catálogo guarda el ID del vídeo, el título, la URL del canal, la categoría, hasta 12
+etiquetas y hasta 300 caracteres de descripción. No tiene caducidad automática.
 
 Server guarda además cada página de inicio construida en Dragonfly durante 30
 minutos, y la elección de algoritmo, las correcciones y las opiniones de cada usuario
@@ -351,7 +355,7 @@ que se fijan con un archivo de override de Compose sobre `typetype-recommender`:
 
 | Variable | Por defecto | Función |
 | --- | --- | --- |
-| `RECOMMENDER_HISTORY_TTL_SECONDS` | `1800` | Cuánto se conserva un historial enviado por Server después de su último uso |
+| `RECOMMENDER_HISTORY_TTL_SECONDS` | `1800` | La memoria se limpia en la siguiente solicitud después del tiempo de inactividad; el TTL de la caché compartida empieza al enviarlo |
 | `RECOMMENDER_HISTORY_ITEMS_KEPT` | `400000` | Visualizaciones y "me gusta" de todos los historiales mantenidos en memoria a la vez, unos 0,5 MB por cada 1000 |
 | `RECOMMENDER_PLAN_TTL_SECONDS` | `120` | Cuánto se conserva el plan de una página |
 | `RECOMMENDER_PROFILE_TTL_SECONDS` | `600` | Cuánto se conserva lo deducido de un historial sin cambios; `0` lo desactiva |

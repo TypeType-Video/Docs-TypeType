@@ -41,10 +41,15 @@ Il n'y a pas de bonne réponse, seulement différentes façons de regarder.
 | --- | --- | --- |
 | Abonnements | Les dernières vidéos des chaînes que vous suivez, dans l'ordre de publication : aujourd'hui, les sept derniers jours, avant. Rien n'est déduit de vous. | Abonnements |
 | Découverte | Les nouvelles vidéos de vos abonnements, des vidéos liées à celles-ci et à vos favoris venant de chaînes que vous ne suivez pas, et les tendances. | Abonnements et favoris. Jamais votre historique. |
-| Signals | Les vidéos commencées, d'autres vidéos des créateurs que vous avez regardés, des rangées par sujet, et une rangée de créateurs que vous n'avez jamais regardés. Il réagit en quelques minutes à ce que vous venez de regarder. | Historique des vidéos, favoris, abonnements |
-| Signals, chaînes | Les dernières vidéos des créateurs que vous regardez le plus, et de vos abonnements. | Historique des vidéos, favoris, abonnements |
-| Signals, vidéos | Les sujets de ce que vous regardez, quel que soit l'auteur de la vidéo. | Historique des vidéos, favoris |
-| Signals, mélange | Les créateurs que vous regardez, et des vidéos sur vos sujets venant de n'importe quel créateur. | Historique des vidéos, favoris, abonnements |
+| Signals | Les vidéos commencées, d'autres vidéos des créateurs que vous avez regardés, des rangées par sujet, et une rangée de créateurs que vous n'avez jamais regardés. Il réagit en quelques minutes à ce que vous venez de regarder. | Historique des vidéos, favoris, abonnements ; historique des Shorts si activé |
+| Signals, chaînes | Les dernières vidéos des créateurs que vous regardez le plus, et de vos abonnements. | Historique des vidéos, favoris, abonnements ; historique des Shorts si activé |
+| Signals, vidéos | Les sujets de ce que vous regardez, quel que soit l'auteur de la vidéo. | Historique des vidéos, favoris ; historique des Shorts si activé |
+| Signals, mélange | Les créateurs que vous regardez, et des vidéos sur vos sujets venant de n'importe quel créateur. | Historique des vidéos, favoris, abonnements ; historique des Shorts si activé |
+
+Par défaut, les Shorts restent à part et n'influencent pas les recommandations de vidéos
+classiques. Dans la famille Signals, l'option **Laisser les Shorts influencer l'accueil**
+est désactivée par défaut ; l'activer permet aussi aux Shorts d'influencer les vidéos
+classiques.
 
 Dans le guide, chaque algorithme porte trois jauges, de nulle à élevée :
 
@@ -73,15 +78,17 @@ règle.
 
 ### Données utilisées {#data}
 
-Tout ce qui est enregistré pour votre compte, par catégorie : historique des vidéos,
-historique des Shorts, favoris, abonnements, historique de recherche et les autres. En
-bleu, ce que l'algorithme actuel lit. En gris, ce qui est conservé sans servir à
-l'accueil.
+La page présente les six catégories de données dont TypeType permet de régler l'usage
+pour les recommandations : historique des vidéos, historique des Shorts, favoris,
+abonnements, chaînes et vidéos bloquées, et vidéos signalées « Pas pour moi ».
+L'historique de recherche n'y figure pas et n'est pas transmis à Signals. En bleu, ce
+que l'algorithme actuel lit ; en gris, ce qui est conservé sans servir à l'accueil.
 
 Ouvrez une catégorie pour régler :
 
-- **Collecter** : désactivé, plus rien de nouveau n'est enregistré dans cette
-  catégorie. Ce qui y est déjà reste.
+- **Collecter** : l'historique des vidéos et celui des Shorts partagent ce réglage.
+  Désactivé, aucun nouveau visionnage n'est enregistré ; l'existant reste soumis à la
+  durée de conservation.
 - **Utiliser pour l'accueil** : désactivé, les éléments restent enregistrés mais aucun
   algorithme ne les lit.
 - **Remonter jusqu'à** : jusqu'où l'algorithme remonte, de quelques jours à sans

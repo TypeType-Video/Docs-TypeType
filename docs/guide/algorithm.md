@@ -40,10 +40,14 @@ There is no right answer, only different ways of watching.
 | --- | --- | --- |
 | Subscriptions | The newest videos from the channels you follow, in upload order: today, the last seven days, earlier. Nothing is deduced about you. | Subscriptions |
 | Discovery | New videos from your subscriptions, videos related to them and to your favorites from channels you do not follow, and trending videos. | Subscriptions and favorites. Never your history. |
-| Signals | Videos you started, more from the creators you watched, rows by topic, and a row of creators you never watched. It reacts within minutes to what you just watched. | Video history, favorites, subscriptions |
-| Signals, channels | The newest videos of the creators you watch most, and of your subscriptions. | Video history, favorites, subscriptions |
-| Signals, videos | The subjects of what you watch, whoever made the video. | Video history, favorites |
-| Signals, mix | The creators you watch, and videos on your subjects from any creator. | Video history, favorites, subscriptions |
+| Signals | Videos you started, more from the creators you watched, rows by topic, and a row of creators you never watched. It reacts within minutes to what you just watched. | Video history, favorites, subscriptions; Shorts history only when enabled |
+| Signals, channels | The newest videos of the creators you watch most, and of your subscriptions. | Video history, favorites, subscriptions; Shorts history only when enabled |
+| Signals, videos | The subjects of what you watch, whoever made the video. | Video history, favorites; Shorts history only when enabled |
+| Signals, mix | The creators you watch, and videos on your subjects from any creator. | Video history, favorites, subscriptions; Shorts history only when enabled |
+
+Shorts are kept separate from regular-video recommendations by default. In the Signals
+family, **Let Shorts shape the home page** is off by default; turning it on lets Shorts
+also influence regular videos.
 
 In the guide, each algorithm carries three meters, from none to high:
 
@@ -70,14 +74,16 @@ interests. Each part leads to the place where it is set.
 
 ### Data used {#data}
 
-Everything stored for your account, by category: video history, Shorts history,
-favorites, subscriptions, search history and the others. In blue, what the current
-algorithm reads. In grey, what is kept without being used for the home page.
+The page lists the six data categories whose use TypeType lets you manage for
+recommendations: video history, Shorts history, favorites, subscriptions, blocked
+channels and videos, and videos marked Not for me. Search history is not listed here or
+sent to Signals. In blue, what the current algorithm reads; in grey, what is kept
+without being used for the home page.
 
 Open a category to set:
 
-- **Collect**: off, nothing new is recorded in this category. What is already there
-  stays.
+- **Collect**: video and Shorts history share this setting. When off, no new watches
+  are recorded; existing entries stay according to the retention period.
 - **Use for the home page**: off, the items stay recorded but no algorithm reads
   them.
 - **Read back**: how far back the algorithm reads, from a few days to no limit. Older
