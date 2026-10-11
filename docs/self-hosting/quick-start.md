@@ -30,6 +30,25 @@ On an update, the installer first creates a timestamped backup of the managed st
 files and records the current image references. It then waits for the refreshed
 services and verifies their version endpoints before finishing.
 
+### Choose the directory {#stack-directory}
+
+The installer puts the stack in `~/typetype-stack`. That is only its default: pass
+`--dir` to install anywhere you like.
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --dir /srv/typetype
+```
+
+The commands of this documentation use `$STACK_DIR` for that directory. Set it once
+in your terminal, to the default or to the directory you chose:
+
+```sh
+STACK_DIR=~/typetype-stack
+```
+
+A manual installation has no default: `$STACK_DIR` is the directory that contains
+your `docker-compose.yml`.
+
 ### Download only
 
 To fetch the files and review them before starting Docker yourself:
@@ -41,7 +60,7 @@ curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/script
 ## Check it is up
 
 ```sh
-cd ~/typetype-stack
+cd "$STACK_DIR"
 docker compose ps
 docker compose exec -T typetype-server wget -qO- http://127.0.0.1:8080/health
 ```

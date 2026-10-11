@@ -7,4 +7,4 @@ lofi = "lofi"
 sherif = "sherif"
 
 [files]
-extend-exclude = ["docs/fr/**", "docs/es/**"]
+extend-exclude = ["docs/fr/**", "docs/es/**", "docs/de/**", "docs/zh/**"]

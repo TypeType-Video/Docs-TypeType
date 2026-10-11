@@ -10,10 +10,13 @@ pulls the release images, waits for the services, verifies the component version
 and provisions any newly added Garage resources:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
-cd ~/typetype-stack
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --yes --dir "$STACK_DIR"
+cd "$STACK_DIR"
 docker compose ps
 ```
+
+`$STACK_DIR` is your stack directory, `~/typetype-stack` unless you chose another
+one: see [Choose the directory](./quick-start#stack-directory).
 
 Configured ports remain unchanged when the installer is run again. Accounts,
 history, downloads, and service secrets remain in `.env` and the named volumes.
@@ -50,7 +53,7 @@ If any TypeType image starts with `ghcr.io/priveetee/`, refresh the stack files 
 First keep the current configuration and a database backup:
 
 ```sh
-cd /path/to/your/typetype-stack
+cd "$STACK_DIR"
 migration_backup="../typetype-stack-before-migration-$(date +%Y%m%d-%H%M%S)"
 mkdir -p "$migration_backup"
 cp -a .env docker-compose.yml "$migration_backup"/

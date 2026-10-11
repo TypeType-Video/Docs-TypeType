@@ -11,11 +11,12 @@ volumes. A normal `docker compose down` keeps them.
 
 ## Before updating
 
-Open the stack directory. Installer-managed stacks use `~/typetype-stack`; for a
-manual installation, use the directory containing `docker-compose.yml`.
+Open the stack directory: `~/typetype-stack` unless you chose another one, or the
+directory containing `docker-compose.yml` for a manual installation. See
+[Choose the directory](./quick-start#stack-directory).
 
 ```sh
-cd ~/typetype-stack
+cd "$STACK_DIR"
 mkdir rollback-before-update
 cp .env docker-compose.yml rollback-before-update/
 for file in docker-compose.arm64.yml docker-compose.override.yml nginx.conf garage.toml; do

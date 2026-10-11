@@ -48,6 +48,8 @@ Façonnez vos surfaces :
 
 - **Masquer les vidéos en cours** de la page d'accueil.
 - **Masquer les recommandations personnalisées** de la page d'accueil.
+- **Choisir l'algorithme** qui construit l'accueil, là où l'instance le propose.
+  Voir [Choisir son algorithme](/fr/guide/algorithm).
 - **Masquer la colonne de suggestions** sur les pages de lecture.
 - **Masquer la navigation Shorts** et bloquer la page Shorts.
 - **Commentaires et danmaku**, les afficher ou les masquer.
