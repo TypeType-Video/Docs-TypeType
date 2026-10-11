@@ -19,7 +19,7 @@ geschrieben wird. Was Nutzer sehen, steht unter
 | Mit YouTube sprechen | Holt jedes Video, über seine Extraktion und seinen Cache | Tut das nie |
 | Blockieren, Familienfilter | Wendet sie auf alles an, was zurückkommt | Kann sie nicht umgehen |
 | Videos auswählen und ordnen | Fällt auf seine eingebaute Startseite zurück | Ist für die Algorithmen zuständig |
-| Was aufbewahrt wird | Auswahl, Korrekturen, Rückmeldungen, aufgebaute Seiten | Vektoren öffentlicher Titel; einen Verlauf für einige Minuten |
+| Was aufbewahrt wird | Auswahl, Korrekturen, Rückmeldungen, aufgebaute Seiten | Vektoren öffentlicher Videotitel und öffentlicher Videokatalog; zeitweilige Verlaufsmomentaufnahmen unter einem Schlüssel |
 
 Server ist der einzige Aufrufer des Dienstes. Fehlt der Dienst, ist er langsam oder
 schlägt er fehl, liefert Server seine eingebaute Startseite aus; eine Startseite geht
@@ -136,8 +136,8 @@ Verlaufs:
 - **Kürzlich Angesehenes.** Ein gerade gesehenes Video lenkt die Seite sofort; seine
   Wirkung halbiert sich mit der Zeit und endet nach einigen Stunden.
 
-Shorts werden getrennt gelesen und fließen nie in die Empfehlungen für lange Videos
-ein.
+Shorts werden separat erfasst und beeinflussen normale Videoempfehlungen standardmäßig nicht.
+In der Signals-Familie ist **Let Shorts shape the home page** standardmäßig ausgeschaltet; wenn Sie es aktivieren, können Shorts auch normale Videos im Feed beeinflussen.
 
 Das Modell läuft lokal im Dienst, auf der CPU. Es wird einmal beim ersten Start
 heruntergeladen, und danach wird nichts an Dritte gesendet.

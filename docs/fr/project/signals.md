@@ -19,7 +19,7 @@ algorithme est écrit. Pour ce que voient les utilisateurs, lisez
 | Parler à YouTube | Récupère chaque vidéo, par son extraction et son cache | Ne le fait jamais |
 | Blocage, filtres familiaux | Les applique à tout ce qui revient | Ne peut pas les contourner |
 | Choisir et ordonner les vidéos | Se rabat sur son accueil intégré | Possède les algorithmes |
-| Ce qui est conservé | Choix, corrections, avis, pages construites | Vecteurs de titres publics ; un historique pendant quelques minutes |
+| Ce qui est conservé | Choix, corrections, avis, pages construites | Vecteurs de titres publics et catalogue public de vidéos ; instantanés temporaires de visionnage associés à une clé |
 
 Server est le seul appelant du service. Si le service est absent, lent ou en échec,
 Server sert son accueil intégré : un accueil ne casse donc jamais.
@@ -132,8 +132,9 @@ l'historique :
 - **Vidéos récentes.** Une vidéo qui vient d'être regardée oriente la page tout de
   suite ; son effet diminue de moitié avec le temps et s'arrête après quelques heures.
 
-Les Shorts sont lus à part et n'alimentent jamais les recommandations de vidéos
-longues.
+Les Shorts sont suivis à part et ne jouent aucun rôle par défaut dans les recommandations de vidéos classiques.
+Dans la famille Signals, **Let Shorts shape the home page** est désactivé par défaut ;
+si vous activez ce réglage, les Shorts peuvent aussi influer sur les vidéos classiques du fil.
 
 Le modèle tourne en local dans le service, sur le processeur. Il est téléchargé une
 fois au premier démarrage et rien n'est envoyé à un tiers ensuite.

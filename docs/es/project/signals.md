@@ -19,7 +19,7 @@ algoritmo. Para lo que ven los usuarios, lee
 | Hablar con YouTube | Obtiene cada vídeo, con su extracción y su caché | Nunca lo hace |
 | Bloqueo, filtros familiares | Los aplica a todo lo que vuelve | No puede saltárselos |
 | Elegir y ordenar los vídeos | Recurre a su página de inicio integrada | Es dueño de los algoritmos |
-| Lo que se conserva | Elecciones, correcciones, opiniones, páginas construidas | Vectores de títulos públicos; un historial durante unos minutos |
+| Lo que se conserva | Elecciones, correcciones, opiniones, páginas construidas | Vectores de títulos públicos y catálogo público de vídeos; instantáneas temporales del historial asociadas a una clave |
 
 Server es el único que llama al servicio. Si el servicio no está, va lento o falla,
 Server sirve su página de inicio integrada, así que una página de inicio nunca se
@@ -129,7 +129,9 @@ historial:
 - **Vídeos recientes.** Un vídeo recién visto orienta la página de inmediato; su
   efecto se reduce a la mitad con el tiempo y se detiene tras unas horas.
 
-Los Shorts se leen aparte y nunca alimentan las recomendaciones de vídeos largos.
+Los Shorts se registran por separado y, por defecto, no influyen en las recomendaciones de vídeos normales.
+En la familia Signals, **Let Shorts shape the home page** está desactivado por defecto;
+al activarlo, los Shorts también pueden influir en los vídeos normales del feed.
 
 El modelo se ejecuta localmente en el servicio, en la CPU. Se descarga una vez en el
 primer arranque y después no se envía nada a terceros.
