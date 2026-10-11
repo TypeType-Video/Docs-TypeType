@@ -17,71 +17,231 @@ three switches stay in different hands:
 2. the administrator switches it on for the instance;
 3. each user turns it on for themselves.
 
-## What it needs {#requirements}
+## Before you start {#requirements}
 
-| Resource | Amount |
-| --- | --- |
-| Memory | About 1.2 GB at rest. The container is capped at 2 GB by default (`RECOMMENDER_MEMORY_LIMIT`). |
-| Disk | About 1 GB for its language model, downloaded once on first start into the `recommender_models` volume, plus the image. |
-| Network | Internet access on first start, to download the model. None to YouTube: the service never talks to a provider. |
-| Database | PostgreSQL with the `pgvector` extension. The overlay switches the bundled `postgres` service to an image that ships it, on the same data volume. |
-| Cache | The Dragonfly the stack already has. |
+| Resource | Amount | How to check |
+| --- | --- | --- |
+| Memory | About 1 GB at rest, capped at 2 GB by default (`RECOMMENDER_MEMORY_LIMIT`) | `free -h`, column `available` |
+| Disk | About 550 MB for the language model and about 330 MB for the image | `df -h /var/lib/docker` |
+| Network | Internet access on first start, to download the model from Hugging Face. The service never talks to YouTube. | |
+| TypeType | A stack installed with the installer or the supported Compose file | `docker compose ps` in the stack directory |
 
-`typetype-init` creates the service's own database (`typetype_recommender`) and the
-secret it shares with Server.
+What changes on your stack when you add it:
 
-## Add it with the installer {#install}
+- a new container, `typetype-recommender`;
+- a new volume, `recommender_models`, for the model;
+- a new database, `typetype_recommender`, in the PostgreSQL you already have;
+- the `postgres` service moves from `postgres:17` to `pgvector/pgvector:pg17`, the same
+  PostgreSQL 17 with the `pgvector` extension, on the same data volume. PostgreSQL
+  restarts once, so the instance is unavailable for a few seconds;
+- Server is recreated with the address of the service.
 
-The installer asks whether to add it, and answers no by default:
+Your existing data is not migrated or rewritten. Take a database backup first all the
+same, as before any change to the stack: see [Maintenance](./maintenance#backups).
 
-```text
-Add the experimental recommender? [y/N]:
-```
+Pick one of the three ways below.
 
-To add it without the question:
+## A. New instance, with the installer {#install-new}
+
+1. Run the installer with the recommender:
+
+   ```sh
+   curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --recommender
+   ```
+
+   Without `--recommender`, the installer asks instead, and answers no if you just
+   press Enter:
+
+   ```text
+   [install] Optional: the recommender (experimental) lets each user pick the algorithm of their home page.
+   [install] It needs about 2 GB of memory and 1 GB of disk, and downloads a language model on first start.
+   Add the experimental recommender? [y/N]:
+   ```
+
+2. The installer confirms the choice, then asks before starting anything:
+
+   ```text
+   [install] Recommender (experimental) added to the stack.
+   [install] Validating the resolved Compose stack...
+   Proceed with Docker pull + startup in /home/you/typetype-stack? [y/N]:
+   ```
+
+   Answer `y`.
+
+3. Wait. The first start downloads the image and then the model. The installer waits
+   up to 15 minutes for every service to be healthy, instead of the usual 3. It ends
+   with:
+
+   ```text
+   Done. Open http://localhost:8082
+   ```
+
+4. Go to [Check that it runs](#verify).
+
+The installer has set `RECOMMENDER_ENABLED=true` in `.env`, so the option is already
+offered on the instance.
+
+## B. Existing instance, with the installer {#install-existing}
+
+Run the same command as in A, from any directory. The installer finds your stack in
+`~/typetype-stack` (or pass `--dir` as you did the first time), backs up the managed
+files, keeps your `.env` and your `docker-compose.override.yml`, and adds the
+recommender.
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --recommender
 ```
 
-The installer then starts the stack with the recommender overlay, sets
-`RECOMMENDER_ENABLED=true` in `.env`, and waits longer than usual for the first start,
-because the model is being downloaded. Running the installer again on that stack keeps
-the recommender.
+Expect the instance to be unavailable for a few seconds while PostgreSQL and Server
+restart, then go to [Check that it runs](#verify).
 
-With `--yes` alone, the recommender is not added.
+## C. Existing instance, by hand {#manual}
 
-## Add it by hand {#manual}
+Use this if you manage the stack yourself, for example with Dockge.
 
-On an existing stack, from its directory:
+1. Go to the stack directory and make sure the overlay is there:
+
+   ```sh
+   cd ~/typetype-stack
+   ls docker-compose.recommender.yml
+   ```
+
+   If it is missing, your stack files are older than the recommender. Fetch it:
+
+   ```sh
+   curl -fsSLO https://raw.githubusercontent.com/TypeType-Video/TypeType/main/docker-compose.recommender.yml
+   ```
+
+2. Tell the stack to offer it. In `.env`, set:
+
+   ```dotenv
+   RECOMMENDER_ENABLED=true
+   ```
+
+   This line is also what makes the installer keep the recommender on a later update.
+
+3. Create the database and the shared secret:
+
+   ```sh
+   COMPOSE_RECOMMENDER_FILE=docker-compose.recommender.yml ./scripts/run-stack-init.sh
+   ```
+
+   The output ends with:
+
+   ```text
+   CREATE DATABASE
+   CREATE EXTENSION
+   ```
+
+   On a second run, `CREATE DATABASE` is absent and the extension line says it already
+   exists. Both are fine.
+
+4. Start the service and recreate Server:
+
+   ```sh
+   docker compose -f docker-compose.yml -f docker-compose.recommender.yml up -d --wait --wait-timeout 900
+   ```
+
+   On an ARM64 host, name the ARM64 file too, as you already do:
+   `-f docker-compose.yml -f docker-compose.arm64.yml -f docker-compose.recommender.yml`.
+
+5. Go to [Check that it runs](#verify).
+
+::: warning Name both files from now on
+Every `docker compose` command for this stack must now name
+`docker-compose.recommender.yml` as well. A command that names only
+`docker-compose.yml` with `--remove-orphans` removes the recommender.
+:::
+
+## Check that it runs {#verify}
+
+Run these from the stack directory. Every command names both Compose files, whichever
+way you installed: `docker compose` alone only knows the services of
+`docker-compose.yml`. On an ARM64 host, add `-f docker-compose.arm64.yml` between the
+two.
 
 ```sh
-COMPOSE_RECOMMENDER_FILE=docker-compose.recommender.yml ./scripts/run-stack-init.sh
-docker compose -f docker-compose.yml -f docker-compose.recommender.yml up -d --wait
+cd ~/typetype-stack
 ```
 
-The first command creates the database and the secret. The second starts the service
-and recreates Server with its address. Expect a few minutes on the first start.
+1. The container is healthy:
 
-From then on, every `docker compose` command for this stack must name both files, or
-Compose removes the recommender as an orphan on the next `up --remove-orphans`.
+   ```sh
+   docker compose -f docker-compose.yml -f docker-compose.recommender.yml ps typetype-recommender
+   ```
 
-Check that it answers:
+   The `STATUS` column must read `Up ... (healthy)`. `(health: starting)` means the
+   model is still being downloaded or loaded.
 
-```sh
-docker compose -f docker-compose.yml -f docker-compose.recommender.yml ps typetype-recommender
-```
+2. Its log shows a complete start:
 
-The service is `healthy` once the model is loaded. The About page of the instance then
-shows an **Algorithm** line with the version that runs.
+   ```sh
+   docker compose -f docker-compose.yml -f docker-compose.recommender.yml logs typetype-recommender
+   ```
+
+   ```text
+   INFO:     Started server process [1]
+   INFO:     Waiting for application startup.
+   Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+   INFO:     Application startup complete.
+   INFO:     Uvicorn running on http://0.0.0.0:8190 (Press CTRL+C to quit)
+   ```
+
+   The warning about the HF Hub is expected: the model is public and needs no token.
+   The pause before `Application startup complete` is the download.
+
+3. Server reaches it:
+
+   ```sh
+   docker compose -f docker-compose.yml -f docker-compose.recommender.yml exec -T typetype-server wget -qO- http://127.0.0.1:8080/version/recommender
+   ```
+
+   ```json
+   {"service":"recommender","version":"0.0.1","revision":"...","shortRevision":"...","buildTime":"..."}
+   ```
+
+   An empty answer or an error means Server does not see the service: see
+   [Troubleshooting](#troubleshooting).
+
+4. The instance announces it:
+
+   ```sh
+   docker compose -f docker-compose.yml -f docker-compose.recommender.yml exec -T typetype-server wget -qO- http://127.0.0.1:8080/instance
+   ```
+
+   The answer contains:
+
+   ```json
+   "recommender":{"installed":true,"enabled":true,"experimental":true}
+   ```
+
+   `installed` is true as soon as Server knows the service. `enabled` is the
+   instance-wide switch described next.
+
+5. In the web app, **Settings**, then **About**, shows a line **Algorithm** with the
+   version `0.0.1`.
 
 ## Switch it on {#enable}
 
-Installing the service does not show anything to users yet.
+Installing the service shows nothing to users until the instance offers it.
 
-- The installer sets `RECOMMENDER_ENABLED=true`, which offers it on a new instance.
-- On an instance installed by hand, open the admin console, then **Recommender**, and
-  switch on **Offer the experimental home page**.
+1. Sign in as an administrator and open the admin console.
+2. Open the **Recommender** section.
+3. Switch on **Offer the experimental home page**. It is already on if `.env` holds
+   `RECOMMENDER_ENABLED=true`.
+4. Reload the web app: **Algorithm** appears in the menu.
+
+Then try it with your own account:
+
+1. Open **Algorithm**.
+2. Switch on **Build my home page with an algorithm I choose**.
+3. Go back to the home page. On an empty account you get a welcome card; import some
+   data or watch a few videos first.
+4. Open **Algorithm** again, then **How the last home page was built**: it must show
+   the sources that were asked and the videos found.
+
+Each user has to do the same for themselves, unless you turn on **On for everyone by
+default**.
 
 The **Recommender** section of the admin console holds everything an administrator
 decides:
@@ -207,35 +367,78 @@ cost of memory:
 
 Raise `RECOMMENDER_MEMORY_LIMIT` with them.
 
-## Remove it {#remove}
+## Update it {#update}
+
+With the installer, update as usual. It keeps the recommender because `.env` holds
+`RECOMMENDER_ENABLED=true`:
 
 ```sh
-docker compose -f docker-compose.yml up -d --remove-orphans --wait
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
 ```
 
-The home page goes back to the standard one and the option disappears everywhere.
-Users' choices and opinions stay in Server's database, in case you add it again.
+By hand, pull and recreate with both files:
 
-To reclaim the space, delete the `recommender_models` volume and the
-`typetype_recommender` database by hand. Set `RECOMMENDER_ENABLED=false` in `.env` so
-that the installer does not add it again on the next run.
+```sh
+docker compose -f docker-compose.yml -f docker-compose.recommender.yml pull
+docker compose -f docker-compose.yml -f docker-compose.recommender.yml up -d --wait --wait-timeout 900
+```
+
+The model stays in its volume, so an update does not download it again. Then run the
+checks of [Check that it runs](#verify): the version line tells you which version
+answers.
+
+## Remove it {#remove}
+
+1. In `.env`, set `RECOMMENDER_ENABLED=false`, so that the installer does not add it
+   again on the next update.
+
+2. Recreate the stack without the overlay:
+
+   ```sh
+   docker compose -f docker-compose.yml up -d --remove-orphans --wait
+   ```
+
+   The recommender container is removed, PostgreSQL goes back to `postgres:17` and
+   Server is recreated without the address of the service. The home page is the
+   standard one for everyone and the Algorithm page disappears.
+
+3. Check:
+
+   ```sh
+   docker compose exec -T typetype-server wget -qO- http://127.0.0.1:8080/instance
+   ```
+
+   The answer now contains `"recommender":{"installed":false,`.
+
+Users' choices, corrections and opinions stay in Server's database, in case you add
+the recommender again. Nothing else of theirs was ever stored by the service.
+
+To reclaim the disk space, optionally:
+
+```sh
+docker volume ls | grep recommender_models
+docker volume rm <name printed above>
+docker compose exec -T postgres sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "DROP DATABASE typetype_recommender"'
+```
 
 ## Troubleshooting {#troubleshooting}
 
-**The service never becomes healthy on first start.** The model is about 1 GB and is
-downloaded before the service answers. Read its log:
+Read the log of the service first:
 
 ```sh
-docker compose -f docker-compose.yml -f docker-compose.recommender.yml logs typetype-recommender
+docker compose -f docker-compose.yml -f docker-compose.recommender.yml logs --tail 100 typetype-recommender
 ```
 
-**Users do not see the Algorithm page.** Check, in this order: the service is
-`healthy`; the recommender is switched on in the admin console; the user reloaded the
-page.
-
-**Home pages stay the usual ones.** A page that is not ready in time is replaced by
-the usual home page and keeps being built in the background. The admin console shows
-how often that happens. A first page for a long history is the slowest.
+| What you see | Cause | What to do |
+| --- | --- | --- |
+| `STATUS` stays `(health: starting)` for minutes on first start | The model, about 550 MB, is being downloaded | Wait. The log shows `Application startup complete` when it is done. |
+| The log shows a network error before `Application startup complete` | The model could not be downloaded from Hugging Face | Give the container internet access for the first start. Afterwards the model is read from the volume. |
+| `no such service: typetype-recommender` | The command names only `docker-compose.yml` | Add `-f docker-compose.recommender.yml`. |
+| The container is killed and restarts, `OOMKilled` in `docker inspect` | It reached `RECOMMENDER_MEMORY_LIMIT` | Raise the limit, or keep the defaults of [Memory against speed](#memory). |
+| `/version/recommender` answers nothing | Server was not recreated with the overlay, or the shared secret is missing | Run the two commands of [C. By hand](#manual), steps 3 and 4, again. |
+| **Algorithm** is not in the menu | The instance does not offer it | Admin console, **Recommender**, **Offer the experimental home page**; then reload the page. |
+| The home page stays the standard one | The page was not ready in time, or the account has no data | Reload after a few seconds. In the admin console, **Returns to the standard home page** counts how often it happens. |
+| **State of the service** says **Not answering** | The service is down or still starting | Check its status and log as above. Home pages are the standard ones meanwhile. |
 
 ## Source references
 
