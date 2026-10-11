@@ -288,7 +288,7 @@ recomendaciones no tiene cuentas y no sabe quién es un usuario.
 | Qué | Dónde | Durante cuánto tiempo |
 | --- | --- | --- |
 | Los vectores de títulos de vídeos públicos | Su propia base de datos PostgreSQL, tabla `title_vectors` | Hasta que se borren. No se nombra a ningún usuario. |
-| El historial de un usuario, enviado por Server con una clave | La memoria y la caché compartida | 30 minutos después de su último uso |
+| El historial de un usuario, enviado por Server con una clave | La memoria y la caché compartida | Memoria: se elimina en la siguiente solicitud tras 30 minutos de inactividad; caché compartida: 30 minutos desde el envío |
 | El plan de una página en construcción | La memoria y la caché compartida | 2 minutos |
 | Lo que se dedujo de un historial | Solo la memoria | 10 minutos, mientras el historial no cambie |
 
@@ -351,7 +351,7 @@ que se fijan con un archivo de override de Compose sobre `typetype-recommender`:
 
 | Variable | Por defecto | Función |
 | --- | --- | --- |
-| `RECOMMENDER_HISTORY_TTL_SECONDS` | `1800` | Cuánto se conserva un historial enviado por Server después de su último uso |
+| `RECOMMENDER_HISTORY_TTL_SECONDS` | `1800` | La memoria se limpia en la siguiente solicitud después del tiempo de inactividad; el TTL de la caché compartida empieza al enviarlo |
 | `RECOMMENDER_HISTORY_ITEMS_KEPT` | `400000` | Visualizaciones y "me gusta" de todos los historiales mantenidos en memoria a la vez, unos 0,5 MB por cada 1000 |
 | `RECOMMENDER_PLAN_TTL_SECONDS` | `120` | Cuánto se conserva el plan de una página |
 | `RECOMMENDER_PROFILE_TTL_SECONDS` | `600` | Cuánto se conserva lo deducido de un historial sin cambios; `0` lo desactiva |

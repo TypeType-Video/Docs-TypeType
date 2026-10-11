@@ -279,7 +279,7 @@ does not know who a user is.
 | What | Where | For how long |
 | --- | --- | --- |
 | Vectors of public video titles | Its own PostgreSQL database, table `title_vectors` | Until deleted. No user is named. |
-| A user's history, sent by Server under a key | Memory, and the shared cache | 30 minutes after its last use |
+| A user's history, sent by Server under a key | Memory, and the shared cache | Memory: expires after 30 minutes idle and is pruned on the next request; shared cache: 30 minutes from upload |
 | The plan of a page being built | Memory, and the shared cache | 2 minutes |
 | What was concluded from a history | Memory only | 10 minutes, while the history is unchanged |
 
@@ -340,7 +340,7 @@ you set with a Compose override on `typetype-recommender`:
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `RECOMMENDER_HISTORY_TTL_SECONDS` | `1800` | How long a history sent by Server is kept after its last use |
+| `RECOMMENDER_HISTORY_TTL_SECONDS` | `1800` | Memory entries are pruned on a request after the idle timeout; shared-cache expiry starts at upload |
 | `RECOMMENDER_HISTORY_ITEMS_KEPT` | `400000` | Watches and likes of all the histories held in memory at once, about 0.5 MB per 1,000 |
 | `RECOMMENDER_PLAN_TTL_SECONDS` | `120` | How long the plan of a page is kept |
 | `RECOMMENDER_PROFILE_TTL_SECONDS` | `600` | How long what was concluded from an unchanged history is kept; `0` turns it off |

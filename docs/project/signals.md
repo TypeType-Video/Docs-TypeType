@@ -19,7 +19,7 @@ Server and how an algorithm is written. For what users see, read
 | Talking to YouTube | Fetches every video, through its extraction and cache | Never does |
 | Blocking, family filters | Applies them to whatever comes back | Cannot bypass them |
 | Choosing and ordering videos | Falls back to its built-in home page | Owns the algorithms |
-| What is kept | Choices, corrections, opinions, built pages | Public title vectors; a history for minutes |
+| What is kept | Choices, corrections, opinions, built pages | Public title vectors; temporary keyed history snapshots |
 
 Server is the only caller of the service. If the service is absent, slow or failing,
 Server serves its built-in home page, so a home page never breaks.

@@ -73,15 +73,17 @@ règle.
 
 ### Données utilisées {#data}
 
-Tout ce qui est enregistré pour votre compte, par catégorie : historique des vidéos,
-historique des Shorts, favoris, abonnements, historique de recherche et les autres. En
-bleu, ce que l'algorithme actuel lit. En gris, ce qui est conservé sans servir à
-l'accueil.
+La page présente les six catégories de données dont TypeType permet de régler l'usage
+pour les recommandations : historique des vidéos, historique des Shorts, favoris,
+abonnements, chaînes et vidéos bloquées, et vidéos signalées « Pas pour moi ».
+L'historique de recherche n'y figure pas et n'est pas transmis à Signals. En bleu, ce
+que l'algorithme actuel lit ; en gris, ce qui est conservé sans servir à l'accueil.
 
 Ouvrez une catégorie pour régler :
 
-- **Collecter** : désactivé, plus rien de nouveau n'est enregistré dans cette
-  catégorie. Ce qui y est déjà reste.
+- **Collecter** : l'historique des vidéos et celui des Shorts partagent ce réglage.
+  Désactivé, aucun nouveau visionnage n'est enregistré ; l'existant reste soumis à la
+  durée de conservation.
 - **Utiliser pour l'accueil** : désactivé, les éléments restent enregistrés mais aucun
   algorithme ne les lit.
 - **Remonter jusqu'à** : jusqu'où l'algorithme remonte, de quelques jours à sans

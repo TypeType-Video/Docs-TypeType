@@ -77,15 +77,17 @@ de cada uno de tus intereses. Cada parte lleva al lugar donde se ajusta.
 
 ### Data used {#data}
 
-Todo lo que se guarda para tu cuenta, por categoría: historial de vídeos, historial de
-Shorts, favoritos, suscripciones, historial de búsqueda y las demás. En azul, lo que
-lee el algoritmo actual. En gris, lo que se conserva sin usarse para la página de
-inicio.
+La página enumera las seis categorías de datos cuyo uso puedes ajustar en TypeType para
+las recomendaciones: historial de vídeos, historial de Shorts, favoritos, suscripciones,
+canales y vídeos bloqueados, y vídeos marcados como «No me interesa». El historial de
+búsqueda no aparece aquí ni se envía a Signals. En azul, lo que lee el algoritmo actual;
+en gris, lo que se conserva sin usarse en la página de inicio.
 
 Abre una categoría para ajustar:
 
-- **Collect**: desactivado, no se guarda nada nuevo en esta categoría. Lo que ya está
-  se queda.
+- **Collect**: el historial de vídeos y el de Shorts comparten este ajuste. Al
+  desactivarlo, no se registran nuevas visualizaciones; las entradas existentes siguen
+  sujetas a su período de conservación.
 - **Use for the home page**: desactivado, los elementos siguen guardados pero ningún
   algoritmo los lee.
 - **Read back**: hasta cuándo retrocede el algoritmo, desde unos días hasta sin

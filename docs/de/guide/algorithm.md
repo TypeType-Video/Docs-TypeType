@@ -76,15 +76,17 @@ Interessen. Jeder Teil führt zu der Stelle, an der er eingestellt wird.
 
 ### Genutzte Daten {#data}
 
-Alles, was für Ihr Konto gespeichert ist, nach Kategorie: Videoverlauf,
-Shorts-Verlauf, Favoriten, Abos, Suchverlauf und die übrigen. In Blau, was der
-aktuelle Algorithmus liest. In Grau, was aufbewahrt wird, ohne für die Startseite
-genutzt zu werden.
+Die Seite listet die sechs Datenkategorien, deren Nutzung Sie in TypeType für
+Empfehlungen einstellen können: Videoverlauf, Shorts-Verlauf, Favoriten, Abos,
+gesperrte Kanäle und Videos sowie als „Nicht interessiert“ markierte Videos. Der
+Suchverlauf wird hier nicht angezeigt und nicht an Signals gesendet. In Blau steht,
+was der aktuelle Algorithmus liest; in Grau, was ohne Nutzung für die Startseite
+gespeichert bleibt.
 
 Öffnen Sie eine Kategorie, um einzustellen:
 
-- **Erfassen**: Aus, es wird nichts Neues in dieser Kategorie gespeichert. Was schon
-  da ist, bleibt.
+- **Erfassen**: Video- und Shorts-Verlauf verwenden dieselbe Einstellung. Ist sie aus,
+  werden keine neuen Wiedergaben erfasst; vorhandene Einträge bleiben entsprechend der Aufbewahrungsdauer erhalten.
 - **Für die Startseite nutzen**: Aus, die Einträge bleiben gespeichert, aber kein
   Algorithmus liest sie.
 - **Zurücklesen bis**: wie weit der Algorithmus zurückliest, von einigen Tagen bis

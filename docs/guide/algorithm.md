@@ -70,14 +70,16 @@ interests. Each part leads to the place where it is set.
 
 ### Data used {#data}
 
-Everything stored for your account, by category: video history, Shorts history,
-favorites, subscriptions, search history and the others. In blue, what the current
-algorithm reads. In grey, what is kept without being used for the home page.
+The page lists the six data categories whose use TypeType lets you manage for
+recommendations: video history, Shorts history, favorites, subscriptions, blocked
+channels and videos, and videos marked Not for me. Search history is not listed here or
+sent to Signals. In blue, what the current algorithm reads; in grey, what is kept
+without being used for the home page.
 
 Open a category to set:
 
-- **Collect**: off, nothing new is recorded in this category. What is already there
-  stays.
+- **Collect**: video and Shorts history share this setting. When off, no new watches
+  are recorded; existing entries stay according to the retention period.
 - **Use for the home page**: off, the items stay recorded but no algorithm reads
   them.
 - **Read back**: how far back the algorithm reads, from a few days to no limit. Older

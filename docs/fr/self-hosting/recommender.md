@@ -284,7 +284,7 @@ recommandations n'a pas de comptes et ne sait pas qui est un utilisateur.
 | Quoi | Où | Combien de temps |
 | --- | --- | --- |
 | Les vecteurs des titres de vidéos publiques | Sa propre base PostgreSQL, table `title_vectors` | Jusqu'à suppression. Aucun utilisateur n'est nommé. |
-| L'historique d'un utilisateur, envoyé par Server sous une clé | La mémoire, et le cache partagé | 30 minutes après son dernier usage |
+| L'historique d'un utilisateur, envoyé par Server sous une clé | La mémoire, et le cache partagé | Mémoire : supprimée au prochain appel après 30 min d'inactivité ; cache partagé : expire 30 min après l'envoi |
 | Le plan d'une page en construction | La mémoire, et le cache partagé | 2 minutes |
 | Ce qui a été conclu d'un historique | La mémoire seulement | 10 minutes, tant que l'historique ne change pas |
 
@@ -347,7 +347,7 @@ d'autres, que vous fixez avec un fichier d'override Compose sur
 
 | Variable | Défaut | Rôle |
 | --- | --- | --- |
-| `RECOMMENDER_HISTORY_TTL_SECONDS` | `1800` | Durée de conservation d'un historique envoyé par Server après son dernier usage |
+| `RECOMMENDER_HISTORY_TTL_SECONDS` | `1800` | En mémoire, l'expiration est vérifiée au prochain appel après le délai d'inactivité ; le TTL du cache partagé commence à l'envoi |
 | `RECOMMENDER_HISTORY_ITEMS_KEPT` | `400000` | Visionnages et likes de tous les historiques gardés en mémoire en même temps, environ 0,5 Mo pour 1 000 |
 | `RECOMMENDER_PLAN_TTL_SECONDS` | `120` | Durée de conservation du plan d'une page |
 | `RECOMMENDER_PROFILE_TTL_SECONDS` | `600` | Durée de conservation de ce qui a été conclu d'un historique inchangé ; `0` le désactive |
