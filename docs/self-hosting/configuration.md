@@ -81,6 +81,8 @@ The bundled PostgreSQL service uses these values:
 | `POSTGRES_USER` | `typetype` | PostgreSQL user |
 | `POSTGRES_PASSWORD` | `typetype` | PostgreSQL password; replace for a real deployment |
 | `DRAGONFLY_URL` | `redis://dragonfly:6379` | Server cache URL |
+| `DRAGONFLY_MAX_MEMORY` | `2gb` | Memory the cache may use. Full, it forgets its oldest entries instead of refusing new ones. |
+| `DRAGONFLY_THREADS` | `4` | Cache threads. Dragonfly needs 256 MB of `DRAGONFLY_MAX_MEMORY` per thread and does not start with less. |
 
 `POSTGRES_DB`, `POSTGRES_USER`, and `POSTGRES_PASSWORD` are the stack-level source of
 truth. Compose derives Server's `DATABASE_*` values and Downloader's `DB_URL` from
@@ -171,6 +173,51 @@ current internal endpoint variable, `SUBTITLE_SERVICE_URL`, or keep
 `typetype-token` as a network alias. See
 [Custom Token service names](./security#custom-token-service-names).
 
+## YouTube request limits {#youtube-request-limits}
+
+An instance reaches YouTube through one address, and YouTube refuses an address that
+asks too much: opened videos start failing with "Sign in to confirm you're not a
+bot", for more than ten minutes. Search, channel pages and video pages tolerate far
+more than opening videos does.
+
+Server reads these values from its own environment. The supported Compose file does
+not pass them: set them with a Compose override on `typetype-server`.
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `YOUTUBE_OPENS_PER_MINUTE` | `0` (no limit) | Videos the whole instance opens at YouTube in a minute. Over it, each video waits its turn, 30 seconds at most. A video nobody is waiting to watch never queues: it goes now or not at all. |
+| `YOUTUBE_SESSION_RENEWAL` | on | After three videos refused within a minute, Server asks Token for a new session, once, then waits two minutes. `off` disables it. |
+| `YOUTUBE_LIVE_PROBE` | live client first | `after` asks the usual client first and the live client only for what it says is live. Use it on a busy instance: the live client handles one video at a time. |
+| `STREAM_PREVIEWS` | on | `off` refuses every video asked before anyone watches it, such as a card being hovered. |
+| `SABR_INITIALIZATION_RANGE` | on | `off` skips a request that YouTube refuses on every play for some addresses. |
+| `EXTRACTOR_SIMULTANEOUS_REQUESTS_PER_HOST` | `64` | Requests the extractor may have on their way to one host at once |
+| `EXTRACTOR_HTTP_VERSION` | HTTP/2 | `1` uses one request per connection. Use it if Server stops answering under a crowd while its processor is idle. |
+| `SUBSCRIPTION_FEED_MAX_CONCURRENT_FETCHES` | `20` | Channel pages asked at once when a subscription feed is built; can only be lowered |
+| `SUBSCRIPTION_FEED_FRESHNESS_SECONDS` | `60` | How old a subscription feed may be before reading it starts a refresh; can only be raised, up to one day |
+| `YOUTUBE_REQUEST_LOG` | off | `1` writes one log line per request sent to YouTube. For diagnosis only. |
+
+```yaml
+services:
+  typetype-server:
+    environment:
+      YOUTUBE_OPENS_PER_MINUTE: "120"
+      YOUTUBE_LIVE_PROBE: after
+```
+
+Save it as `docker-compose.override.yml` in the stack directory, then recreate Server:
+
+```sh
+docker compose up -d --force-recreate typetype-server
+```
+
+Server never asks YouTube for the text of a subtitle track on its own; that address
+is the one YouTube guards most closely.
+
+## Recommender {#recommender}
+
+The optional recommender has its own page, with its requirements and every setting:
+[Recommender](./recommender).
+
 ## YouTube secrets {#secrets-handled-automatically}
 
 | Variable | Purpose |
@@ -206,6 +253,7 @@ Leave these empty to follow the normal stable or beta image tags:
 | `TYPETYPE_SERVER_IMAGE` | `TYPETYPE_SERVER_BETA_IMAGE` |
 | `TYPETYPE_DOWNLOADER_IMAGE` | `TYPETYPE_DOWNLOADER_BETA_IMAGE` |
 | `TYPETYPE_TOKEN_IMAGE` | `TYPETYPE_TOKEN_BETA_IMAGE` |
+| `TYPETYPE_RECOMMENDER_IMAGE` | `TYPETYPE_RECOMMENDER_IMAGE` |
 
 Set them to immutable `ghcr.io/...@sha256:...` references for a rollback or a pinned
 deployment. See [Roll back an update](./rollback).
