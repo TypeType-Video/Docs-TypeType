@@ -6,7 +6,7 @@ ihn über HTTPS unter Ihrer eigenen Domain aus. Sie geben immer nur den
 intern bereits an den Server weiter, einschließlich WebSocket-Upgrades, SABR-Medien,
 Downloads und großer Uploads.
 
-## Bevor Sie beginnen
+## Bevor Sie beginnen {#before-you-start}
 
 1. Richten Sie einen DNS-Eintrag (zum Beispiel `watch.example.com`) auf Ihren Server.
 2. Fügen Sie diesen Origin zu `ALLOWED_ORIGINS` in `.env` hinzu und wenden Sie die
@@ -21,7 +21,7 @@ Downloads und großer Uploads.
    docker compose up -d
    ```
 
-## Option A - Caddy (empfohlen)
+## Option A - Caddy (empfohlen) {#option-a---caddy-recommended}
 
 Caddy bezieht und erneuert TLS-Zertifikate automatisch. Ein `Caddyfile` mit drei
 Zeilen genügt:
@@ -35,7 +35,7 @@ watch.example.com {
 Caddy leitet WebSockets und die richtigen Header von Haus aus weiter. Mehr brauchen
 Sie nicht.
 
-## Option B - nginx
+## Option B - nginx {#option-b---nginx}
 
 ```nginx
 map $http_upgrade $connection_upgrade {
@@ -74,7 +74,7 @@ setzen, funktionieren Teile der App nicht mehr. Die obigen Einstellungen entspre
 dem, was der mitgelieferte Web-Container erwartet.
 :::
 
-## Option C - Traefik
+## Option C - Traefik {#option-c---traefik}
 
 Diese Beispiele setzen eine bestehende Traefik-Installation voraus, mit einem
 Einstiegspunkt `websecure`, der auf Port 443 lauscht, und einem in der statischen
@@ -140,7 +140,7 @@ Der Web-Container liefert unverschlüsseltes HTTP auf Port 80; Traefik terminier
 HTTPS. Schalten Sie in Traefik den Docker- oder den Datei-Provider ein, je nach
 gewähltem Beispiel.
 
-## Remote-Anmeldung und WebSockets
+## Remote-Anmeldung und WebSockets {#remote-login-and-websockets}
 
 Die interaktive YouTube-Anmeldung beginnt mit einer normalen HTTP-Anfrage und öffnet
 dann einen WebSocket unter `/api/youtube-session/browser/...`. Sowohl der externe
@@ -169,7 +169,7 @@ Dank an [arcoast](https://github.com/arcoast), dessen manuelle Installation in
 [Diskussion #122](https://github.com/TypeType-Video/TypeType/discussions/122) eine
 veraltete nginx-Datei als die fehlende WebSocket-Grenze erkannt hat.
 
-## Downloads hinter einer Domain
+## Downloads hinter einer Domain {#downloads-behind-a-domain}
 
 Der unterstützte Stack liefert Artefakte über `/api/downloader/...` aus. Server folgt
 der internen Umleitung von Garage und streamt das Ergebnis, eine normale Installation

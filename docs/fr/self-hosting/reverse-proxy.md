@@ -6,7 +6,7 @@ HTTPS sur votre propre domaine. Vous n'exposez jamais que le conteneur **web**
 interne, y compris les passages en WebSocket, les médias SABR, les téléchargements et
 les gros envois.
 
-## Avant de commencer
+## Avant de commencer {#before-you-start}
 
 1. Faites pointer un enregistrement DNS (par exemple `watch.example.com`) vers votre
    serveur.
@@ -21,7 +21,7 @@ les gros envois.
    docker compose up -d
    ```
 
-## Option A - Caddy (recommandé)
+## Option A - Caddy (recommandé) {#option-a---caddy-recommended}
 
 Caddy obtient et renouvelle les certificats TLS automatiquement. Un `Caddyfile` de
 trois lignes suffit :
@@ -35,7 +35,7 @@ watch.example.com {
 Caddy transmet d'emblée les WebSockets et les bons en-têtes. C'est tout ce qu'il vous
 faut.
 
-## Option B - nginx
+## Option B - nginx {#option-b---nginx}
 
 ```nginx
 map $http_upgrade $connection_upgrade {
@@ -73,7 +73,7 @@ petit, des parties de l'application cassent. Les réglages ci-dessus corresponde
 qu'attend le conteneur web fourni.
 :::
 
-## Option C - Traefik
+## Option C - Traefik {#option-c---traefik}
 
 Ces exemples supposent une installation Traefik existante, avec un point d'entrée
 `websecure` à l'écoute sur le port 443 et un
@@ -137,7 +137,7 @@ Le conteneur web sert du HTTP simple sur le port 80 ; Traefik termine le HTTPS.
 Activez le fournisseur Docker ou le fournisseur de fichiers dans Traefik selon
 l'exemple que vous choisissez.
 
-## Connexion distante et WebSockets
+## Connexion distante et WebSockets {#remote-login-and-websockets}
 
 La connexion interactive à YouTube commence par une requête HTTP normale, puis ouvre
 un WebSocket sous `/api/youtube-session/browser/...`. Le proxy inverse externe comme
@@ -165,7 +165,7 @@ Merci à [arcoast](https://github.com/arcoast), dont le déploiement manuel dans
 [discussion #122](https://github.com/TypeType-Video/TypeType/discussions/122) a montré
 qu'un fichier nginx périmé était la limite WebSocket manquante.
 
-## Téléchargements derrière un domaine
+## Téléchargements derrière un domaine {#downloads-behind-a-domain}
 
 La stack prise en charge sert les artefacts par `/api/downloader/...`. Server suit la
 redirection interne de Garage et diffuse le résultat : un déploiement normal n'a donc

@@ -2,7 +2,7 @@
 
 真正部署时，你要在整套部署前面放一个反向代理，并在自己的域名上通过 HTTPS 提供服务。你始终只需要暴露**网页**容器（`HOST_PORT_WEB`，默认 `8082`）；它已经在内部把 `/api/` 代理给服务器，包括 WebSocket 升级、SABR 媒体、下载和大文件上传。
 
-## 开始之前
+## 开始之前 {#before-you-start}
 
 1. 把一条 DNS 记录（例如 `watch.example.com`）指向你的服务器。
 2. 把这个源加入 `.env` 中的 `ALLOWED_ORIGINS`，然后重新应用：
@@ -16,7 +16,7 @@
    docker compose up -d
    ```
 
-## 方案 A - Caddy（推荐）
+## 方案 A - Caddy（推荐） {#option-a---caddy-recommended}
 
 Caddy 会自动获取并续期 TLS 证书。三行的 `Caddyfile` 就够了：
 
@@ -28,7 +28,7 @@ watch.example.com {
 
 Caddy 开箱即用地转发 WebSocket 和正确的请求头。这就是你需要的全部。
 
-## 方案 B - nginx
+## 方案 B - nginx {#option-b---nginx}
 
 ```nginx
 map $http_upgrade $connection_upgrade {
@@ -63,7 +63,7 @@ server {
 应用使用 WebSocket，并且会接收大文件上传（Takeout 导入）。如果去掉 `Upgrade`/`Connection` 请求头，或者把 `client_max_body_size` 设得很小，应用的部分功能就会出问题。上面的设置与自带的网页容器所期望的一致。
 :::
 
-## 方案 C - Traefik
+## 方案 C - Traefik {#option-c---traefik}
 
 这些示例假定你已经有一套 Traefik，其中有一个监听 443 端口的 `websecure` 入口点，并且在 Traefik 的静态配置中配置了 [ACME 证书解析器](https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/acme/)。请把 `YOUR_CERT_RESOLVER` 换成该解析器的名称，把 `watch.example.com` 换成你的域名。Traefik 用这个解析器获取并续期 TLS 证书；下面的片段不会创建它。
 
@@ -114,7 +114,7 @@ http:
 
 网页容器在 80 端口提供明文 HTTP；HTTPS 由 Traefik 终止。请根据你选择的示例，在 Traefik 中启用 Docker 提供者或文件提供者。
 
-## 远程登录与 WebSocket
+## 远程登录与 WebSocket {#remote-login-and-websockets}
 
 交互式的 YouTube 登录先发起一个普通的 HTTP 请求，然后在 `/api/youtube-session/browser/...` 下打开一个 WebSocket。外部的反向代理和自带的 nginx 配置都必须保留这次升级。
 
@@ -131,7 +131,7 @@ GET  /api/youtube-session/browser/<session-id> -> 404
 
 感谢 [arcoast](https://github.com/arcoast)，他在[讨论 #122](https://github.com/TypeType-Video/TypeType/discussions/122) 中的手动部署发现，一份过时的 nginx 文件正是缺失的 WebSocket 环节。
 
-## 域名之后的下载
+## 域名之后的下载 {#downloads-behind-a-domain}
 
 受支持的部署通过 `/api/downloader/...` 提供下载文件。Server 会跟随 Garage 的内部重定向并把结果传输出去，所以正常的部署不需要为 Garage 准备第二个公开的主机名。
 

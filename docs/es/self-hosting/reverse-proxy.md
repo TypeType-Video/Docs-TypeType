@@ -5,7 +5,7 @@ en tu propio dominio. Solo expones el contenedor **web** (`HOST_PORT_WEB`, `8082
 defecto); este ya redirige `/api/` al servidor internamente, incluidas las
 actualizaciones a WebSocket, los medios SABR, las descargas y las subidas grandes.
 
-## Antes de empezar
+## Antes de empezar {#before-you-start}
 
 1. Apunta un registro DNS (por ejemplo `watch.example.com`) a tu servidor.
 2. Añade ese origen a `ALLOWED_ORIGINS` en `.env` y vuelve a aplicar:
@@ -19,7 +19,7 @@ actualizaciones a WebSocket, los medios SABR, las descargas y las subidas grande
    docker compose up -d
    ```
 
-## Opción A - Caddy (recomendado)
+## Opción A - Caddy (recomendado) {#option-a---caddy-recommended}
 
 Caddy obtiene y renueva los certificados TLS automáticamente. Basta un `Caddyfile` de
 tres líneas:
@@ -33,7 +33,7 @@ watch.example.com {
 Caddy reenvía los WebSockets y las cabeceras correctas sin más configuración. Eso es
 todo lo que necesitas.
 
-## Opción B - nginx
+## Opción B - nginx {#option-b---nginx}
 
 ```nginx
 map $http_upgrade $connection_upgrade {
@@ -71,7 +71,7 @@ partes de la aplicación dejan de funcionar. Los ajustes anteriores coinciden co
 que espera el contenedor web incluido.
 :::
 
-## Opción C - Traefik
+## Opción C - Traefik {#option-c---traefik}
 
 Estos ejemplos suponen una instalación de Traefik existente, con un punto de entrada
 `websecure` escuchando en el puerto 443 y un
@@ -134,7 +134,7 @@ http:
 El contenedor web sirve HTTP sin cifrar en el puerto 80; Traefik termina el HTTPS.
 Activa en Traefik el proveedor Docker o el de archivos según el ejemplo que elijas.
 
-## Inicio de sesión remoto y WebSockets
+## Inicio de sesión remoto y WebSockets {#remote-login-and-websockets}
 
 El inicio de sesión interactivo en YouTube empieza con una petición HTTP normal y
 después abre un WebSocket bajo `/api/youtube-session/browser/...`. Tanto el proxy
@@ -162,7 +162,7 @@ Gracias a [arcoast](https://github.com/arcoast), cuyo despliegue manual en la
 [discusión #122](https://github.com/TypeType-Video/TypeType/discussions/122)
 identificó un archivo nginx obsoleto como el límite de WebSocket que faltaba.
 
-## Descargas detrás de un dominio
+## Descargas detrás de un dominio {#downloads-behind-a-domain}
 
 La pila compatible sirve los artefactos por `/api/downloader/...`. Server sigue la
 redirección interna de Garage y transmite el resultado, así que un despliegue normal
