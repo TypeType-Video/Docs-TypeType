@@ -39,6 +39,13 @@ What changes on your stack when you add it:
 Your existing data is not migrated or rewritten. Take a database backup first all the
 same, as before any change to the stack: see [Maintenance](./maintenance#backups).
 
+The commands of this page use `$STACK_DIR` for the directory your stack lives in. Set
+it once in your terminal; `~/typetype-stack` is only the installer's default:
+
+```sh
+STACK_DIR=~/typetype-stack
+```
+
 Pick one of the three ways below.
 
 ## A. New instance, with the installer {#install-new}
@@ -63,7 +70,7 @@ Pick one of the three ways below.
    ```text
    [install] Recommender (experimental) added to the stack.
    [install] Validating the resolved Compose stack...
-   Proceed with Docker pull + startup in /home/you/typetype-stack? [y/N]:
+   Proceed with Docker pull + startup in <your stack directory>? [y/N]:
    ```
 
    Answer `y`.
@@ -83,13 +90,12 @@ offered on the instance.
 
 ## B. Existing instance, with the installer {#install-existing}
 
-Run the same command as in A, from any directory. The installer finds your stack in
-`~/typetype-stack` (or pass `--dir` as you did the first time), backs up the managed
+Run the installer again with the directory of your stack. It backs up the managed
 files, keeps your `.env` and your `docker-compose.override.yml`, and adds the
 recommender.
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --recommender
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --recommender --dir "$STACK_DIR"
 ```
 
 Expect the instance to be unavailable for a few seconds while PostgreSQL and Server
@@ -102,7 +108,7 @@ Use this if you manage the stack yourself, for example with Dockge.
 1. Go to the stack directory and make sure the overlay is there:
 
    ```sh
-   cd ~/typetype-stack
+   cd "$STACK_DIR"
    ls docker-compose.recommender.yml
    ```
 
@@ -161,7 +167,7 @@ way you installed: `docker compose` alone only knows the services of
 two.
 
 ```sh
-cd ~/typetype-stack
+cd "$STACK_DIR"
 ```
 
 1. The container is healthy:
@@ -373,12 +379,13 @@ With the installer, update as usual. It keeps the recommender because `.env` hol
 `RECOMMENDER_ENABLED=true`:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --yes --dir "$STACK_DIR"
 ```
 
 By hand, pull and recreate with both files:
 
 ```sh
+cd "$STACK_DIR"
 docker compose -f docker-compose.yml -f docker-compose.recommender.yml pull
 docker compose -f docker-compose.yml -f docker-compose.recommender.yml up -d --wait --wait-timeout 900
 ```
@@ -395,6 +402,7 @@ answers.
 2. Recreate the stack without the overlay:
 
    ```sh
+   cd "$STACK_DIR"
    docker compose -f docker-compose.yml up -d --remove-orphans --wait
    ```
 
@@ -426,6 +434,7 @@ docker compose exec -T postgres sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB
 Read the log of the service first:
 
 ```sh
+cd "$STACK_DIR"
 docker compose -f docker-compose.yml -f docker-compose.recommender.yml logs --tail 100 typetype-recommender
 ```
 
