@@ -40,7 +40,9 @@ Your existing data is not migrated or rewritten. Take a database backup first al
 same, as before any change to the stack: see [Maintenance](./maintenance#backups).
 
 The commands of this page use `$STACK_DIR` for the directory your stack lives in. Set
-it once in your terminal; `~/typetype-stack` is only the installer's default:
+it once in your terminal. `~/typetype-stack` is only the installer's default: use the
+directory you chose, whichever it is. See
+[Choose the directory](./quick-start#stack-directory).
 
 ```sh
 STACK_DIR=~/typetype-stack

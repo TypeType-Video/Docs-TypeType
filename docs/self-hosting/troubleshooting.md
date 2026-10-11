@@ -185,10 +185,13 @@ docker compose up -d
 Installer-managed stack:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --yes
-cd ~/typetype-stack
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --yes --dir "$STACK_DIR"
+cd "$STACK_DIR"
 docker compose ps
 ```
+
+`$STACK_DIR` is your stack directory, `~/typetype-stack` unless you chose another
+one: see [Choose the directory](./quick-start#stack-directory).
 
 Script-free stack, after replacing the managed Compose file and scripts with the
 current release while keeping `.env` and any custom override:
