@@ -5,7 +5,7 @@ session et le contrat public des médias, Token fournit le matériel de session 
 à YouTube, et Player possède la chaîne MSE du navigateur. Downloader réutilise le
 contrat de Server quand un utilisateur demande un fichier hors ligne.
 
-## Chemin de la lecture YouTube
+## Chemin de la lecture YouTube {#youtube-playback-path}
 
 ```mermaid
 sequenceDiagram
@@ -34,16 +34,16 @@ session amont avec état, le choix des formats, la position de lecture, les segm
 cache et la génération de reprise. Player ne demande que des chemins de manifeste et
 de médias qui appartiennent à TypeType.
 
-## Responsabilité par couche
+## Responsabilité par couche {#responsibility-by-layer}
 
-### Frontend
+### Frontend {#frontend}
 
 Frontend décide de ce que la personne a demandé : qualité, codec, piste audio,
 sous-titres, mode audio seul, position, lecture automatique et disposition du lecteur.
 Il crée et détruit le moteur de Player et convertit les événements du moteur en état
 visible.
 
-### Server
+### Server {#server}
 
 Server expose le contrat de session de lecture sous `/sabr/playback/...`. Il choisit
 les formats, crée un jeton de session isolé, précharge les données d'initialisation et
@@ -56,7 +56,7 @@ un état de lecture de remplacement à la position demandée. Ce chemin de rempl
 existe, mais [l'issue #163](https://github.com/TypeType-Video/TypeType/issues/163) suit un échec actuel où la lecture en direct se
 fige après un changement de qualité ou de codec.
 
-### Token
+### Token {#token}
 
 Token crée le matériel côté YouTube nécessaire avant que Server puisse construire une
 session : données de visiteur, jetons PO, décodage de l'URL du lecteur, métadonnées
@@ -68,7 +68,7 @@ Token est nécessaire à la lecture YouTube actuelle même quand la connexion di
 YouTube est désactivée. Le réglage optionnel ne commande que le parcours de connexion
 interactive, pas le service de jetons et de décodage lui-même.
 
-### Player
+### Player {#player}
 
 `@typetype/mse` charge le manifeste TypeType, les données d'initialisation et les
 fenêtres de segments. Il possède les opérations sur MediaSource et SourceBuffer,
@@ -79,7 +79,7 @@ bord du direct et la reprise après des requêtes périmées ou interrompues.
 Le paquet ne contient volontairement ni commandes ni état d'application. Cette limite
 permet de tester le comportement de lecture sans l'interface React.
 
-## Autres services de médias
+## Autres services de médias {#other-media-services}
 
 Server enveloppe aussi PipePipeExtractor pour les services pris en charge autres que
 YouTube. Selon la réponse extraite, Frontend peut utiliser un média direct, DASH, HLS
@@ -87,7 +87,7 @@ ou un proxy TypeType. L'extraction propre à chaque fournisseur reste dans Serve
 contrat de session SABR TypeType de Player est spécifiquement la chaîne du navigateur
 pour la lecture TypeType avec état.
 
-## Chemin d'un téléchargement
+## Chemin d'un téléchargement {#download-path}
 
 ```mermaid
 sequenceDiagram
@@ -120,7 +120,7 @@ Dans la stack fournie, Downloader crée une URL Garage interne. Server reconnaî
 déploiement normal n'a donc pas besoin d'exposer Garage ni de définir un point d'accès
 S3 tourné vers le navigateur.
 
-## Diagnostiquer une version déployée
+## Diagnostiquer une version déployée {#diagnosing-a-deployed-version}
 
 Le nginx intégré expose la révision de chaque image d'application :
 
@@ -136,7 +136,7 @@ Joignez ces cinq réponses quand un signalement de lecture ou de téléchargemen
 dépendre d'un changement récent d'un composant. Dites aussi si l'instance suit
 [main ou beta](/fr/self-hosting/beta-and-main).
 
-## Signalements qui ont nourri cette page
+## Signalements qui ont nourri cette page {#reports-that-informed-this-page}
 
 La séparation actuelle entre la lecture, Token et les limites des conteneurs a été
 clarifiée par [l'étude du déploiement de Token par hugoghx](https://github.com/TypeType-Video/TypeType/discussions/156). Des signalements
@@ -145,7 +145,7 @@ sur les directs comme [l'issue #145](https://github.com/TypeType-Video/TypeType/
 être explicites ici. Voir [Sources de la communauté](./community) pour l'ensemble des
 remerciements.
 
-## Références
+## Références {#source-references}
 
 - [Routes SABR de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/routes/SabrRoutes.kt)
 - [Stockage des sessions de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/SabrSessionStore.kt)

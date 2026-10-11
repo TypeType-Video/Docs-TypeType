@@ -6,7 +6,7 @@ sesión específico de YouTube, y Player es dueño de la cadena MSE del navegado
 Downloader reutiliza el contrato de Server cuando un usuario pide un archivo sin
 conexión.
 
-## Recorrido de la reproducción de YouTube
+## Recorrido de la reproducción de YouTube {#youtube-playback-path}
 
 ```mermaid
 sequenceDiagram
@@ -35,15 +35,15 @@ sesión de origen con estado, la selección de formatos, la posición de reprodu
 los segmentos en caché y la generación de recuperación. Player solo pide rutas de
 manifiesto y de medios propias de TypeType.
 
-## Responsabilidad por capa
+## Responsabilidad por capa {#responsibility-by-layer}
 
-### Frontend
+### Frontend {#frontend}
 
 Frontend decide lo que pidió la persona: calidad, códec, pista de audio, subtítulos,
 modo solo audio, posición, reproducción automática y disposición del reproductor. Crea
 y destruye el motor de Player y convierte los eventos del motor en estado visible.
 
-### Server
+### Server {#server}
 
 Server expone el contrato de sesión de reproducción bajo `/sabr/playback/...`.
 Selecciona formatos, crea un token de sesión aislado, precarga los datos de
@@ -56,7 +56,7 @@ un estado de reproducción de sustitución en la posición pedida. La ruta de su
 existe, pero la [incidencia #163](https://github.com/TypeType-Video/TypeType/issues/163) sigue un fallo actual en el que la
 reproducción en directo se congela tras un cambio de calidad o de códec.
 
-### Token
+### Token {#token}
 
 Token crea el material del lado de YouTube necesario antes de que Server pueda
 construir una sesión: datos de visitante, tokens PO, decodificación de la URL del
@@ -68,7 +68,7 @@ Token es necesario para la reproducción actual de YouTube incluso cuando el ini
 sesión remoto en YouTube está desactivado. El ajuste opcional controla solo el flujo
 de inicio de sesión interactivo, no el propio servicio de tokens y decodificación.
 
-### Player
+### Player {#player}
 
 `@typetype/mse` carga el manifiesto de TypeType, los datos de inicialización y las
 ventanas de segmentos. Es dueño de las operaciones de MediaSource y SourceBuffer, la
@@ -80,7 +80,7 @@ interrumpidas.
 El paquete no contiene deliberadamente controles ni estado de aplicación. Ese límite
 permite probar el comportamiento de la reproducción sin la interfaz de React.
 
-## Otros servicios de medios
+## Otros servicios de medios {#other-media-services}
 
 Server también envuelve PipePipeExtractor para los servicios compatibles distintos de
 YouTube. Según la respuesta extraída, Frontend puede usar medios directos, DASH, HLS o
@@ -88,7 +88,7 @@ un proxy de TypeType. La extracción específica de cada proveedor se queda en S
 el contrato de sesión SABR de TypeType de Player es específicamente la cadena del
 navegador para la reproducción de TypeType con estado.
 
-## Recorrido de una descarga
+## Recorrido de una descarga {#download-path}
 
 ```mermaid
 sequenceDiagram
@@ -121,7 +121,7 @@ host `garage` y entrega el artefacto en lugar de enviar ese nombre de host priva
 navegador. Por tanto, un despliegue normal no necesita exponer Garage ni definir un
 punto de acceso S3 de cara al navegador.
 
-## Diagnosticar una versión desplegada
+## Diagnosticar una versión desplegada {#diagnosing-a-deployed-version}
 
 El nginx incluido expone la revisión de cada imagen de aplicación:
 
@@ -137,7 +137,7 @@ Incluye estas cinco respuestas cuando un informe de reproducción o de descarga 
 depender de un cambio reciente en un componente. Indica también si la instancia sigue
 [main o beta](/es/self-hosting/beta-and-main).
 
-## Informes que dieron forma a esta página
+## Informes que dieron forma a esta página {#reports-that-informed-this-page}
 
 La separación actual entre la reproducción, Token y los límites de los contenedores
 quedó más clara gracias a la
@@ -147,7 +147,7 @@ identificar los conceptos de sesión en directo y cambio de calidad que deben qu
 explícitos aquí. Consulta [Fuentes de la comunidad](./community) para ver todos los
 agradecimientos.
 
-## Referencias
+## Referencias {#source-references}
 
 - [Rutas SABR de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/routes/SabrRoutes.kt)
 - [Almacén de sesiones de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/SabrSessionStore.kt)

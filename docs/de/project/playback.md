@@ -6,7 +6,7 @@ das YouTube-spezifische Sitzungsmaterial, und Player ist für die MSE-Kette im B
 zuständig. Der Downloader verwendet den Vertrag von Server wieder, wenn ein Nutzer
 eine Datei für die Offline-Nutzung anfordert.
 
-## Weg der YouTube-Wiedergabe
+## Weg der YouTube-Wiedergabe {#youtube-playback-path}
 
 ```mermaid
 sequenceDiagram
@@ -36,16 +36,16 @@ Wiedergabeposition, zwischengespeicherte Segmente und die Generation für die
 Wiederaufnahme. Player fordert nur Manifest- und Medienpfade an, die zu TypeType
 gehören.
 
-## Zuständigkeit je Schicht
+## Zuständigkeit je Schicht {#responsibility-by-layer}
 
-### Frontend
+### Frontend {#frontend}
 
 Frontend entscheidet, was die Person verlangt hat: Qualität, Codec, Tonspur,
 Untertitel, Nur-Audio-Modus, Position, automatische Wiedergabe und Anordnung des
 Players. Es erzeugt und zerstört die Player-Engine und wandelt deren Ereignisse in
 sichtbaren Zustand um.
 
-### Server
+### Server {#server}
 
 Server stellt den Vertrag der Wiedergabesitzung unter `/sabr/playback/...` bereit. Er
 wählt Formate aus, erzeugt ein isoliertes Sitzungstoken, lädt Initialisierungs- und
@@ -58,7 +58,7 @@ einen Ersatzzustand der Wiedergabe an der angeforderten Position. Dieser Ersatzw
 existiert, aber [Issue #163](https://github.com/TypeType-Video/TypeType/issues/163) verfolgt einen aktuellen Fehler, bei dem die
 Live-Wiedergabe nach einem Wechsel von Qualität oder Codec einfriert.
 
-### Token
+### Token {#token}
 
 Token erzeugt das Material auf YouTube-Seite, das nötig ist, bevor Server eine Sitzung
 aufbauen kann: Besucherdaten, PO-Token, Dekodierung der Player-URL, Metadaten der
@@ -70,7 +70,7 @@ Token ist für die aktuelle YouTube-Wiedergabe erforderlich, auch wenn die
 Remote-Anmeldung bei YouTube abgeschaltet ist. Die optionale Einstellung steuert nur
 den interaktiven Anmeldeablauf, nicht den Token- und Decoder-Dienst selbst.
 
-### Player
+### Player {#player}
 
 `@typetype/mse` lädt das TypeType-Manifest, die Initialisierungsdaten und die
 Segmentfenster. Es ist zuständig für die Operationen auf MediaSource und SourceBuffer,
@@ -81,7 +81,7 @@ Erholung von veralteten oder unterbrochenen Anfragen.
 Das Paket enthält bewusst keine Bedienelemente und keinen Anwendungszustand. Diese
 Grenze erlaubt es, das Wiedergabeverhalten ohne die React-Oberfläche zu testen.
 
-## Andere Mediendienste
+## Andere Mediendienste {#other-media-services}
 
 Server kapselt außerdem PipePipeExtractor für unterstützte Dienste außer YouTube. Je
 nach extrahierter Antwort kann Frontend direkte Medien, DASH, HLS oder einen
@@ -89,7 +89,7 @@ TypeType-Proxy verwenden. Die anbieterspezifische Extraktion bleibt in Server; d
 SABR-Sitzungsvertrag von TypeType in Player ist gezielt die Browser-Kette für die
 zustandsbehaftete TypeType-Wiedergabe.
 
-## Weg eines Downloads
+## Weg eines Downloads {#download-path}
 
 ```mermaid
 sequenceDiagram
@@ -122,7 +122,7 @@ den Host `garage` und reicht das Artefakt weiter, statt diesen privaten Hostname
 den Browser zu schicken. Eine normale Installation muss Garage daher nicht freigeben
 und keinen S3-Endpunkt für den Browser setzen.
 
-## Eine bereitgestellte Version untersuchen
+## Eine bereitgestellte Version untersuchen {#diagnosing-a-deployed-version}
 
 Der mitgelieferte nginx gibt die Revision jedes Anwendungs-Images aus:
 
@@ -138,7 +138,7 @@ Fügen Sie diese fünf Antworten bei, wenn ein Bericht zu Wiedergabe oder Downlo
 einer kürzlichen Änderung an einer Komponente abhängen kann. Geben Sie auch an, ob die
 Instanz [main oder beta](/de/self-hosting/beta-and-main) folgt.
 
-## Berichte, die in diese Seite eingeflossen sind
+## Berichte, die in diese Seite eingeflossen sind {#reports-that-informed-this-page}
 
 Die heutige Trennung zwischen Wiedergabe, Token und den Container-Grenzen wurde durch
 [hugoghx’ Untersuchung der Token-Bereitstellung](https://github.com/TypeType-Video/TypeType/discussions/156) klarer. Berichte zu
@@ -147,7 +147,7 @@ die Begriffe Live-Sitzung und Qualitätswechsel zu erkennen, die hier ausdrückl
 genannt werden müssen. Alle Danksagungen stehen unter
 [Quellen aus der Community](./community).
 
-## Quellen
+## Quellen {#source-references}
 
 - [SABR-Routen von Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/routes/SabrRoutes.kt)
 - [Sitzungsspeicher von Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/SabrSessionStore.kt)
