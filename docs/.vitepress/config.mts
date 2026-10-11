@@ -40,6 +40,10 @@ export default defineConfig({
                                     text: "Sessions de compte",
                                     link: "/fr/self-hosting/authentication",
                                 },
+                                {
+                                    text: "Recommandations (expérimental)",
+                                    link: "/fr/self-hosting/recommender",
+                                },
                             ],
                         },
                     ],
@@ -54,6 +58,7 @@ export default defineConfig({
                                 { text: "Trouver du contenu", link: "/fr/guide/finding-content" },
                                 { text: "Connexion", link: "/fr/guide/accounts" },
                                 { text: "Paramètres", link: "/fr/guide/settings" },
+                                { text: "Choisir son algorithme", link: "/fr/guide/algorithm" },
                                 {
                                     text: "Discord Rich Presence",
                                     link: "/fr/guide/discord-rich-presence",
@@ -122,6 +127,10 @@ export default defineConfig({
                                     text: "Sesiones de cuenta",
                                     link: "/es/self-hosting/authentication",
                                 },
+                                {
+                                    text: "Recomendaciones (experimental)",
+                                    link: "/es/self-hosting/recommender",
+                                },
                             ],
                         },
                     ],
@@ -136,6 +145,7 @@ export default defineConfig({
                                 { text: "Buscar contenido", link: "/es/guide/finding-content" },
                                 { text: "Inicio de sesión", link: "/es/guide/accounts" },
                                 { text: "Configuración", link: "/es/guide/settings" },
+                                { text: "Elegir tu algoritmo", link: "/es/guide/algorithm" },
                                 {
                                     text: "Discord Rich Presence",
                                     link: "/es/guide/discord-rich-presence",
