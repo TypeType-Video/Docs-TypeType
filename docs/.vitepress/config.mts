@@ -22,24 +22,47 @@ export default defineConfig({
             themeConfig: {
                 nav: [
                     { text: "Accueil", link: "/fr/" },
-                    { text: "Prérequis", link: "/fr/self-hosting/prerequisites" },
-                    { text: "Sessions", link: "/fr/self-hosting/authentication" },
+                    { text: "Auto-hébergement", link: "/fr/self-hosting/introduction" },
                     { text: "Guide utilisateur", link: "/fr/guide/" },
+                    { text: "Projet", link: "/fr/project/" },
                     { text: "Code source", link: "https://github.com/TypeType-Video/TypeType" },
                 ],
                 sidebar: {
                     "/fr/self-hosting/": [
                         {
-                            text: "Auto-hébergement",
+                            text: "Vue d'ensemble",
                             items: [
-                                {
-                                    text: "Prérequis et ressources",
-                                    link: "/fr/self-hosting/prerequisites",
-                                },
-                                {
-                                    text: "Sessions de compte",
-                                    link: "/fr/self-hosting/authentication",
-                                },
+                                { text: "Introduction", link: "/fr/self-hosting/introduction" },
+                                { text: "Architecture", link: "/fr/self-hosting/architecture" },
+                                { text: "Limites de sécurité", link: "/fr/self-hosting/security" },
+                            ],
+                        },
+                        {
+                            text: "Installation",
+                            items: [
+                                { text: "Prérequis", link: "/fr/self-hosting/prerequisites" },
+                                { text: "Démarrage rapide", link: "/fr/self-hosting/quick-start" },
+                                { text: "Installation manuelle", link: "/fr/self-hosting/docker-compose" },
+                                { text: "Configuration", link: "/fr/self-hosting/configuration" },
+                                { text: "Authentification (OIDC)", link: "/fr/self-hosting/authentication" },
+                            ],
+                        },
+                        {
+                            text: "Après l'installation",
+                            items: [
+                                { text: "Importer vos données", link: "/fr/self-hosting/importing-data" },
+                                { text: "Service de recommandations (expérimental)", link: "/fr/self-hosting/recommender" },
+                            ],
+                        },
+                        {
+                            text: "Exploitation",
+                            items: [
+                                { text: "Proxy inverse et HTTPS", link: "/fr/self-hosting/reverse-proxy" },
+                                { text: "Maintenance", link: "/fr/self-hosting/maintenance" },
+                                { text: "Revenir en arrière après une mise à jour", link: "/fr/self-hosting/rollback" },
+                                { text: "Beta et main", link: "/fr/self-hosting/beta-and-main" },
+                                { text: "Signaler un problème", link: "/fr/self-hosting/reporting-issues" },
+                                { text: "Dépannage", link: "/fr/self-hosting/troubleshooting" },
                             ],
                         },
                     ],
@@ -54,11 +77,22 @@ export default defineConfig({
                                 { text: "Trouver du contenu", link: "/fr/guide/finding-content" },
                                 { text: "Connexion", link: "/fr/guide/accounts" },
                                 { text: "Paramètres", link: "/fr/guide/settings" },
-                                {
-                                    text: "Discord Rich Presence",
-                                    link: "/fr/guide/discord-rich-presence",
-                                },
+                                { text: "Choisir son algorithme", link: "/fr/guide/algorithm" },
+                                { text: "Discord Rich Presence", link: "/fr/guide/discord-rich-presence" },
                                 { text: "Confidentialité et blocage", link: "/fr/guide/privacy" },
+                            ],
+                        },
+                    ],
+                    "/fr/project/": [
+                        {
+                            text: "Projet",
+                            items: [
+                                { text: "Vue d'ensemble du projet", link: "/fr/project/" },
+                                { text: "Guide des dépôts", link: "/fr/project/repositories" },
+                                { text: "Lecture et téléchargements", link: "/fr/project/playback" },
+                                { text: "Signals, le service de recommandations", link: "/fr/project/signals" },
+                                { text: "Branches et versions", link: "/fr/project/releases" },
+                                { text: "Sources de la communauté et remerciements", link: "/fr/project/community" },
                             ],
                         },
                     ],
@@ -95,6 +129,238 @@ export default defineConfig({
                 skipToContentLabel: "Aller au contenu",
             },
         },
+        de: {
+            label: "Deutsch",
+            lang: "de-DE",
+            link: "/de/",
+            title: "TypeType-Dokumentation",
+            description: "TypeType-Dokumentation für Nutzer und Selbsthoster.",
+            themeConfig: {
+                nav: [
+                    { text: "Start", link: "/de/" },
+                    { text: "Selbst hosten", link: "/de/self-hosting/introduction" },
+                    { text: "Benutzerhandbuch", link: "/de/guide/" },
+                    { text: "Projekt", link: "/de/project/" },
+                    { text: "Quellcode", link: "https://github.com/TypeType-Video/TypeType" },
+                ],
+                sidebar: {
+                    "/de/self-hosting/": [
+                        {
+                            text: "Überblick",
+                            items: [
+                                { text: "Einführung", link: "/de/self-hosting/introduction" },
+                                { text: "Architektur", link: "/de/self-hosting/architecture" },
+                                { text: "Sicherheitsgrenzen", link: "/de/self-hosting/security" },
+                            ],
+                        },
+                        {
+                            text: "Einrichtung",
+                            items: [
+                                { text: "Voraussetzungen", link: "/de/self-hosting/prerequisites" },
+                                { text: "Schnellstart", link: "/de/self-hosting/quick-start" },
+                                { text: "Manuelle Einrichtung", link: "/de/self-hosting/docker-compose" },
+                                { text: "Konfiguration", link: "/de/self-hosting/configuration" },
+                                { text: "Authentifizierung (OIDC)", link: "/de/self-hosting/authentication" },
+                            ],
+                        },
+                        {
+                            text: "Nach der Einrichtung",
+                            items: [
+                                { text: "Ihre Daten importieren", link: "/de/self-hosting/importing-data" },
+                                { text: "Empfehlungsdienst (experimentell)", link: "/de/self-hosting/recommender" },
+                            ],
+                        },
+                        {
+                            text: "Betrieb",
+                            items: [
+                                { text: "Reverse-Proxy und HTTPS", link: "/de/self-hosting/reverse-proxy" },
+                                { text: "Wartung", link: "/de/self-hosting/maintenance" },
+                                { text: "Eine Aktualisierung zurücknehmen", link: "/de/self-hosting/rollback" },
+                                { text: "Beta und main", link: "/de/self-hosting/beta-and-main" },
+                                { text: "Probleme melden", link: "/de/self-hosting/reporting-issues" },
+                                { text: "Fehlerbehebung", link: "/de/self-hosting/troubleshooting" },
+                            ],
+                        },
+                    ],
+                    "/de/guide/": [
+                        {
+                            text: "Benutzerhandbuch",
+                            items: [
+                                { text: "Überblick", link: "/de/guide/" },
+                                { text: "Ansehen und der Player", link: "/de/guide/watching" },
+                                { text: "Eingebetteter Player", link: "/de/guide/embedding" },
+                                { text: "Ihre Bibliothek", link: "/de/guide/library" },
+                                { text: "Inhalte finden", link: "/de/guide/finding-content" },
+                                { text: "Anmelden", link: "/de/guide/accounts" },
+                                { text: "Einstellungen", link: "/de/guide/settings" },
+                                { text: "Den eigenen Algorithmus wählen", link: "/de/guide/algorithm" },
+                                { text: "Discord Rich Presence", link: "/de/guide/discord-rich-presence" },
+                                { text: "Datenschutz und Blockieren", link: "/de/guide/privacy" },
+                            ],
+                        },
+                    ],
+                    "/de/project/": [
+                        {
+                            text: "Projekt",
+                            items: [
+                                { text: "Projektübersicht", link: "/de/project/" },
+                                { text: "Repository-Leitfaden", link: "/de/project/repositories" },
+                                { text: "Wiedergabe und Downloads", link: "/de/project/playback" },
+                                { text: "Signals, der Empfehlungsdienst", link: "/de/project/signals" },
+                                { text: "Branches und Versionen", link: "/de/project/releases" },
+                                { text: "Quellen aus der Community und Danksagungen", link: "/de/project/community" },
+                            ],
+                        },
+                    ],
+                },
+                search: {
+                    provider: "local",
+                    options: {
+                        translations: {
+                            button: {
+                                buttonText: "Suchen",
+                                buttonAriaLabel: "Suchen",
+                            },
+                            modal: {
+                                noResultsText: "Keine Ergebnisse gefunden",
+                                resetButtonTitle: "Suche zurücksetzen",
+                                backButtonTitle: "Suche schließen",
+                            },
+                        },
+                    },
+                },
+                outline: { label: "Auf dieser Seite" },
+                lastUpdated: { text: "Zuletzt aktualisiert" },
+                docFooter: { prev: "Vorherige Seite", next: "Nächste Seite" },
+                editLink: {
+                    pattern: "https://github.com/TypeType-Video/Docs-TypeType/edit/main/docs/:path",
+                    text: "Diese Seite auf GitHub bearbeiten",
+                },
+                darkModeSwitchLabel: "Erscheinungsbild",
+                lightModeSwitchTitle: "Zum hellen Design wechseln",
+                darkModeSwitchTitle: "Zum dunklen Design wechseln",
+                langMenuLabel: "Sprache wechseln",
+                sidebarMenuLabel: "Menü",
+                returnToTopLabel: "Nach oben",
+                skipToContentLabel: "Zum Inhalt springen",
+            },
+        },
+        zh: {
+            label: "简体中文",
+            lang: "zh-Hans-CN",
+            link: "/zh/",
+            title: "TypeType 文档",
+            description: "面向用户和自托管者的 TypeType 文档。",
+            themeConfig: {
+                nav: [
+                    { text: "首页", link: "/zh/" },
+                    { text: "自托管", link: "/zh/self-hosting/introduction" },
+                    { text: "用户指南", link: "/zh/guide/" },
+                    { text: "项目", link: "/zh/project/" },
+                    { text: "源代码", link: "https://github.com/TypeType-Video/TypeType" },
+                ],
+                sidebar: {
+                    "/zh/self-hosting/": [
+                        {
+                            text: "概览",
+                            items: [
+                                { text: "简介", link: "/zh/self-hosting/introduction" },
+                                { text: "架构", link: "/zh/self-hosting/architecture" },
+                                { text: "安全边界", link: "/zh/self-hosting/security" },
+                            ],
+                        },
+                        {
+                            text: "安装",
+                            items: [
+                                { text: "前提条件", link: "/zh/self-hosting/prerequisites" },
+                                { text: "快速开始", link: "/zh/self-hosting/quick-start" },
+                                { text: "手动安装", link: "/zh/self-hosting/docker-compose" },
+                                { text: "配置", link: "/zh/self-hosting/configuration" },
+                                { text: "身份验证（OIDC）", link: "/zh/self-hosting/authentication" },
+                            ],
+                        },
+                        {
+                            text: "安装之后",
+                            items: [
+                                { text: "导入你的数据", link: "/zh/self-hosting/importing-data" },
+                                { text: "推荐服务（实验性）", link: "/zh/self-hosting/recommender" },
+                            ],
+                        },
+                        {
+                            text: "运维",
+                            items: [
+                                { text: "反向代理与 HTTPS", link: "/zh/self-hosting/reverse-proxy" },
+                                { text: "维护", link: "/zh/self-hosting/maintenance" },
+                                { text: "回滚一次更新", link: "/zh/self-hosting/rollback" },
+                                { text: "Beta 与 main", link: "/zh/self-hosting/beta-and-main" },
+                                { text: "报告问题", link: "/zh/self-hosting/reporting-issues" },
+                                { text: "故障排查", link: "/zh/self-hosting/troubleshooting" },
+                            ],
+                        },
+                    ],
+                    "/zh/guide/": [
+                        {
+                            text: "用户指南",
+                            items: [
+                                { text: "概览", link: "/zh/guide/" },
+                                { text: "观看与播放器", link: "/zh/guide/watching" },
+                                { text: "嵌入式播放器", link: "/zh/guide/embedding" },
+                                { text: "你的媒体库", link: "/zh/guide/library" },
+                                { text: "查找内容", link: "/zh/guide/finding-content" },
+                                { text: "登录", link: "/zh/guide/accounts" },
+                                { text: "设置", link: "/zh/guide/settings" },
+                                { text: "选择你的算法", link: "/zh/guide/algorithm" },
+                                { text: "Discord Rich Presence", link: "/zh/guide/discord-rich-presence" },
+                                { text: "隐私与屏蔽", link: "/zh/guide/privacy" },
+                            ],
+                        },
+                    ],
+                    "/zh/project/": [
+                        {
+                            text: "项目",
+                            items: [
+                                { text: "项目概览", link: "/zh/project/" },
+                                { text: "仓库指南", link: "/zh/project/repositories" },
+                                { text: "播放与下载", link: "/zh/project/playback" },
+                                { text: "Signals，推荐服务", link: "/zh/project/signals" },
+                                { text: "分支与版本", link: "/zh/project/releases" },
+                                { text: "社区来源与致谢", link: "/zh/project/community" },
+                            ],
+                        },
+                    ],
+                },
+                search: {
+                    provider: "local",
+                    options: {
+                        translations: {
+                            button: {
+                                buttonText: "搜索",
+                                buttonAriaLabel: "搜索",
+                            },
+                            modal: {
+                                noResultsText: "没有找到结果",
+                                resetButtonTitle: "清除搜索",
+                                backButtonTitle: "关闭搜索",
+                            },
+                        },
+                    },
+                },
+                outline: { label: "本页内容" },
+                lastUpdated: { text: "最后更新" },
+                docFooter: { prev: "上一页", next: "下一页" },
+                editLink: {
+                    pattern: "https://github.com/TypeType-Video/Docs-TypeType/edit/main/docs/:path",
+                    text: "在 GitHub 上编辑此页",
+                },
+                darkModeSwitchLabel: "外观",
+                lightModeSwitchTitle: "切换到浅色主题",
+                darkModeSwitchTitle: "切换到深色主题",
+                langMenuLabel: "切换语言",
+                sidebarMenuLabel: "菜单",
+                returnToTopLabel: "返回顶部",
+                skipToContentLabel: "跳到正文",
+            },
+        },
         es: {
             label: "Español",
             lang: "es-ES",
@@ -104,24 +370,47 @@ export default defineConfig({
             themeConfig: {
                 nav: [
                     { text: "Inicio", link: "/es/" },
-                    { text: "Requisitos", link: "/es/self-hosting/prerequisites" },
-                    { text: "Sesiones", link: "/es/self-hosting/authentication" },
+                    { text: "Autoalojamiento", link: "/es/self-hosting/introduction" },
                     { text: "Guía del usuario", link: "/es/guide/" },
+                    { text: "Proyecto", link: "/es/project/" },
                     { text: "Código fuente", link: "https://github.com/TypeType-Video/TypeType" },
                 ],
                 sidebar: {
                     "/es/self-hosting/": [
                         {
-                            text: "Alojamiento propio",
+                            text: "Visión general",
                             items: [
-                                {
-                                    text: "Requisitos y recursos",
-                                    link: "/es/self-hosting/prerequisites",
-                                },
-                                {
-                                    text: "Sesiones de cuenta",
-                                    link: "/es/self-hosting/authentication",
-                                },
+                                { text: "Introducción", link: "/es/self-hosting/introduction" },
+                                { text: "Arquitectura", link: "/es/self-hosting/architecture" },
+                                { text: "Límites de seguridad", link: "/es/self-hosting/security" },
+                            ],
+                        },
+                        {
+                            text: "Instalación",
+                            items: [
+                                { text: "Requisitos previos", link: "/es/self-hosting/prerequisites" },
+                                { text: "Inicio rápido", link: "/es/self-hosting/quick-start" },
+                                { text: "Instalación manual", link: "/es/self-hosting/docker-compose" },
+                                { text: "Configuración", link: "/es/self-hosting/configuration" },
+                                { text: "Autenticación (OIDC)", link: "/es/self-hosting/authentication" },
+                            ],
+                        },
+                        {
+                            text: "Después de instalar",
+                            items: [
+                                { text: "Importar tus datos", link: "/es/self-hosting/importing-data" },
+                                { text: "Servicio de recomendaciones (experimental)", link: "/es/self-hosting/recommender" },
+                            ],
+                        },
+                        {
+                            text: "Operación",
+                            items: [
+                                { text: "Proxy inverso y HTTPS", link: "/es/self-hosting/reverse-proxy" },
+                                { text: "Mantenimiento", link: "/es/self-hosting/maintenance" },
+                                { text: "Revertir una actualización", link: "/es/self-hosting/rollback" },
+                                { text: "Beta y main", link: "/es/self-hosting/beta-and-main" },
+                                { text: "Informar de problemas", link: "/es/self-hosting/reporting-issues" },
+                                { text: "Solución de problemas", link: "/es/self-hosting/troubleshooting" },
                             ],
                         },
                     ],
@@ -136,11 +425,22 @@ export default defineConfig({
                                 { text: "Buscar contenido", link: "/es/guide/finding-content" },
                                 { text: "Inicio de sesión", link: "/es/guide/accounts" },
                                 { text: "Configuración", link: "/es/guide/settings" },
-                                {
-                                    text: "Discord Rich Presence",
-                                    link: "/es/guide/discord-rich-presence",
-                                },
+                                { text: "Elegir tu algoritmo", link: "/es/guide/algorithm" },
+                                { text: "Discord Rich Presence", link: "/es/guide/discord-rich-presence" },
                                 { text: "Privacidad y bloqueo", link: "/es/guide/privacy" },
+                            ],
+                        },
+                    ],
+                    "/es/project/": [
+                        {
+                            text: "Proyecto",
+                            items: [
+                                { text: "Visión general del proyecto", link: "/es/project/" },
+                                { text: "Guía de repositorios", link: "/es/project/repositories" },
+                                { text: "Reproducción y descargas", link: "/es/project/playback" },
+                                { text: "Signals, el servicio de recomendaciones", link: "/es/project/signals" },
+                                { text: "Ramas y versiones", link: "/es/project/releases" },
+                                { text: "Fuentes de la comunidad y agradecimientos", link: "/es/project/community" },
                             ],
                         },
                     ],
@@ -246,6 +546,7 @@ export default defineConfig({
                     text: "After setup",
                     items: [
                         { text: "Importing your data", link: "/self-hosting/importing-data" },
+                        { text: "Recommender (experimental)", link: "/self-hosting/recommender" },
                     ],
                 },
                 {
@@ -271,6 +572,7 @@ export default defineConfig({
                         { text: "Finding content", link: "/guide/finding-content" },
                         { text: "Signing in", link: "/guide/accounts" },
                         { text: "Settings", link: "/guide/settings" },
+                        { text: "Choosing your algorithm", link: "/guide/algorithm" },
                         { text: "Discord Rich Presence", link: "/guide/discord-rich-presence" },
                         { text: "Privacy & blocking", link: "/guide/privacy" },
                     ],
@@ -283,6 +585,7 @@ export default defineConfig({
                         { text: "Overview", link: "/project/" },
                         { text: "Repository guide", link: "/project/repositories" },
                         { text: "Playback & downloads", link: "/project/playback" },
+                        { text: "Signals, the recommender", link: "/project/signals" },
                         { text: "Branches & releases", link: "/project/releases" },
                         { text: "Community sources", link: "/project/community" },
                     ],

@@ -1,6 +1,6 @@
 # Requisitos previos
 
-## Sistemas compatibles
+## Sistemas compatibles {#supported-hosts}
 
 TypeType necesita un sistema Linux de 64 bits. Las imágenes publicadas son compatibles
 con `linux/amd64` y `linux/arm64`; el instalador selecciona automáticamente la
@@ -12,7 +12,7 @@ instancia personal pequeña. Usa un SSD USB 3 en lugar de una tarjeta microSD pa
 Docker, PostgreSQL y los datos de Garage.
 :::
 
-## Dimensionamiento de recursos
+## Dimensionamiento de recursos {#resource-sizing}
 
 Estas cifras representan los recursos totales del sistema para toda la pila Compose:
 aplicación web, Server, Token, Downloader, PostgreSQL, caché y Garage. Son objetivos de
@@ -34,7 +34,7 @@ La reproducción no carga ni almacena el vídeo completo en memoria. Por tanto, 
 de diez horas no necesita diez horas de RAM; las sesiones simultáneas y sus búferes
 activos son los que aumentan el uso de memoria.
 
-## Almacenamiento y descargas largas
+## Almacenamiento y descargas largas {#storage-and-long-downloads}
 
 Reserva espacio de disco para cuatro usos diferentes:
 
@@ -80,7 +80,7 @@ docker system df -v
 docker compose exec -T garage /garage -c /etc/garage.toml status
 ```
 
-## Capacidad de red
+## Capacidad de red {#network-capacity}
 
 El tráfico de reproducción de YouTube pasa por el sistema TypeType. Para un usuario
 remoto, el servidor recibe el contenido seleccionado y vuelve a enviarlo; tanto la
@@ -93,7 +93,7 @@ entrada y 40 Mbit/s de salida mientras se reproduce. Dos reproducciones iguales
 necesitan aproximadamente el doble. Deja margen adicional para la extracción, las
 miniaturas, las descargas y los demás usuarios.
 
-## Software necesario
+## Software necesario {#required-software}
 
 Instala las siguientes herramientas en el sistema:
 
@@ -117,11 +117,11 @@ git --version
 Si `docker compose version` falla, instala el complemento Compose de tu distribución
 antes de continuar.
 
-## Opcional para una instalación pública
+## Opcional para una instalación pública {#optional-for-a-public-deployment}
 
 - Un **nombre de dominio** que apunte al servidor.
 - Un proxy inverso (Caddy, nginx o Traefik) para terminar TLS. Este paso se explica en
-  la [guía del proxy inverso y HTTPS](/self-hosting/reverse-proxy). Para una instalación
+  la [guía del proxy inverso y HTTPS](/es/self-hosting/reverse-proxy). Para una instalación
   exclusivamente local, puedes usar `http://localhost:8082`.
 
 ::: warning Ejecutar Docker sin root

@@ -9,7 +9,7 @@ detalles, vídeos relacionados, y comentarios.
 
 ![Un vídeo reproduciéndose en una instancia autoalojada](/watch.gif)
 
-## Controles del reproductor
+## Controles del reproductor {#player-controls}
 
 El reproductor tiene los controles habituales (reproducir y pausar, avanzar, volumen,
 pantalla completa) más un menú de configuración donde eliges:
@@ -21,7 +21,7 @@ pantalla completa) más un menú de configuración donde eliges:
 - **Pista de audio**, cambia de idioma cuando hay varias disponibles. Se puede
   establecer un idioma de audio preferido en [Configuración](./settings#languages).
 
-## Modo cine e imagen en imagen
+## Modo cine e imagen en imagen {#cinema-mode-and-picture-in-picture}
 
 - El **modo cine** amplía el reproductor y oscurece la página, para una vista
   centrada, estilo teatro.
@@ -30,14 +30,14 @@ pantalla completa) más un menú de configuración donde eliges:
 
 ![Modo cine, el reproductor ampliado con la página oscurecida](/cinema.gif)
 
-## SponsorBlock
+## SponsorBlock {#sponsorblock}
 
 Los segmentos marcados por la comunidad (patrocinios, autopromoción, y más) se
 muestran en la barra de progreso y pueden **omitirse o simplemente marcarse**
 automáticamente. Tú decides el comportamiento y qué categorías cuentan, consulta
 [Configuración](./settings#sponsorblock).
 
-## Atajos de teclado
+## Atajos de teclado {#keyboard-shortcuts}
 
 Las teclas estándar del reproductor están disponibles:
 
@@ -60,32 +60,32 @@ Además de esas, TypeType añade:
 | `,` | Retroceder un fotograma (en pausa) |
 | `.` | Avanzar un fotograma (en pausa) |
 
-## Gestos táctiles
+## Gestos táctiles {#touch-gestures}
 
 En una pantalla táctil:
 
 - **Arrastra hacia la izquierda o derecha** sobre el vídeo para desplazarte por él.
 - **Mantén pulsado** el vídeo para avanzar rápidamente.
 
-## Reproducción automática
+## Reproducción automática {#autoplay}
 
 Cuando está activada, el siguiente vídeo empieza automáticamente cuando termina el
 actual. Actívala en [Configuración](./settings#playback).
 
-## Transmisiones en directo
+## Transmisiones en directo {#livestreams}
 
 Las transmisiones en directo de YouTube usan el reproductor SABR nativo de TypeType.
 El reproductor sigue el punto en directo automáticamente, sigue almacenando en búfer
 durante breves interrupciones de red, y permite desplazarse dentro de la ventana DVR
 cuando la transmisión la ofrece.
 
-## Reproductor incrustado
+## Reproductor incrustado {#embedded-player}
 
 TypeType ofrece una ruta dedicada para incrustar vídeos de YouTube. Consulta
 [Reproductor incrustado](./embedding) para el formato de URL, parámetros, marcado
 iframe, y los requisitos de acceso para invitados.
 
-## Shorts
+## Shorts {#shorts}
 
 Los Shorts se reproducen en un reproductor vertical dedicado, deslizable. Puedes
 desactivar por completo la sección Shorts en

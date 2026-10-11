@@ -2,7 +2,7 @@
 
 Varias formas de descubrir y llegar a lo que quieres ver.
 
-## Búsqueda
+## Búsqueda {#search}
 
 Busca en el servicio activo y filtra los resultados por tipo, vídeos, canales, listas
 de reproducción, y música (canciones, vídeos, artistas).
@@ -13,7 +13,7 @@ de reproducción, y música (canciones, vídeos, artistas).
 
 ![Búsqueda desde la barra de búsqueda](/search.gif)
 
-## Inicio
+## Inicio {#home}
 
 La página de inicio es tu feed de partida: recomendaciones y cosas que continuar
 viendo. Puedes ajustar lo que aparece, u ocultar las recomendaciones por completo, en
@@ -22,21 +22,21 @@ predeterminada distinta si prefieres abrir directamente en Suscripciones.
 
 ![El feed de inicio](/screenshot-home.png)
 
-## Canales
+## Canales {#channels}
 
 Abre un canal para ver sus vídeos, listas de reproducción, y más, y suscríbete desde
 ahí para añadirlo a tu [biblioteca](./library#subscriptions).
 
-## Shorts
+## Shorts {#shorts}
 
 Los Shorts tienen su propia sección vertical, deslizable. ¿No es lo tuyo? Desactívalos
 en [Configuración](./settings#what-you-see).
 
-## Podcasts
+## Podcasts {#podcasts}
 
 Explora contenido de podcasts desde una página **Podcasts** dedicada.
 
-## Cambiar de servicio
+## Cambiar de servicio {#switching-service}
 
 TypeType es compatible con **YouTube, NicoNico y BiliBili**. Elige el servicio activo
 para que la búsqueda y la navegación apunten a la fuente correcta, consulta

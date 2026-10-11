@@ -5,7 +5,7 @@ enregistré sur votre instance.
 
 ![La page des paramètres](/screenshot-settings.png)
 
-## Lecture
+## Lecture {#playback}
 
 - **Lecture automatique de la vidéo suivante**, démarre la vidéo suivante
   automatiquement quand une se termine.
@@ -16,19 +16,19 @@ enregistré sur votre instance.
 La lecture YouTube utilise le chemin SABR avec état sur chaque navigateur pris en
 charge. NicoNico et BiliBili conservent leurs propres chemins de lecture spécifiques.
 
-## Sous-titres
+## Sous-titres {#captions}
 
 Personnalisez l'apparence des sous-titres, taille, couleurs, et fond, pour qu'ils
 restent lisibles comme vous les aimez.
 
-## Langues
+## Langues {#languages}
 
 - **Piste audio préférée**, la langue audio à choisir automatiquement quand une vidéo
   en propose plusieurs.
 - **Forcer la langue originale**, garder l'audio original plutôt qu'une piste
   doublée.
 
-## SponsorBlock
+## SponsorBlock {#sponsorblock}
 
 Décidez de ce qui se passe avec les segments marqués par la communauté :
 
@@ -42,12 +42,14 @@ Décidez de ce qui se passe avec les segments marqués par la communauté :
 
 ![Catégories et contrôles SponsorBlock](/screenshot-sponsorblock.png)
 
-## Ce que vous voyez
+## Ce que vous voyez {#what-you-see}
 
 Façonnez vos surfaces :
 
 - **Masquer les vidéos en cours** de la page d'accueil.
 - **Masquer les recommandations personnalisées** de la page d'accueil.
+- **Choisir l'algorithme** qui construit l'accueil, là où l'instance le propose.
+  Voir [Choisir son algorithme](/fr/guide/algorithm).
 - **Masquer la colonne de suggestions** sur les pages de lecture.
 - **Masquer la navigation Shorts** et bloquer la page Shorts.
 - **Commentaires et danmaku**, les afficher ou les masquer.
@@ -55,12 +57,12 @@ Façonnez vos surfaces :
 
 ![Contrôles de contenu, ce qui s'affiche où](/screenshot-content-toggles.png)
 
-## Service
+## Service {#service}
 
 Choisissez le service actif, **YouTube, NicoNico, ou BiliBili**, pour que la recherche
 et la navigation ciblent la bonne source.
 
-## À propos
+## À propos {#about}
 
 La section À propos affiche la version, la révision complète, et l'heure de
 compilation rapportées par l'application web, Server, Token, et Downloader. Chaque

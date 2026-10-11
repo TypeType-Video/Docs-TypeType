@@ -2,7 +2,7 @@
 
 Tout ce que vous conservez vit sur votre instance, votre compte, pas chez un tiers.
 
-## Abonnements
+## Abonnements {#subscriptions}
 
 Abonnez-vous à des chaînes et votre fil **Abonnements** rassemble leurs dernières
 vidéos au même endroit. Vous pouvez faire des Abonnements votre page d'accueil par
@@ -17,7 +17,7 @@ au-dessus des vidéos récentes.
 
 ![Votre fil d'abonnements](/screenshot-subscriptions.png)
 
-## Playlists
+## Playlists {#playlists}
 
 Créez et gérez vos propres playlists :
 
@@ -35,7 +35,7 @@ terminé.
 
 ![Vos playlists](/screenshot-playlists.png)
 
-## Historique
+## Historique {#history}
 
 Votre **historique de lecture** enregistre ce que vous avez regardé et reprend là où
 vous vous êtes arrêté. Vous pouvez l'effacer quand vous le souhaitez, voir
@@ -43,14 +43,14 @@ vous vous êtes arrêté. Vous pouvez l'effacer quand vous le souhaitez, voir
 
 ![Votre historique de lecture](/screenshot-history.png)
 
-## À regarder plus tard
+## À regarder plus tard {#watch-later}
 
 Envoyez une vidéo vers **À regarder plus tard** pour y revenir, une simple file
 d'attente distincte de vos playlists. Ouvrez le menu d'actions d'une vidéo et
 sélectionnez **Enregistrer dans À regarder plus tard** pour l'ajouter immédiatement ;
 sélectionnez **Retirer de À regarder plus tard** depuis le même menu pour la retirer.
 
-## Favoris
+## Favoris {#favorites}
 
 Marquez des vidéos comme **Favoris** pour les choses que vous voulez retrouver
 rapidement.

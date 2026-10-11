@@ -2,7 +2,7 @@
 
 Plusieurs façons de découvrir et d'atteindre ce que vous voulez regarder.
 
-## Recherche
+## Recherche {#search}
 
 Recherchez sur le service actif et filtrez les résultats par type, vidéos, chaînes,
 playlists, et musique (chansons, vidéos, artistes).
@@ -13,7 +13,7 @@ playlists, et musique (chansons, vidéos, artistes).
 
 ![Recherche depuis la barre de recherche](/search.gif)
 
-## Accueil
+## Accueil {#home}
 
 La page d'accueil est votre fil de départ : recommandations et choses à continuer de
 regarder. Vous pouvez ajuster ce qui s'affiche, ou masquer entièrement les
@@ -22,21 +22,21 @@ d'accueil par défaut différente si vous préférez ouvrir directement sur Abon
 
 ![Le fil d'accueil](/screenshot-home.png)
 
-## Chaînes
+## Chaînes {#channels}
 
 Ouvrez une chaîne pour voir ses vidéos, playlists, et plus, et abonnez-vous depuis là
 pour l'ajouter à votre [bibliothèque](./library#subscriptions).
 
-## Shorts
+## Shorts {#shorts}
 
 Les Shorts ont leur propre surface verticale, défilable au doigt. Pas votre truc ?
 Désactivez-les dans les [Paramètres](./settings#what-you-see).
 
-## Podcasts
+## Podcasts {#podcasts}
 
 Parcourez le contenu podcast depuis une page **Podcasts** dédiée.
 
-## Changer de service
+## Changer de service {#switching-service}
 
 TypeType prend en charge **YouTube, NicoNico et BiliBili**. Choisissez le service
 actif pour que la recherche et la navigation ciblent la bonne source, voir les

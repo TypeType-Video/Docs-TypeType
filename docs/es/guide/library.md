@@ -2,7 +2,7 @@
 
 Todo lo que guardas vive en tu instancia, tu cuenta, no en un tercero.
 
-## Suscripciones
+## Suscripciones {#subscriptions}
 
 Suscríbete a canales y tu feed de **Suscripciones** reúne sus últimos vídeos en un
 solo lugar. Puedes hacer que Suscripciones sea tu página de inicio predeterminada en
@@ -17,7 +17,7 @@ indefinidamente por encima de los vídeos recientes.
 
 ![Tu feed de suscripciones](/screenshot-subscriptions.png)
 
-## Listas de reproducción
+## Listas de reproducción {#playlists}
 
 Crea y gestiona tus propias listas de reproducción:
 
@@ -33,7 +33,7 @@ biblioteca, y eliminar una lista guardada cuando ya no la necesites.
 
 ![Tus listas de reproducción](/screenshot-playlists.png)
 
-## Historial
+## Historial {#history}
 
 Tu **historial de reproducción** registra lo que has visto y retoma donde lo dejaste.
 Puedes borrarlo cuando quieras, consulta
@@ -41,14 +41,14 @@ Puedes borrarlo cuando quieras, consulta
 
 ![Tu historial de reproducción](/screenshot-history.png)
 
-## Ver más tarde
+## Ver más tarde {#watch-later}
 
 Envía un vídeo a **Ver más tarde** para volver a él, una simple cola separada de tus
 listas de reproducción. Abre el menú de acciones de un vídeo y selecciona
 **Guardar en Ver más tarde** para añadirlo de inmediato; selecciona
 **Quitar de Ver más tarde** en el mismo menú para eliminarlo.
 
-## Favoritos
+## Favoritos {#favorites}
 
 Marca vídeos como **Favoritos** para las cosas que quieres volver a encontrar
 rápidamente.

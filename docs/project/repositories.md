@@ -14,6 +14,7 @@ belongs to a component repository.
 | PO token, YouTube player decoder, subtitle metadata, or remote-login browser | [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | `src/` |
 | Download queue, transfer, mux, storage, or artifact | [TypeType-Downloader](https://github.com/TypeType-Video/TypeType-Downloader) | `cmd/`, `internal/`, `migrations/` |
 | MSE buffering, segment scheduling, seek, quality switch, or playback recovery | [TypeType-Player](https://github.com/TypeType-Video/TypeType-Player) | `src/` |
+| Home page algorithm, its settings, or what it deduces | [TypeType-Signals](https://github.com/TypeType-Video/TypeType-Signals) | `recommender/` |
 | Discord presence detail, RPC handshake, or desktop tray behavior | [TypeType-RPC](https://github.com/TypeType-Video/TypeType-RPC) | `src-tauri/src/` |
 | User, operator, or project explanation | [Docs-TypeType](https://github.com/TypeType-Video/Docs-TypeType) | `docs/` |
 
@@ -181,6 +182,28 @@ bun run build
 
 The repository is MIT licensed.
 
+## Signals
+
+TypeType-Signals is the optional recommender: a Python service that holds the home
+page algorithms and nothing else. Server calls it, fetches the videos it asks for and
+filters what comes back. It is experimental.
+
+```sh
+docker compose up -d --build
+uv run pytest
+```
+
+Important paths:
+
+- `recommender/algorithms/` holds one file per algorithm.
+- `recommender/contract.py` and the `contract_*.py` files hold what Server sends and
+  receives.
+- `tests/reference_pages.py` builds the reference pages that prove a change altered
+  no page.
+
+See [Signals, the recommender](./signals). The repository is licensed under the GNU
+Affero General Public License, version 3.
+
 ## Documentation and organisation profile
 
 Docs-TypeType is a VitePress site. User pages live in `docs/guide`, operator pages in
@@ -212,3 +235,4 @@ Documentation pull requests also target `dev`.
 - [Downloader README](https://github.com/TypeType-Video/TypeType-Downloader/blob/dev/README.md)
 - [Player README](https://github.com/TypeType-Video/TypeType-Player/blob/dev/README.md)
 - [RPC README](https://github.com/TypeType-Video/TypeType-RPC/blob/dev/README.md)
+- [Signals README](https://github.com/TypeType-Video/TypeType-Signals/blob/dev/README.md)

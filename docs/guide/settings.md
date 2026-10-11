@@ -45,6 +45,8 @@ Shape your surfaces:
 
 - **Hide in-progress videos** from the home page.
 - **Hide personalized recommendations** from the home page.
+- **Choose the algorithm** that builds the home page, where the instance offers it.
+  See [Choosing your algorithm](/guide/algorithm).
 - **Hide the suggestions column** on watch pages.
 - **Hide Shorts** navigation and block the Shorts page.
 - **Comments and danmaku**, show or hide them.

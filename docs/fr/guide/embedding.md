@@ -3,7 +3,7 @@
 TypeType propose une route de lecteur dédiée pour intégrer des vidéos YouTube sans le
 reste de la page de lecture.
 
-## Format d'URL
+## Format d'URL {#url-format}
 
 Utilisez l'identifiant de la vidéo YouTube après `/embed/` :
 
@@ -15,7 +15,7 @@ L'identifiant est la valeur de 11 caractères après `v=` dans une URL de vision
 YouTube classique. Par exemple, `https://www.youtube.com/watch?v=dQw4w9WgXcQ` devient
 `/embed/dQw4w9WgXcQ`.
 
-## Position de départ et lecture automatique
+## Position de départ et lecture automatique {#start-position-and-autoplay}
 
 | Paramètre | Valeur | Comportement |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ plusieurs paramètres de départ sont présents, TypeType utilise `t`, puis `sta
 La lecture automatique reste soumise à la politique média du navigateur. Un navigateur
 peut exiger un geste utilisateur avant de démarrer le son.
 
-## Ajouter une iframe
+## Ajouter une iframe {#add-an-iframe}
 
 ```html
 <iframe
@@ -62,7 +62,7 @@ exemple :
 
 Ajoutez `class="video-embed"` à l'iframe en utilisant cet exemple.
 
-### Vérifiez l'iframe, pas seulement l'URL
+### Vérifiez l'iframe, pas seulement l'URL {#verify-the-iframe-not-only-the-url}
 
 Ouvrir `/embed/...` directement et obtenir une réponse `200` prouve que la route et le
 lecteur fonctionnent comme une page de premier niveau. Cela ne prouve pas qu'un autre
@@ -77,7 +77,7 @@ n'envoyez pas `X-Frame-Options: DENY` sur `/embed/*`. Utilisez la directive CSP
 `frame-ancestors` sur cette route si vous devez restreindre quels sites peuvent
 l'intégrer.
 
-## Comptes, paramètres et accès invité
+## Comptes, paramètres et accès invité {#accounts-settings-and-guest-access}
 
 Ouvrir une URL d'intégration directement dans un onglet de navigateur peut réutiliser
 le compte TypeType courant et ses paramètres de lecture. Dans une iframe, la lecture

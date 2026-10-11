@@ -5,7 +5,7 @@ guarda en tu instancia.
 
 ![La página de configuración](/screenshot-settings.png)
 
-## Reproducción
+## Reproducción {#playback}
 
 - **Reproducción automática del siguiente vídeo**, inicia el siguiente vídeo
   automáticamente cuando termina uno.
@@ -17,19 +17,19 @@ La reproducción de YouTube usa la ruta SABR con estado en todos los navegadores
 compatibles. NicoNico y BiliBili mantienen sus propias rutas de reproducción
 específicas.
 
-## Subtítulos
+## Subtítulos {#captions}
 
 Personaliza el aspecto de los subtítulos, tamaño, colores, y fondo, para que se
 mantengan legibles como te gustan.
 
-## Idiomas
+## Idiomas {#languages}
 
 - **Pista de audio preferida**, el idioma de audio a elegir automáticamente cuando un
   vídeo tiene varias.
 - **Forzar idioma original**, mantener el audio original en lugar de una pista
   doblada.
 
-## SponsorBlock
+## SponsorBlock {#sponsorblock}
 
 Decide qué sucede con los segmentos marcados por la comunidad:
 
@@ -43,11 +43,13 @@ Decide qué sucede con los segmentos marcados por la comunidad:
 
 ![Categorías y controles de SponsorBlock](/screenshot-sponsorblock.png)
 
-## Lo que ves
+## Lo que ves {#what-you-see}
 
 Da forma a tus secciones:
 
 - **Ocultar vídeos en curso** de la página de inicio.
+- **Elegir el algoritmo** que construye la página de inicio, donde la instancia lo ofrezca.
+  Consulta [Elegir tu algoritmo](/es/guide/algorithm).
 - **Ocultar recomendaciones personalizadas** de la página de inicio.
 - **Ocultar la columna de sugerencias** en las páginas de reproducción.
 - **Ocultar la navegación de Shorts** y bloquear la página de Shorts.
@@ -57,12 +59,12 @@ Da forma a tus secciones:
 
 ![Controles de contenido, qué aparece dónde](/screenshot-content-toggles.png)
 
-## Servicio
+## Servicio {#service}
 
 Elige el servicio activo, **YouTube, NicoNico, o BiliBili**, para que la búsqueda y
 la navegación apunten a la fuente correcta.
 
-## Acerca de
+## Acerca de {#about}
 
 La sección Acerca de muestra la versión, revisión completa, y hora de compilación
 reportadas por la aplicación web, Server, Token, y Downloader. Cada componente se
