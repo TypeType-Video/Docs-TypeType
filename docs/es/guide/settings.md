@@ -48,6 +48,8 @@ Decide qué sucede con los segmentos marcados por la comunidad:
 Da forma a tus secciones:
 
 - **Ocultar vídeos en curso** de la página de inicio.
+- **Elegir el algoritmo** que construye la página de inicio, donde la instancia lo ofrezca.
+  Consulta [Elegir tu algoritmo](/es/guide/algorithm).
 - **Ocultar recomendaciones personalizadas** de la página de inicio.
 - **Ocultar la columna de sugerencias** en las páginas de reproducción.
 - **Ocultar la navegación de Shorts** y bloquear la página de Shorts.
