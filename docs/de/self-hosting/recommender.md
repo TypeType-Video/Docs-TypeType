@@ -462,7 +462,7 @@ docker compose -f docker-compose.yml -f docker-compose.recommender.yml logs --ta
 | Die Startseite bleibt die gewohnte | Die Seite war nicht rechtzeitig fertig, oder das Konto hat keine Daten | Laden Sie nach einigen Sekunden neu. In der Admin-Konsole zählt **Rückfälle auf die gewohnte Startseite**, wie oft das vorkommt. |
 | **Zustand des Dienstes** zeigt **Antwortet nicht** | Der Dienst ist gestoppt oder startet noch | Prüfen Sie Status und Protokoll wie oben. Bis dahin sind die Startseiten die gewohnten. |
 
-## Quellen
+## Quellen {#source-references}
 
 - [Signals-Repository](https://github.com/TypeType-Video/TypeType-Signals)
 - [Compose-Datei des Dienstes](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.recommender.yml)

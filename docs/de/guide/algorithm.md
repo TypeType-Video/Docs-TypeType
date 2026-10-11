@@ -68,7 +68,7 @@ bleiben erhalten.
 
 ## Die Seite Algorithmus, Abschnitt für Abschnitt {#page}
 
-### Übersicht
+### Übersicht {#overview}
 
 Zwei Diagramme: woraus Ihre Startseite besteht (angefangene Videos, kürzlich
 angesehen, Abos, Ihre Interessen, neue Ersteller, Trends) und der Anteil jedes Ihrer
@@ -178,7 +178,7 @@ Schalten Sie **Meine Startseite mit einem Algorithmus meiner Wahl aufbauen** aus
 haben sofort wieder die gewohnte Startseite. Ihre Auswahl, Korrekturen und
 Rückmeldungen bleiben erhalten, falls Sie zurückkommen.
 
-## Quellen
+## Quellen {#source-references}
 
 - [Signals-Repository](https://github.com/TypeType-Video/TypeType-Signals)
 - [Den Empfehlungsdienst installieren](/de/self-hosting/recommender)
