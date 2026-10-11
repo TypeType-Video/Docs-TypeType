@@ -246,6 +246,7 @@ export default defineConfig({
                     text: "After setup",
                     items: [
                         { text: "Importing your data", link: "/self-hosting/importing-data" },
+                        { text: "Recommender (experimental)", link: "/self-hosting/recommender" },
                     ],
                 },
                 {
@@ -271,6 +272,7 @@ export default defineConfig({
                         { text: "Finding content", link: "/guide/finding-content" },
                         { text: "Signing in", link: "/guide/accounts" },
                         { text: "Settings", link: "/guide/settings" },
+                        { text: "Choosing your algorithm", link: "/guide/algorithm" },
                         { text: "Discord Rich Presence", link: "/guide/discord-rich-presence" },
                         { text: "Privacy & blocking", link: "/guide/privacy" },
                     ],
@@ -283,6 +285,7 @@ export default defineConfig({
                         { text: "Overview", link: "/project/" },
                         { text: "Repository guide", link: "/project/repositories" },
                         { text: "Playback & downloads", link: "/project/playback" },
+                        { text: "Signals, the recommender", link: "/project/signals" },
                         { text: "Branches & releases", link: "/project/releases" },
                         { text: "Community sources", link: "/project/community" },
                     ],
