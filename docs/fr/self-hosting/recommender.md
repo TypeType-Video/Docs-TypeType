@@ -131,7 +131,16 @@ redémarrent, puis passez à [Vérifier qu'il tourne](#verify).
    C'est aussi cette ligne qui fait que l'installateur garde le service lors d'une
    mise à jour ultérieure.
 
-3. Créez la base et le secret partagé :
+3. Recréez PostgreSQL avec l'overlay pour utiliser l'image pgvector ; le volume de
+   données existant est conservé :
+
+   ```sh
+   docker compose -f docker-compose.yml -f docker-compose.recommender.yml up -d --wait postgres
+   ```
+
+   Sur ARM64, ajoutez `-f docker-compose.arm64.yml` entre les fichiers Compose.
+
+   Créez ensuite la base et le secret partagé :
 
    ```sh
    COMPOSE_RECOMMENDER_FILE=docker-compose.recommender.yml ./scripts/run-stack-init.sh
@@ -146,6 +155,36 @@ redémarrent, puis passez à [Vérifier qu'il tourne](#verify).
 
    Au deuxième passage, `CREATE DATABASE` est absent et la ligne de l'extension
    signale qu'elle existe déjà. Les deux cas sont normaux.
+
+   Si vous gérez vous-même le secret partagé, vous pouvez créer la base directement
+   avec `docker exec` au lieu d'utiliser le script d'initialisation :
+
+   ```sh
+   RECOMMENDER_DATABASE=typetype_recommender
+   DB_CONTAINER="$(docker compose -f docker-compose.yml -f docker-compose.recommender.yml ps -q postgres)"
+   test -n "$DB_CONTAINER"
+   docker exec -i -e "RECOMMENDER_DATABASE=$RECOMMENDER_DATABASE" "$DB_CONTAINER" sh -eu <<'SH'
+   export PGPASSWORD="$POSTGRES_PASSWORD"
+   psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v recommender_database="$RECOMMENDER_DATABASE" <<'SQL'
+   SELECT format('CREATE DATABASE %I', :'recommender_database')
+   WHERE NOT EXISTS (
+       SELECT 1 FROM pg_database WHERE datname = :'recommender_database'
+   )
+   \gexec
+   SQL
+   psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$RECOMMENDER_DATABASE" -c 'CREATE EXTENSION IF NOT EXISTS vector'
+   SH
+   ```
+
+   Donnez à `RECOMMENDER_DATABASE` la même valeur que dans `.env`. Cette commande
+   crée uniquement la base et l'extension, pas le secret
+   `/run/typetype-secrets/recommender_internal_token`. Utilisez le script
+   d'initialisation ci-dessus si vous n'avez pas déjà provisionné ce secret partagé.
+   Si le conteneur PostgreSQL ne fait pas partie de ce projet Compose, définissez
+   `DB_CONTAINER` avec son nom ou son ID. Sur ARM64, ajoutez
+   `-f docker-compose.arm64.yml` aux commandes
+   Compose ci-dessus.
+
 
 4. Démarrez le service et recréez Server :
 
@@ -163,6 +202,41 @@ Chaque commande `docker compose` de cette stack doit maintenant nommer aussi
 `docker-compose.recommender.yml`. Une commande qui ne nomme que `docker-compose.yml`
 avec `--remove-orphans` supprime le service de recommandations.
 :::
+
+Merci à [@Toastienergy](https://github.com/Toastienergy), dont les retours sur une
+stack Compose gérée à la main ont aidé à clarifier ces étapes.
+
+### Docker rootless avec un dossier de modèles monté depuis l'hôte {#rootless-models}
+
+TypeType Signals écrit son cache de modèles dans `/models` et tourne dans le
+conteneur avec l'UID/GID `10001:10001`. Le volume Docker nommé
+`recommender_models` ne nécessite pas de changement de propriétaire côté hôte.
+Avec un dossier hôte monté dans Docker rootless, les identifiants du conteneur sont
+mappés vers d'autres identifiants côté hôte. Ne réutilisez pas ceux d'une autre
+machine.
+
+Une fois le conteneur du service démarré, trouvez les identifiants hôte correspondant
+à `10001:10001` dans le conteneur :
+
+```sh
+RECOMMENDER_CONTAINER="$(docker compose -f docker-compose.yml -f docker-compose.recommender.yml ps -q typetype-recommender)"
+PID="$(docker inspect -f '{{.State.Pid}}' "$RECOMMENDER_CONTAINER")"
+HOST_UID="$(awk -v id=10001 '$1 <= id && id < $1 + $3 { print $2 + id - $1; exit }' "/proc/$PID/uid_map")"
+HOST_GID="$(awk -v id=10001 '$1 <= id && id < $1 + $3 { print $2 + id - $1; exit }' "/proc/$PID/gid_map")"
+printf 'Propriétaire hôte mappé : %s:%s\n' "$HOST_UID" "$HOST_GID"
+```
+
+Définissez `MODEL_PATH` sur le dossier dédié de l'hôte monté sur `/models`, puis
+appliquez le mapping et vérifiez l'accès en écriture :
+
+```sh
+sudo chown -R "$HOST_UID:$HOST_GID" "$MODEL_PATH"
+docker exec "$RECOMMENDER_CONTAINER" test -w /models
+```
+
+Ne changez les droits que du dossier dédié aux modèles, pas d'un dossier parent
+partagé.
+
 
 ## Vérifier qu'il tourne {#verify}
 

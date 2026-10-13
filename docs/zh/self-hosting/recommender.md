@@ -110,7 +110,15 @@ PostgreSQL 和 Server 重启期间，实例会有几秒钟不可用；之后转�
 
    也正是这一行，让安装脚本在以后的更新中保留该服务。
 
-3. 创建数据库和共享密钥：
+3. 先使用 overlay 重建 PostgreSQL 服务，使其切换到 pgvector 镜像；现有数据卷会保留：
+
+   ```sh
+   docker compose -f docker-compose.yml -f docker-compose.recommender.yml up -d --wait postgres
+   ```
+
+   ARM64 主机还要在两个 Compose 文件之间加入 `-f docker-compose.arm64.yml`。
+
+   然后创建数据库和共享密钥：
 
    ```sh
    COMPOSE_RECOMMENDER_FILE=docker-compose.recommender.yml ./scripts/run-stack-init.sh
@@ -124,6 +132,33 @@ PostgreSQL 和 Server 重启期间，实例会有几秒钟不可用；之后转�
    ```
 
    第二次运行时不会出现 `CREATE DATABASE`，扩展那一行会提示它已经存在。两种情况都是正常的。
+
+   如果共享密钥由你自行管理，也可以跳过初始化脚本，直接通过 `docker exec`
+   创建数据库：
+
+   ```sh
+   RECOMMENDER_DATABASE=typetype_recommender
+   DB_CONTAINER="$(docker compose -f docker-compose.yml -f docker-compose.recommender.yml ps -q postgres)"
+   test -n "$DB_CONTAINER"
+   docker exec -i -e "RECOMMENDER_DATABASE=$RECOMMENDER_DATABASE" "$DB_CONTAINER" sh -eu <<'SH'
+   export PGPASSWORD="$POSTGRES_PASSWORD"
+   psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v recommender_database="$RECOMMENDER_DATABASE" <<'SQL'
+   SELECT format('CREATE DATABASE %I', :'recommender_database')
+   WHERE NOT EXISTS (
+       SELECT 1 FROM pg_database WHERE datname = :'recommender_database'
+   )
+   \gexec
+   SQL
+   psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$RECOMMENDER_DATABASE" -c 'CREATE EXTENSION IF NOT EXISTS vector'
+   SH
+   ```
+
+   `RECOMMENDER_DATABASE` 要与 `.env` 中的值相同。该命令只创建数据库和扩展，
+   不会创建共享密钥文件 `/run/typetype-secrets/recommender_internal_token`。
+   如果你还没有自行创建该密钥，请使用上面的初始化脚本。如果 PostgreSQL 不属于当前
+   Compose 项目，请将 `DB_CONTAINER` 设为它的容器名称或 ID。ARM64 主机的 Compose
+   命令也要加入 `-f docker-compose.arm64.yml`。
+
 
 4. 启动服务并重新创建 Server：
 
@@ -139,6 +174,36 @@ PostgreSQL 和 Server 重启期间，实例会有几秒钟不可用；之后转�
 ::: warning 从现在起要写上两个文件
 这个部署的每条 `docker compose` 命令现在都必须同时写上 `docker-compose.recommender.yml`。只写 `docker-compose.yml` 并带 `--remove-orphans` 的命令会把推荐服务删掉。
 :::
+
+感谢 [@Toastienergy](https://github.com/Toastienergy) 提供手动管理 Compose 部署的反馈，
+帮助我把这些步骤写得更清楚。
+
+### Rootless Docker 与绑定挂载的模型目录 {#rootless-models}
+
+TypeType Signals 将模型缓存写入 `/models`，并以容器内的 UID/GID
+`10001:10001` 运行。命名卷 `recommender_models` 不需要在主机上手动修改所有权。
+如果在 Rootless Docker 中绑定挂载主机目录，容器 ID 会映射到不同的主机 ID。
+不要直接照搬其他主机上的所有权数值。
+
+推荐服务容器运行后，查找容器内 `10001:10001` 对应的主机 ID：
+
+```sh
+RECOMMENDER_CONTAINER="$(docker compose -f docker-compose.yml -f docker-compose.recommender.yml ps -q typetype-recommender)"
+PID="$(docker inspect -f '{{.State.Pid}}' "$RECOMMENDER_CONTAINER")"
+HOST_UID="$(awk -v id=10001 '$1 <= id && id < $1 + $3 { print $2 + id - $1; exit }' "/proc/$PID/uid_map")"
+HOST_GID="$(awk -v id=10001 '$1 <= id && id < $1 + $3 { print $2 + id - $1; exit }' "/proc/$PID/gid_map")"
+printf '映射后的主机所有者：%s:%s\n' "$HOST_UID" "$HOST_GID"
+```
+
+将 `MODEL_PATH` 设为挂载到 `/models` 的专用主机目录，然后应用映射并验证写入权限：
+
+```sh
+sudo chown -R "$HOST_UID:$HOST_GID" "$MODEL_PATH"
+docker exec "$RECOMMENDER_CONTAINER" test -w /models
+```
+
+只更改专用模型目录的所有权，不要更改共享的父目录。
+
 
 ## 检查它是否在运行 {#verify}
 
