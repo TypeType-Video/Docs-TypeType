@@ -147,7 +147,7 @@ and SABR endpoints. The following flag controls only interactive remote login:
 | --- | --- | --- |
 | `YOUTUBE_REMOTE_LOGIN_ENABLED` | `false` | Enables the interactive YouTube sign-in flow |
 | `YOUTUBE_OUTBOUND_PROXY_URL` | empty | Optional outbound proxy used for YouTube traffic |
-| `YOUTUBE_REMOTE_LOGIN_CALLBACK_BASE_URL` | `http://localhost:8080` | Internal Server origin that receives the Token completion callback |
+| `YOUTUBE_REMOTE_LOGIN_CALLBACK_BASE_URL` | `http://typetype-server:8080` | Internal Server origin that receives the Token completion callback |
 | `YOUTUBE_REMOTE_LOGIN_CALLBACK_ORIGIN` | `http://typetype-server:8080` | Internal callback origin used by Token |
 | `YOUTUBE_REMOTE_LOGIN_TTL_MS` | `480000` | Lifetime requested by Server, clamped to 1–10 minutes |
 | `YOUTUBE_REMOTE_LOGIN_MAX_SESSIONS` | `2` | Concurrent remote browser sessions, clamped to 1–8 |
