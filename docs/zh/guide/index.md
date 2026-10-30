@@ -18,7 +18,7 @@ TypeType 是一个完整的、可以自托管的 **生态**，面向 **YouTube�
 
 ## 把你的数据带进来 {#bringing-your-data-in}
 
-已经在别处有订阅和播放列表了？你可以从 Google Takeout 导出文件或 PipePipe 备份中导入，见[导入你的数据](/zh/self-hosting/importing-data)。
+已经在别处有订阅和播放列表了？你可以从 PipePipe、NewPipe、LibreTube、Invidious、Piped、Grayjay、Google Takeout、OPML 文件等导入，见[导入你的数据](/zh/self-hosting/importing-data)。
 
 ## 第一次来？ {#first-time-here}
 
