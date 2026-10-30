@@ -58,8 +58,8 @@ flowchart LR
 ```
 
 Token is an internal dependency for YouTube PO tokens, player decoding, SABR session
-metadata, and subtitles. The remote-login feature is optional, but the Token service
-itself remains part of the normal stack. Server owns the upstream session and gives
+metadata, subtitles, and the YouTube sign-in with a code. The Token service remains
+part of the normal stack. Server owns the upstream session and gives
 the browser TypeType-owned media paths; the browser never calls Token directly.
 
 See [Playback and downloads](/project/playback) for the source-level flow.

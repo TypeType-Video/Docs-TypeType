@@ -65,10 +65,10 @@ server {
 Usa [certbot](https://certbot.eff.org/) para obtener y renovar el certificado.
 
 ::: warning Conserva las cabeceras de actualización y el tamaño del cuerpo
-La aplicación usa WebSockets y acepta subidas grandes (importaciones de Takeout). Si
-quitas las cabeceras `Upgrade`/`Connection` o fijas un `client_max_body_size` pequeño,
-partes de la aplicación dejan de funcionar. Los ajustes anteriores coinciden con lo
-que espera el contenedor web incluido.
+La aplicación acepta subidas grandes: las importaciones de copias llegan a 512 MB.
+Con un `client_max_body_size` pequeño, las importaciones fallan. Los ajustes
+anteriores, cabeceras de actualización incluidas, coinciden con lo que espera el
+contenedor web incluido.
 :::
 
 ## Opción C - Traefik {#option-c---traefik}
@@ -133,34 +133,6 @@ http:
 
 El contenedor web sirve HTTP sin cifrar en el puerto 80; Traefik termina el HTTPS.
 Activa en Traefik el proveedor Docker o el de archivos según el ejemplo que elijas.
-
-## Inicio de sesión remoto y WebSockets {#remote-login-and-websockets}
-
-El inicio de sesión interactivo en YouTube empieza con una petición HTTP normal y
-después abre un WebSocket bajo `/api/youtube-session/browser/...`. Tanto el proxy
-inverso externo como la configuración de nginx incluida deben conservar la
-actualización.
-
-Un fallo característico tiene este aspecto:
-
-```text
-POST /api/youtube-session/browser/start -> 201
-GET  /api/youtube-session/browser/<session-id> -> 404
-```
-
-El `201` muestra que Server y Token crearon la sesión. El `404` siguiente significa
-que la conexión del navegador llegó a Ktor como un GET HTTP normal en lugar de un
-WebSocket. Revisa las cabeceras `Upgrade` y `Connection` en cada capa de proxy.
-
-La imagen web compatible incluye esta configuración de nginx, así que las
-actualizaciones normales la renuevan con la imagen. Un montaje personalizado desde el
-host sustituye al archivo incluido; si declaraste uno en
-`docker-compose.override.yml`, compáralo con la configuración actual del frontend
-cuando cambie el enrutamiento de WebSockets o de la API.
-
-Gracias a [arcoast](https://github.com/arcoast), cuyo despliegue manual en la
-[discusión #122](https://github.com/TypeType-Video/TypeType/discussions/122)
-identificó un archivo nginx obsoleto como el límite de WebSocket que faltaba.
 
 ## Descargas detrás de un dominio {#downloads-behind-a-domain}
 

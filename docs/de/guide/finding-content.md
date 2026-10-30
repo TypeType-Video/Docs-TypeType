@@ -4,14 +4,13 @@ Mehrere Wege, zu entdecken und zu erreichen, was Sie sehen möchten.
 
 ## Suche {#search}
 
-Durchsuchen Sie den aktiven Dienst und filtern Sie die Ergebnisse nach Art: Videos,
-Kanäle, Wiedergabelisten und Musik (Titel, Videos, Künstler).
+Suchen Sie im aktiven Dienst. Die Reiter über den Ergebnissen grenzen sie nach Typ
+ein; bei YouTube: Videos, Kanäle, Wiedergabelisten, Musik (Songs, Videos, Alben,
+Playlists, Künstler) und **Livestreams**, das nur gerade laufende Streams zeigt.
+BiliBili bietet Live, Kanäle, Anime sowie Filme & Serien. **Filter** ergänzt
+Sortierung, Upload-Datum und Dauer, wo der Dienst sie unterstützt.
 
-![Suchergebnisse](/screenshot-search.png)
-
----
-
-![Suchen über die Suchleiste](/search.gif)
+![Suche über die Suchleiste, dann der Reiter Livestreams](/search.gif)
 
 ## Startseite {#home}
 
@@ -28,6 +27,21 @@ direkt bei den Abonnements landen.
 Öffnen Sie einen Kanal, um seine Videos, Wiedergabelisten und mehr zu sehen, und
 abonnieren Sie ihn dort, um ihn Ihrer [Bibliothek](./library#subscriptions)
 hinzuzufügen.
+
+Auf einem BiliBili-Kanal listet **Sammlungen & Serien** die Sammlungen und Serien des
+Kanals, und **Durchsuche diesen Kanal** sucht nur in seinen Videos. Öffentliche
+BiliBili-Wiedergabelisten lassen sich wie YouTube-Listen in Ihrer Bibliothek
+speichern.
+
+![Ein BiliBili-Kanal: Sammlungen & Serien öffnen, dann den Kanal durchsuchen](/bilibili-channel.gif)
+
+### Verifizierte BiliBili-Kanäle {#verified-bilibili-channels}
+
+BiliBili kennzeichnet verifizierte Kanäle mit einem Blitz, in der Suche und auf
+Kanalseiten: gelb für einen verifizierten Creator, blau für eine verifizierte
+Organisation. In der BiliBili-Kanalsuche stehen verifizierte Kanäle vorne.
+
+![Ein gelber Blitz bei einem verifizierten Creator und ein blauer bei einer verifizierten Organisation](/screenshot-bilibili-verified.png)
 
 ## Shorts {#shorts}
 

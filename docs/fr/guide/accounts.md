@@ -36,6 +36,28 @@ Selon la façon dont l'administrateur l'a configurée :
 La configuration de cela se fait côté administrateur, voir
 [Authentification (OIDC)](/fr/self-hosting/authentication).
 
+## Connecter YouTube {#connect-youtube}
+
+Les vidéos YouTube publiques se lisent sans compte YouTube. Quand YouTube refuse une
+vidéo sans connexion, par exemple une vidéo soumise à une limite d'âge, TypeType peut
+la lire avec un compte YouTube que vous connectez. La page de lecture vous renvoie
+alors vers **Connexion**.
+
+1. Ouvrez **Connexion** dans le menu latéral, puis choisissez **Se connecter à
+   YouTube**.
+2. TypeType affiche un code. Ouvrez `google.com/device` sur n'importe quel appareil
+   et saisissez-le.
+3. Choisissez le compte YouTube et autorisez l'accès. Le statut passe à connecté.
+
+Utilisez un compte YouTube secondaire, et saisissez le code rapidement : il expire au
+bout de quelques minutes. La session YouTube reste chiffrée sur le serveur et n'est
+jamais envoyée à la page web. **Déconnecter** la supprime. Si YouTube n'accepte plus
+la session, la page de lecture vous demande de vous reconnecter.
+
+![La page de connexion YouTube avec le bouton Se connecter à YouTube](/screenshot-youtube-session.png)
+
+L'onglet **BiliBili** en haut de la même page connecte un compte BiliBili.
+
 ## Votre profil {#your-profile}
 
 Depuis votre profil, vous gérez les détails de votre compte. Les administrateurs

@@ -74,21 +74,33 @@ This failure was exposed while following up
 [nanhoes's iOS download report](https://github.com/TypeType-Video/TypeType/issues/116)
 and then checked against the current Server-to-Downloader authorization flow.
 
-## Remote YouTube login starts, then shows a 404
+## YouTube videos fail with 503, 429, or 504 {#youtube-busy}
 
-If session creation succeeds but the browser route returns `404`, the WebSocket was
-probably forwarded as a normal HTTP request. Check every proxy layer for:
+When YouTube blocks the instance address, rate-limits it, or does not answer in time,
+Server answers with a specific status instead of a generic `502`:
 
-```nginx
-proxy_http_version 1.1;
-proxy_set_header Upgrade $http_upgrade;
-proxy_set_header Connection $connection_upgrade;
+| Status | Meaning |
+| --- | --- |
+| `503` | YouTube refuses the instance for now, often with "Sign in to confirm you're not a bot" |
+| `429` | YouTube rate-limits the instance, or the `YOUTUBE_OPENS_PER_MINUTE` limit makes the video wait |
+| `504` | YouTube did not answer before the extraction timeout |
+
+`503` and `429` carry a `Retry-After` header, 60 seconds unless Server knows a better
+delay. The web player waits that long, shows **The video service is busy.
+Retrying…**, then tries again. While YouTube blocks the address, Server pauses its
+YouTube requests, renews its session once, and resumes when the block lifts.
+
+Check Token readiness from the host, replacing `8081` if you changed
+`HOST_PORT_TOKEN`:
+
+```sh
+curl -i http://127.0.0.1:8081/ready
 ```
 
-The supported nginx configuration is bundled into the web image. If the stack uses a
-custom host mount, compare it with the current file in the frontend repository. See
-[Remote login and WebSockets](./reverse-proxy#remote-login-and-websockets) and the
-original [community diagnosis](https://github.com/TypeType-Video/TypeType/discussions/122).
+`/ready` answers `503` until Token has a warm BotGuard session and TV token. If it
+stays at `503`, read the Token logs before investigating Server. If blocks keep
+coming back, lower the pressure with the settings in
+[YouTube request limits](./configuration#youtube-request-limits).
 
 ## Unexpected sign-outs {#unexpected-sign-outs}
 
@@ -126,8 +138,8 @@ This checklist follows the unexpected behavior reported by
 ## A saved YouTube session stopped working after a secret change
 
 `YOUTUBE_SESSION_ENCRYPTION_KEY` encrypts stored YouTube cookies and playback tokens.
-If you change it after remote login has been used, those saved YouTube sessions can
-no longer be decrypted and affected users must connect YouTube again. It does not
+If you change it after viewers have connected YouTube, those saved sessions can no
+longer be decrypted and affected users must connect YouTube again. It does not
 encrypt the TypeType account login. Pick the value once and keep it. The generated
 value is preserved in `typetype_secrets`, so you usually do not need to touch it.
 
@@ -150,7 +162,7 @@ docker compose config --images
 An output containing `ghcr.io/priveetee/...` means the active Compose file still
 points to the former image namespace. Follow
 [Migrate an older Priveetee stack](./maintenance#migrate-an-older-priveetee-stack)
-before investigating Remote Login, the residential IP, or proxy tuning.
+before investigating the YouTube sign-in, the residential IP, or proxy tuning.
 
 The old failure sequence and the successful update were documented by
 [filippobaroni in discussion #133](https://github.com/TypeType-Video/TypeType/discussions/133#discussioncomment-17779201).
@@ -158,10 +170,11 @@ The old failure sequence and the successful update were documented by
 ## Token is healthy but YouTube playback fails
 
 `/health` proves only that the Bun service is listening. PO-token, decoder, SABR, and
-remote-browser flows also require Playwright Chromium and writable runtime paths.
+YouTube sign-in flows also require Playwright Chromium and writable runtime paths.
+`/ready` answers `200` only once the BotGuard session and TV token are warm.
 
 If you applied a custom non-root or read-only container profile, retest `/potoken`, a
-normal YouTube video, a livestream, and remote login separately. An arbitrary
+normal YouTube video, a livestream, and the YouTube sign-in separately. An arbitrary
 `nobody` user has no usable home directory for Chromium Crashpad in the current image.
 Return to the supported Token service definition before treating the failure as a
 Server or Player bug.

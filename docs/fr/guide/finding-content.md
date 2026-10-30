@@ -4,14 +4,13 @@ Plusieurs façons de découvrir et d'atteindre ce que vous voulez regarder.
 
 ## Recherche {#search}
 
-Recherchez sur le service actif et filtrez les résultats par type, vidéos, chaînes,
-playlists, et musique (chansons, vidéos, artistes).
+Recherchez dans le service actif. Les onglets au-dessus des résultats les filtrent
+par type ; sur YouTube : vidéos, chaînes, playlists, musique (titres, clips, albums,
+playlists, artistes) et **Live streams**, qui n'affiche que les directs en cours.
+BiliBili propose direct, chaînes, animés, et films et séries. **Filtres** ajoute le
+tri, la date de mise en ligne et la durée quand le service les prend en charge.
 
-![Résultats de recherche](/screenshot-search.png)
-
----
-
-![Recherche depuis la barre de recherche](/search.gif)
+![Recherche depuis la barre de recherche, puis ouverture de l'onglet Live streams](/search.gif)
 
 ## Accueil {#home}
 
@@ -26,6 +25,22 @@ d'accueil par défaut différente si vous préférez ouvrir directement sur Abon
 
 Ouvrez une chaîne pour voir ses vidéos, playlists, et plus, et abonnez-vous depuis là
 pour l'ajouter à votre [bibliothèque](./library#subscriptions).
+
+Sur une chaîne BiliBili, **Collections et séries** liste les collections et séries
+de la chaîne, et **Rechercher this channel** ne cherche que dans ses vidéos. Les
+playlists BiliBili publiques s'enregistrent dans votre bibliothèque, comme celles de
+YouTube.
+
+![Une chaîne BiliBili : ouverture de Collections et séries, puis recherche dans la chaîne](/bilibili-channel.gif)
+
+### Chaînes BiliBili vérifiées {#verified-bilibili-channels}
+
+BiliBili signale les chaînes vérifiées par un éclair, dans la recherche et sur les
+pages de chaîne : jaune pour un créateur vérifié, bleu pour une organisation
+vérifiée. Dans la recherche de chaînes BiliBili, les chaînes vérifiées passent en
+premier.
+
+![Un éclair jaune sur un créateur vérifié et un éclair bleu sur une organisation vérifiée](/screenshot-bilibili-verified.png)
 
 ## Shorts {#shorts}
 

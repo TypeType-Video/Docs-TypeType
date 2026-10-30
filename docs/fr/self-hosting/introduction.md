@@ -19,7 +19,7 @@ déploiement en commandes simples, pour que vous puissiez inspecter et maîtrise
 | Application web | `ghcr.io/typetype-video/typetype` | L'interface, plus un nginx qui relaie `/api` vers le serveur |
 | Serveur API | `ghcr.io/typetype-video/typetype-server` | Comptes, extraction, API REST, le cœur de l'écosystème |
 | Téléchargeur | `ghcr.io/typetype-video/typetype-downloader` | Prépare les téléchargements et les range dans le stockage objet |
-| Token | `ghcr.io/typetype-video/typetype-token` | Jetons PO de YouTube, décodage du lecteur, métadonnées SABR, sous-titres et connexion distante optionnelle |
+| Token | `ghcr.io/typetype-video/typetype-token` | Jetons PO de YouTube, décodage du lecteur, métadonnées SABR, sous-titres et connexion YouTube |
 | Base de données | `postgres` | Comptes, historique, playlists, paramètres |
 | Cache | `dragonfly` | Cache compatible Redis |
 | Stockage objet | `garage` | Stockage compatible S3 pour les téléchargements |
@@ -46,9 +46,8 @@ vous placez un proxy inverse devant elle et la servez en HTTPS, comme décrit da
 [Proxy inverse et HTTPS](./reverse-proxy).
 
 Token est un service interne, mais il n'est pas optionnel pour la lecture YouTube
-actuelle. `YOUTUBE_REMOTE_LOGIN_ENABLED` ne commande que la connexion interactive à
-YouTube ; les jetons PO, le décodeur, les sous-titres et SABR passent toujours par
-Token quand la connexion distante est désactivée.
+actuelle : les jetons PO, le décodage du lecteur, les sous-titres, SABR et la
+connexion YouTube passent tous par lui.
 
 Pour savoir quel dépôt possède quoi et connaître le chemin de lecture dans le
 navigateur, voir la [vue d'ensemble du projet](/fr/project/) et
@@ -56,22 +55,7 @@ navigateur, voir la [vue d'ensemble du projet](/fr/project/) et
 
 ## À quoi cela ressemble {#what-it-looks-like}
 
-Une instance auto-hébergée une fois lancée, en train de lire une vidéo, de chercher,
-et ses paramètres :
-
-![Regarder une vidéo sur une instance auto-hébergée](/screenshot-watch.png)
-
----
-
-![Résultats de recherche](/screenshot-search.png)
-
----
-
-![La page des paramètres](/screenshot-settings.png)
-
----
-
-La lecture en action :
+Une instance auto-hébergée une fois lancée, en train de lire une vidéo :
 
 ![Lecture vidéo](/watch.gif)
 

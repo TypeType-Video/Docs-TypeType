@@ -3,10 +3,6 @@
 Abre cualquier vídeo para llegar a la página de reproducción: el reproductor, los
 detalles, vídeos relacionados, y comentarios.
 
-![La página de reproducción](/screenshot-watch.png)
-
----
-
 ![Un vídeo reproduciéndose en una instancia autoalojada](/watch.gif)
 
 ## Controles del reproductor {#player-controls}
@@ -20,6 +16,25 @@ pantalla completa) más un menú de configuración donde eliges:
 - **Subtítulos**, elige una pista cuando el vídeo los tenga.
 - **Pista de audio**, cambia de idioma cuando hay varias disponibles. Se puede
   establecer un idioma de audio preferido en [Configuración](./settings#languages).
+
+La barra de progreso y los controles usan el color del reproductor elegido en
+[Settings > Interface](./settings#what-you-see).
+
+![El reproductor con una barra de progreso morada](/screenshot-player-color.png)
+
+## Solo audio {#audio-only}
+
+Selecciona **Audio only** bajo el vídeo para cargar solo el sonido. El reproductor
+muestra la miniatura y el título en lugar de la imagen, mantiene los mismos controles
+y sigue mostrando los subtítulos: actívalos con el botón **CC**. Selecciona otra vez
+**Audio only** para recuperar la imagen. Para empezar así cada vídeo, activa
+**Audio-only playback** en [Settings > Playback](./settings#playback).
+
+![Reproducción en solo audio con subtítulos en inglés bajo el título](/screenshot-audio-only-subtitles.png)
+
+Cuando reproduces una lista, su panel tiene su propio interruptor **Audio-only
+playback**. Parte de tu ajuste de Playback y solo se aplica a esa lista: una lista de
+música puede seguir en solo audio mientras los demás vídeos conservan la imagen.
 
 ## Modo cine e imagen en imagen {#cinema-mode-and-picture-in-picture}
 
@@ -71,6 +86,13 @@ En una pantalla táctil:
 
 Cuando está activada, el siguiente vídeo empieza automáticamente cuando termina el
 actual. Actívala en [Configuración](./settings#playback).
+
+## Cuando el servidor está ocupado {#when-the-server-is-busy}
+
+Si YouTube limita la instancia, el reproductor muestra **The video service is busy.
+Retrying…** y vuelve a intentarlo tras la espera que pide el servidor. Si el servicio
+sigue sin estar disponible, el mensaje te pide que lo intentes de nuevo en un
+momento.
 
 ## Transmisiones en directo {#livestreams}
 

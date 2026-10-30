@@ -24,8 +24,8 @@ Dragonfly a través de tu proxy inverso público.
 
 La pila separa tres tipos de secretos:
 
-- `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` autentica las devoluciones de llamada del
-  inicio de sesión remoto de Server a Token.
+- `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` se sigue generando y compartiendo entre
+  Server y Token, aunque el inicio de sesión remoto que lo usaba se ha retirado.
 - `YOUTUBE_SESSION_ENCRYPTION_KEY` cifra las credenciales de sesión de YouTube
   almacenadas.
 - `GARAGE_RPC_SECRET` autentica el tráfico RPC del clúster de Garage.
@@ -60,7 +60,7 @@ solo lectura y sin capacidades investigado en la
 
 ::: warning No apliques a ciegas un endurecimiento sin probar
 Un contenedor puede responder a `/health` mientras `/potoken`, SABR o el inicio de
-sesión remoto están rotos. Ejecutarlo como un usuario `nobody` arbitrario también deja
+sesión en YouTube están rotos. Ejecutarlo como un usuario `nobody` arbitrario también deja
 a Chromium sin un directorio personal utilizable. Valida todos los flujos de Token, no
 solo su punto de estado, cuando pruebes un perfil de seguridad personalizado.
 :::
@@ -70,7 +70,7 @@ comunidad mostraron que un `/tmp` y un `/home/pwuser` con escritura pueden permi
 sistema de archivos raíz de solo lectura. Esa configuración es un trabajo en curso
 útil, pero todavía no es el valor por defecto de la pila compatible, porque el entorno
 aislado del navegador, la elección de IPC, los tokens PO, SABR y el inicio de sesión
-remoto deben validarse juntos.
+en YouTube deben validarse juntos.
 
 Gracias a [hugoghx](https://github.com/hugoghx) por la investigación detallada de los
 límites del contenedor y las pruebas reproducibles de la discusión #156.
@@ -90,12 +90,8 @@ services:
 ```
 
 `SUBTITLE_SERVICE_URL` es el nombre actual en el código, aunque Token se encarga ahora
-de los tokens PO, la decodificación, SABR y el inicio de sesión remoto además de los
-subtítulos. El Server actual no lee una variable `TOKEN_SERVICE_URL`.
-
-Si el inicio de sesión remoto usa una dirección de Token distinta, define también
-`YOUTUBE_REMOTE_LOGIN_SERVICE_URL` para Server. En la pila compatible ambos valores
-apuntan al mismo servicio interno.
+de los tokens PO, la decodificación, SABR y el inicio de sesión en YouTube además de
+los subtítulos. El Server actual no lee una variable `TOKEN_SERVICE_URL`.
 
 ## Sesiones de autenticación {#authentication-sessions}
 
@@ -131,7 +127,7 @@ el proveedor y verifica OIDC antes de desactivar el inicio de sesión local. Con
 
 - [Límites de los servicios en el Compose estable](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.yml)
 - [Imagen del contenedor Token](https://github.com/TypeType-Video/TypeType-Token/blob/dev/Dockerfile)
-- [Implementación del navegador de Token](https://github.com/TypeType-Video/TypeType-Token/blob/dev/src/remote-login-browser.ts)
-- [Duración del token de acceso de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthAccessTokenCodec.kt)
-- [Duración de la sesión de renovación de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthTokenIssuer.kt)
-- [Ajustes de la cookie de renovación](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthCookieHelpers.kt)
+- [Implementación del navegador de Token](https://github.com/TypeType-Video/TypeType-Token/blob/dev/src/botguard-browser.ts)
+- [Duración del token de acceso de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthAccessTokenCodec.kt)
+- [Duración de la sesión de renovación de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthTokenIssuer.kt)
+- [Ajustes de la cookie de renovación](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthCookieHelpers.kt)

@@ -3,10 +3,6 @@
 Ouvrez n'importe quelle vidéo pour arriver sur la page de lecture : le lecteur, les
 détails, les vidéos apparentées, et les commentaires.
 
-![La page de lecture](/screenshot-watch.png)
-
----
-
 ![Une vidéo en cours de lecture sur une instance auto-hébergée](/watch.gif)
 
 ## Contrôles du lecteur {#player-controls}
@@ -20,6 +16,27 @@ plein écran) plus un menu de paramètres où vous choisissez :
 - **Les sous-titres**, choisissez une piste quand la vidéo en propose.
 - **La piste audio**, changez de langue quand plusieurs sont disponibles. Une langue
   audio préférée peut être définie dans les [Paramètres](./settings#languages).
+
+La barre de progression et les contrôles prennent la couleur du lecteur choisie dans
+[Paramètres > Interface](./settings#what-you-see).
+
+![Le lecteur avec une barre de progression violette](/screenshot-player-color.png)
+
+## Audio uniquement {#audio-only}
+
+Choisissez **Audio uniquement** sous la vidéo pour ne charger que le son. Le lecteur
+affiche la miniature et le titre à la place de l'image, garde les mêmes contrôles et
+continue d'afficher les sous-titres : activez-les avec le bouton **CC**. Choisissez
+de nouveau **Audio uniquement** pour retrouver l'image. Pour lancer chaque vidéo de
+cette façon, activez **Audio-only playback** dans
+[Paramètres > Lecture](./settings#playback).
+
+![Lecture en audio seul avec les sous-titres anglais sous le titre](/screenshot-audio-only-subtitles.png)
+
+Quand vous lisez une playlist, le panneau de la playlist a son propre interrupteur
+**Audio-only playback**. Il part de votre réglage de Lecture et ne vaut que pour
+cette playlist : une playlist de musique peut rester en audio seul pendant que les
+autres vidéos gardent l'image.
 
 ## Mode cinéma et picture-in-picture {#cinema-mode-and-picture-in-picture}
 
@@ -72,6 +89,12 @@ Sur un écran tactile :
 
 Une fois activée, la vidéo suivante démarre automatiquement quand la vidéo en cours se
 termine. Basculez-la dans les [Paramètres](./settings#playback).
+
+## Quand le serveur est saturé {#when-the-server-is-busy}
+
+Si YouTube limite l'instance, le lecteur affiche **Le service vidéo est saturé.
+Nouvelle tentative…** et réessaie après le délai demandé par le serveur. Si le
+service reste indisponible, le message vous invite à réessayer dans un instant.
 
 ## Lives {#livestreams}
 

@@ -64,9 +64,9 @@ server {
 Use [certbot](https://certbot.eff.org/) to obtain and renew the certificate.
 
 ::: warning Keep the upgrade headers and body size
-The app uses WebSockets and accepts large uploads (Takeout imports). If you drop the
-`Upgrade`/`Connection` headers or set a small `client_max_body_size`, parts of the app
-break. The settings above match what the bundled web container expects.
+The app accepts large uploads: backup imports go up to 512 MB. With a small
+`client_max_body_size`, imports fail. The settings above, upgrade headers included,
+match what the bundled web container expects.
 :::
 
 ## Option C - Traefik
@@ -129,32 +129,6 @@ http:
 
 The web container serves plain HTTP on port 80; Traefik terminates HTTPS.
 Enable the Docker or file provider in Traefik according to the example you choose.
-
-## Remote login and WebSockets
-
-Interactive YouTube login starts with a normal HTTP request, then opens a WebSocket
-under `/api/youtube-session/browser/...`. Both the external reverse proxy and the
-bundled nginx configuration must preserve the upgrade.
-
-A characteristic failure looks like this:
-
-```text
-POST /api/youtube-session/browser/start -> 201
-GET  /api/youtube-session/browser/<session-id> -> 404
-```
-
-The `201` shows that Server and Token created the session. The following `404` means
-the browser connection reached Ktor as a plain HTTP GET instead of a WebSocket. Check
-the `Upgrade` and `Connection` headers at every proxy layer.
-
-The supported web image includes this nginx configuration, so normal updates refresh
-it with the image. A custom host mount overrides the bundled file; if one is declared
-in `docker-compose.override.yml`, compare it with the current frontend configuration
-when WebSocket or API routing changes.
-
-Thanks to [arcoast](https://github.com/arcoast), whose manual deployment in
-[discussion #122](https://github.com/TypeType-Video/TypeType/discussions/122)
-identified a stale nginx file as the missing WebSocket boundary.
 
 ## Downloads behind a domain
 

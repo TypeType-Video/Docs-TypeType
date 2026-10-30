@@ -47,7 +47,7 @@ PostgreSQL, Dragonfly y Garage son servicios internos.
 | [TypeType](https://github.com/TypeType-Video/TypeType) | Pila Compose, nginx, instalador, actualizaciones, reversión, coordinación de versiones y el gestor central de incidencias |
 | [TypeType-Frontend](https://github.com/TypeType-Video/TypeType-Frontend) | Rutas de React, interfaz, ajustes, flujos de cuenta y controles de reproducción |
 | [TypeType-Server](https://github.com/TypeType-Video/TypeType-Server) | API HTTP, extracción, cuentas, datos privados de los usuarios, sesiones de reproducción e integraciones |
-| [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | Tokens PO de YouTube, decodificación del reproductor, metadatos SABR, subtítulos y sesiones de navegador para el inicio de sesión remoto |
+| [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | Tokens PO de YouTube, decodificación del reproductor, metadatos SABR, subtítulos e inicio de sesión en YouTube con código |
 | [TypeType-Downloader](https://github.com/TypeType-Video/TypeType-Downloader) | Trabajos de descarga persistentes, transferencia de medios, multiplexado y artefactos |
 | [TypeType-Player](https://github.com/TypeType-Video/TypeType-Player) | Cadena de Media Source Extensions del navegador que usa el frontend |
 | [TypeType-RPC](https://github.com/TypeType-Video/TypeType-RPC) | Aplicación de escritorio que muestra tu reproducción como estado de Discord Rich Presence |

@@ -11,7 +11,7 @@ belongs to a component repository.
 | Docker Compose, installer, update, migration, or rollback | [TypeType](https://github.com/TypeType-Video/TypeType) | `docker-compose*.yml`, `scripts/` |
 | Page, route, nginx, settings control, account UI, or player controls | [TypeType-Frontend](https://github.com/TypeType-Video/TypeType-Frontend) | `apps/web/src/`, `nginx.conf` |
 | Extraction, API route, account data, import, recommendation, or playback session | [TypeType-Server](https://github.com/TypeType-Video/TypeType-Server) | `src/main/kotlin/dev/typetype/server/` |
-| PO token, YouTube player decoder, subtitle metadata, or remote-login browser | [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | `src/` |
+| PO token, YouTube player decoder, subtitle metadata, or YouTube sign-in with a code | [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | `src/` |
 | Download queue, transfer, mux, storage, or artifact | [TypeType-Downloader](https://github.com/TypeType-Video/TypeType-Downloader) | `cmd/`, `internal/`, `migrations/` |
 | MSE buffering, segment scheduling, seek, quality switch, or playback recovery | [TypeType-Player](https://github.com/TypeType-Video/TypeType-Player) | `src/` |
 | Home page algorithm, its settings, or what it deduces | [TypeType-Signals](https://github.com/TypeType-Video/TypeType-Signals) | `recommender/` |
@@ -92,7 +92,7 @@ The repository is GPL-3.0 licensed because of its extractor integration.
 Token is an internal Bun service with a Playwright Chromium runtime. Its name is
 historical: it now provides much more than subtitles or a single token endpoint.
 It supplies YouTube visitor and PO-token data, player decoding, SABR session
-metadata, subtitles, and disposable remote-login browser sessions.
+metadata, subtitles, and the YouTube sign-in with a code.
 
 The frontend must not call Token directly. Server is its consumer and security
 boundary. See [Security boundaries](/self-hosting/security#token-browser-boundary)

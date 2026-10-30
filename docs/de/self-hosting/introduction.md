@@ -19,7 +19,7 @@ können.
 | Web-App | `ghcr.io/typetype-video/typetype` | Die Oberfläche, dazu ein nginx, der `/api` an den Server weiterleitet |
 | API-Server | `ghcr.io/typetype-video/typetype-server` | Konten, Extraktion, die REST-API, der Kern des Ökosystems |
 | Downloader | `ghcr.io/typetype-video/typetype-downloader` | Bereitet Downloads vor und legt sie im Objektspeicher ab |
-| Token | `ghcr.io/typetype-video/typetype-token` | YouTube-PO-Token, Player-Dekodierung, SABR-Metadaten, Untertitel und optionale Remote-Anmeldung |
+| Token | `ghcr.io/typetype-video/typetype-token` | YouTube-PO-Token, Player-Dekodierung, SABR-Metadaten, Untertitel und YouTube-Anmeldung |
 | Datenbank | `postgres` | Konten, Verlauf, Wiedergabelisten, Einstellungen |
 | Cache | `dragonfly` | Redis-kompatibler Cache |
 | Objektspeicher | `garage` | S3-kompatibler Speicher für Downloads |
@@ -46,9 +46,8 @@ Sie einen Reverse-Proxy davor und liefern sie über HTTPS aus, wie in
 [Reverse-Proxy und HTTPS](./reverse-proxy) beschrieben.
 
 Token ist ein interner Dienst, für die aktuelle YouTube-Wiedergabe aber nicht
-optional. `YOUTUBE_REMOTE_LOGIN_ENABLED` steuert nur die interaktive
-YouTube-Anmeldung; PO-Token, Decoder, Untertitel und SABR laufen weiterhin über Token,
-wenn die Remote-Anmeldung aus ist.
+optional: PO-Token, Player-Dekodierung, Untertitel, SABR und die YouTube-Anmeldung
+laufen alle über ihn.
 
 Welches Repository wofür zuständig ist und wie der Wiedergabepfad im Browser aussieht,
 steht in der [Projektübersicht](/de/project/) und unter
@@ -56,22 +55,7 @@ steht in der [Projektübersicht](/de/project/) und unter
 
 ## Wie es aussieht {#what-it-looks-like}
 
-Eine selbst gehostete Instanz im Betrieb, beim Abspielen eines Videos, beim Suchen,
-und ihre Einstellungen:
-
-![Ein Video auf einer selbst gehosteten Instanz ansehen](/screenshot-watch.png)
-
----
-
-![Suchergebnisse](/screenshot-search.png)
-
----
-
-![Die Einstellungsseite](/screenshot-settings.png)
-
----
-
-Die Wiedergabe in Aktion:
+Eine selbst gehostete Instanz im Betrieb, beim Abspielen eines Videos:
 
 ![Videowiedergabe](/watch.gif)
 

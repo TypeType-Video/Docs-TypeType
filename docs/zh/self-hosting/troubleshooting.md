@@ -57,17 +57,25 @@ docker compose exec -T garage /garage key list
 
 这个故障是在跟进 [nanhoes 关于 iOS 下载的报告](https://github.com/TypeType-Video/TypeType/issues/116)时暴露出来的，之后又对照当前从 Server 到 Downloader 的授权流程做了核对。
 
-## YouTube 远程登录开始后显示 404 {#remote-youtube-login-starts-then-shows-a-404}
+## YouTube 视频因 503、429 或 504 失败 {#youtube-busy}
 
-如果会话创建成功，但浏览器路由返回 `404`，很可能是 WebSocket 被当作普通的 HTTP 请求转发了。请在每一层代理上检查是否有：
+当 YouTube 封锁实例地址、对其限流或没有及时响应时，Server 会返回明确的状态码，而不是笼统的 `502`：
 
-```nginx
-proxy_http_version 1.1;
-proxy_set_header Upgrade $http_upgrade;
-proxy_set_header Connection $connection_upgrade;
+| 状态码 | 含义 |
+| --- | --- |
+| `503` | YouTube 暂时拒绝该实例，常见提示是 "Sign in to confirm you're not a bot" |
+| `429` | YouTube 对实例限流，或者 `YOUTUBE_OPENS_PER_MINUTE` 限制让视频需要排队等待 |
+| `504` | YouTube 没有在提取超时前响应 |
+
+`503` 和 `429` 会带上 `Retry-After` 头，默认 60 秒，除非 Server 知道更合适的等待时间。网页播放器会等待这么久，显示**视频服务繁忙，正在重试…**，然后重试。在 YouTube 封锁地址期间，Server 会暂停对 YouTube 的请求，续期一次会话，并在封锁解除后恢复。
+
+在主机上检查 Token 是否就绪；如果改过 `HOST_PORT_TOKEN`，请替换 `8081`：
+
+```sh
+curl -i http://127.0.0.1:8081/ready
 ```
 
-受支持的 nginx 配置已经打包在网页镜像中。如果部署使用了自定义的主机挂载，请把它与 frontend 仓库中当前的文件进行比较。见[远程登录与 WebSocket](./reverse-proxy#remote-login-and-websockets)以及最初的[社区诊断](https://github.com/TypeType-Video/TypeType/discussions/122)。
+在 Token 准备好 BotGuard 会话和 TV 令牌之前，`/ready` 会返回 `503`。如果它一直是 `503`，请先查看 Token 日志，再排查 Server。如果封锁反复出现，请用[对 YouTube 的请求限制](./configuration#youtube-request-limits)中的设置降低压力。
 
 ## 意外登出 {#unexpected-sign-outs}
 
@@ -91,7 +99,7 @@ proxy_set_header Connection $connection_upgrade;
 
 ## 更改密钥后，已保存的 YouTube 会话失效 {#a-saved-youtube-session-stopped-working-after-a-secret-change}
 
-`YOUTUBE_SESSION_ENCRYPTION_KEY` 用于加密保存的 YouTube Cookie 和播放令牌。如果在使用过远程登录之后更改它，那些已保存的 YouTube 会话就无法再解密，受影响的用户必须重新连接 YouTube。它并不加密 TypeType 账号的登录。请一次选定这个值并保留下来。生成的值保存在 `typetype_secrets` 中，所以通常不需要动它。
+`YOUTUBE_SESSION_ENCRYPTION_KEY` 用于加密保存的 YouTube Cookie 和播放令牌。如果在观众连接过 YouTube 之后更改它，那些已保存的会话就无法再解密，受影响的用户必须重新连接 YouTube。它并不加密 TypeType 账号的登录。请一次选定这个值并保留下来。生成的值保存在 `typetype_secrets` 中，所以通常不需要动它。
 
 ## 播放不断重新加载，`/api/proxy` 返回 `422` {#playback-reloads-and-apiproxy-returns-422}
 
@@ -103,15 +111,15 @@ proxy_set_header Connection $connection_upgrade;
 docker compose config --images
 ```
 
-如果输出中包含 `ghcr.io/priveetee/...`，说明当前生效的 Compose 文件仍然指向以前的镜像命名空间。在排查远程登录、家庭 IP 或代理调优之前，请先按[迁移较旧的 Priveetee 部署](./maintenance#migrate-an-older-priveetee-stack)操作。
+如果输出中包含 `ghcr.io/priveetee/...`，说明当前生效的 Compose 文件仍然指向以前的镜像命名空间。在排查 YouTube 登录、家庭 IP 或代理调优之前，请先按[迁移较旧的 Priveetee 部署](./maintenance#migrate-an-older-priveetee-stack)操作。
 
 旧的故障过程和成功的更新由 [filippobaroni 在讨论 #133](https://github.com/TypeType-Video/TypeType/discussions/133#discussioncomment-17779201) 中记录。
 
 ## Token 状态健康，但 YouTube 播放失败 {#token-is-healthy-but-youtube-playback-fails}
 
-`/health` 只能证明 Bun 服务在监听。PO 令牌、解码器、SABR 和远程浏览器流程还需要通过 Playwright 运行的 Chromium，以及可写的运行时路径。
+`/health` 只能证明 Bun 服务在监听。PO 令牌、解码器、SABR 和 YouTube 登录流程还需要通过 Playwright 运行的 Chromium，以及可写的运行时路径。只有在 BotGuard 会话和 TV 令牌就绪后，`/ready` 才会返回 `200`。
 
-如果你应用了自定义的非 root 或只读容器配置，请分别重新测试 `/potoken`、一个普通的 YouTube 视频、一场直播以及远程登录。在当前镜像中，任意的 `nobody` 用户没有可供 Chromium Crashpad 使用的主目录。在把故障当作 Server 或 Player 的错误之前，请先恢复到受支持的 Token 服务定义。
+如果你应用了自定义的非 root 或只读容器配置，请分别重新测试 `/potoken`、一个普通的 YouTube 视频、一场直播以及 YouTube 登录。在当前镜像中，任意的 `nobody` 用户没有可供 Chromium Crashpad 使用的主目录。在把故障当作 Server 或 Player 的错误之前，请先恢复到受支持的 Token 服务定义。
 
 见 [Token 的浏览器边界](./security#token-browser-boundary)以及 [hugoghx 对容器的研究](https://github.com/TypeType-Video/TypeType/discussions/156)。
 

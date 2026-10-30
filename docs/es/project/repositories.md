@@ -9,7 +9,7 @@ Cada componente de TypeType tiene un límite de responsabilidad estrecho, sus pr
 | Docker Compose, instalador, actualización, migración o reversión | [TypeType](https://github.com/TypeType-Video/TypeType) | `docker-compose*.yml`, `scripts/` |
 | Página, ruta, nginx, control de ajustes, interfaz de cuenta o controles del reproductor | [TypeType-Frontend](https://github.com/TypeType-Video/TypeType-Frontend) | `apps/web/src/`, `nginx.conf` |
 | Extracción, ruta de API, datos de cuenta, importación, recomendación o sesión de reproducción | [TypeType-Server](https://github.com/TypeType-Video/TypeType-Server) | `src/main/kotlin/dev/typetype/server/` |
-| Token PO, decodificador del reproductor de YouTube, metadatos de subtítulos o navegador de inicio de sesión remoto | [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | `src/` |
+| Token PO, decodificador del reproductor de YouTube, metadatos de subtítulos o inicio de sesión en YouTube con código | [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | `src/` |
 | Cola de descargas, transferencia, multiplexado, almacenamiento o artefacto | [TypeType-Downloader](https://github.com/TypeType-Video/TypeType-Downloader) | `cmd/`, `internal/`, `migrations/` |
 | Búfer MSE, planificación de segmentos, salto, cambio de calidad o recuperación de la reproducción | [TypeType-Player](https://github.com/TypeType-Video/TypeType-Player) | `src/` |
 | Algoritmo de la página de inicio, sus ajustes o lo que deduce | [TypeType-Signals](https://github.com/TypeType-Video/TypeType-Signals) | `recommender/` |
@@ -79,7 +79,7 @@ El repositorio tiene licencia GPL-3.0 debido a su integración del extractor.
 
 ## Token {#token}
 
-Token es un servicio interno de Bun con un entorno de Chromium mediante Playwright. Su nombre es histórico: hoy ofrece mucho más que subtítulos o un único punto de acceso de tokens. Aporta los datos de visitante y los tokens PO de YouTube, la decodificación del reproductor, los metadatos de sesión SABR, los subtítulos y sesiones de navegador desechables para el inicio de sesión remoto.
+Token es un servicio interno de Bun con un entorno de Chromium mediante Playwright. Su nombre es histórico: hoy ofrece mucho más que subtítulos o un único punto de acceso de tokens. Aporta los datos de visitante y los tokens PO de YouTube, la decodificación del reproductor, los metadatos de sesión SABR, los subtítulos y el inicio de sesión en YouTube con código.
 
 El frontend no debe llamar a Token directamente. Server es su consumidor y su límite de seguridad. Consulta [Límites de seguridad](/es/self-hosting/security#token-browser-boundary) antes de personalizar su contenedor.
 

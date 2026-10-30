@@ -59,8 +59,8 @@ flowchart LR
 ```
 
 Token est une dépendance interne pour les jetons PO de YouTube, le décodage du
-lecteur, les métadonnées de session SABR et les sous-titres. La connexion distante est
-optionnelle, mais le service Token lui-même fait partie de la stack normale. Server
+lecteur, les métadonnées de session SABR, les sous-titres et la connexion YouTube par
+code. Le service Token fait partie de la stack normale. Server
 possède la session amont et donne au navigateur des chemins de médias qui
 appartiennent à TypeType ; le navigateur n'appelle jamais Token directement.
 

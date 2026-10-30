@@ -97,7 +97,10 @@ This arrangement follows the inconsistency identified by
 [arcoast in discussion #123](https://github.com/TypeType-Video/TypeType/discussions/123).
 
 For an external database, set `DATABASE_URL`, `DATABASE_USER`, and
-`DATABASE_PASSWORD` for Server and `DB_URL` for Downloader with a Compose override.
+`DATABASE_PASSWORD` for Server and `DB_URL`, `DB_USER`, and `DB_PASSWORD` for
+Downloader with a Compose override. Both URLs use the JDBC form, for example
+`jdbc:postgresql://db.example:5432/typetype_downloader`; the user and password stay
+in their own variables.
 The Downloader needs its own `typetype_downloader` database in the current design.
 
 ## Downloads and Garage
@@ -141,32 +144,19 @@ for an example.
 ## YouTube and Token
 
 Token stays enabled because YouTube playback uses its PO-token, decoder, subtitle,
-and SABR endpoints. The following flag controls only interactive remote login:
+and SABR endpoints. Viewers connect a YouTube account from the **Login** page with a
+code entered at `google.com/device`; see [Connect YouTube](/guide/accounts#connect-youtube).
+That sign-in needs Token and `YOUTUBE_SESSION_ENCRYPTION_KEY`, which the installer
+generates.
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `YOUTUBE_REMOTE_LOGIN_ENABLED` | `false` | Enables the interactive YouTube sign-in flow |
 | `YOUTUBE_OUTBOUND_PROXY_URL` | empty | Optional outbound proxy used for YouTube traffic |
-| `YOUTUBE_REMOTE_LOGIN_CALLBACK_BASE_URL` | `http://localhost:8080` | Internal Server origin that receives the Token completion callback |
-| `YOUTUBE_REMOTE_LOGIN_CALLBACK_ORIGIN` | `http://typetype-server:8080` | Internal callback origin used by Token |
-| `YOUTUBE_REMOTE_LOGIN_TTL_MS` | `480000` | Lifetime requested by Server, clamped to 1–10 minutes |
-| `YOUTUBE_REMOTE_LOGIN_MAX_SESSIONS` | `2` | Concurrent remote browser sessions, clamped to 1–8 |
-| `YOUTUBE_REMOTE_LOGIN_FRAME_FPS` | `10` | Login-view capture rate |
-| `YOUTUBE_REMOTE_LOGIN_MAX_FRAME_BYTES` | `524288` | Maximum encoded login frame size |
 
-Keep the default callback as an internal Server URL. The browser reaches the login
-session through the public web origin and a WebSocket; it does not call that callback
-address directly.
-
-Both callback settings must use the same internal Server origin in a custom Compose
-stack. Set `YOUTUBE_REMOTE_LOGIN_CALLBACK_BASE_URL` on Server and
-`YOUTUBE_REMOTE_LOGIN_CALLBACK_ORIGIN` on Token to the hostname and port that Token
-can reach on the Compose network, for example `http://typetype-server:8080`. Do not
-use the public web URL for either setting.
-
-In the supported Compose file, Token keeps its own eight-minute default cap because
-this TTL variable is passed only to Server. Values above eight minutes therefore do
-not extend the effective reservation without a custom Token configuration.
+The former remote browser sign-in has been removed from the web app and Server. The
+supported Compose file still passes the `YOUTUBE_REMOTE_LOGIN_*` variables and the
+installer still generates `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN`; leave them as they
+are. Changing them does not bring the remote sign-in back.
 
 Custom Compose stacks that rename the `typetype-token` service must set Server's
 current internal endpoint variable, `SUBTITLE_SERVICE_URL`, or keep
@@ -193,7 +183,8 @@ not pass them: set them with a Compose override on `typetype-server`.
 | `EXTRACTOR_SIMULTANEOUS_REQUESTS_PER_HOST` | `64` | Requests the extractor may have on their way to one host at once |
 | `EXTRACTOR_HTTP_VERSION` | HTTP/2 | `1` uses one request per connection. Use it if Server stops answering under a crowd while its processor is idle. |
 | `SUBSCRIPTION_FEED_MAX_CONCURRENT_FETCHES` | `20` | Channel pages asked at once when a subscription feed is built; can only be lowered |
-| `SUBSCRIPTION_FEED_FRESHNESS_SECONDS` | `60` | How old a subscription feed may be before reading it starts a refresh; can only be raised, up to one day |
+| `SUBSCRIPTION_FEED_FRESHNESS_SECONDS` | `720` | How often Server refreshes the feed of a viewer who reads it, from 300 seconds to one day |
+| `SUBSCRIPTION_FEED_ACTIVE_WINDOW_SECONDS` | `3600` | How long after a viewer last opened their feed Server keeps refreshing it, from 300 seconds to seven days |
 | `YOUTUBE_REQUEST_LOG` | off | `1` writes one log line per request sent to YouTube. For diagnosis only. |
 
 ```yaml
@@ -213,6 +204,11 @@ docker compose up -d --force-recreate typetype-server
 Server never asks YouTube for the text of a subtitle track on its own; that address
 is the one YouTube guards most closely.
 
+Reading a subscription feed does not start a refresh. Every minute, Server refreshes
+in the background the feeds of viewers who opened theirs within the active window,
+once they are older than the freshness value plus a small per-viewer offset. Only a
+viewer with no feed at all gets one built on the spot.
+
 ## Recommender {#recommender}
 
 The optional recommender has its own page, with its requirements and every setting:
@@ -222,7 +218,7 @@ The optional recommender has its own page, with its requirements and every setti
 
 | Variable | Purpose |
 | --- | --- |
-| `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` | Authenticates remote-login callbacks between Server and Token |
+| `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` | Generated and passed to Server and Token; the remote sign-in that used it has been removed |
 | `YOUTUBE_SESSION_ENCRYPTION_KEY` | Encrypts stored YouTube session credentials |
 
 The `typetype-secrets` init container writes these to a private named volume. Empty
@@ -295,4 +291,4 @@ removing passwords and secrets.
 - [Current `.env.example`](https://github.com/TypeType-Video/TypeType/blob/main/.env.example)
 - [Stable Compose environment](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.yml)
 - [Server environment loading](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/Application.kt)
-- [Remote-login configuration](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/YoutubeRemoteBrowserConfig.kt)
+- [YouTube sign-in routes](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-http/src/main/kotlin/dev/typetype/server/routes/YoutubeSessionRoutes.kt)

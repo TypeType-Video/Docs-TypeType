@@ -25,8 +25,9 @@ downloader, and login services, all running on your instance.
 
 ## Bringing your data in
 
-Already have subscriptions and playlists elsewhere? You can import them from a Google
-Takeout export or a PipePipe backup, see [Importing your data](/self-hosting/importing-data).
+Already have subscriptions and playlists elsewhere? You can import them from
+PipePipe, NewPipe, LibreTube, Invidious, Piped, Grayjay, Google Takeout, an OPML file,
+and more, see [Importing your data](/self-hosting/importing-data).
 
 ## First time here?
 

@@ -64,9 +64,9 @@ reproductor, metadatos de formatos adaptativos y la URL de transmisión SABR. Su
 respuesta `/youtube/sabr/session` es interna y se convierte en modelos de Server antes
 de que nada llegue al navegador.
 
-Token es necesario para la reproducción actual de YouTube incluso cuando el inicio de
-sesión remoto en YouTube está desactivado. El ajuste opcional controla solo el flujo
-de inicio de sesión interactivo, no el propio servicio de tokens y decodificación.
+Token es necesario para la reproducción actual de YouTube, conecten o no los
+espectadores una cuenta de YouTube. El inicio de sesión en YouTube con código también
+pasa por Token.
 
 ### Player {#player}
 
@@ -149,10 +149,10 @@ agradecimientos.
 
 ## Referencias {#source-references}
 
-- [Rutas SABR de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/routes/SabrRoutes.kt)
-- [Almacén de sesiones de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/SabrSessionStore.kt)
-- [Cliente SABR de Server a Token](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/TypetypeTokenYoutubeSessionClient.kt)
+- [Rutas SABR de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-http/src/main/kotlin/dev/typetype/server/routes/SabrRoutes.kt)
+- [Almacén de sesiones de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-playback/src/main/kotlin/dev/typetype/server/services/SabrSessionStore.kt)
+- [Cliente SABR de Server a Token](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-token-gateway/src/main/kotlin/dev/typetype/server/services/TypetypeTokenYoutubeSessionClient.kt)
 - [Implementación de la sesión SABR de Token](https://github.com/TypeType-Video/TypeType-Token/blob/dev/src/youtube-sabr-session.ts)
 - [Código de Player](https://github.com/TypeType-Video/TypeType-Player/tree/dev/src)
-- [Pasarela de Downloader en Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/routes/DownloaderGatewayRoutes.kt)
+- [Pasarela de Downloader en Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-http/src/main/kotlin/dev/typetype/server/routes/DownloaderGatewayRoutes.kt)
 - [Cadena de procesamiento de Downloader](https://github.com/TypeType-Video/TypeType-Downloader/tree/dev/internal/pipeline)

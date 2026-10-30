@@ -21,6 +21,20 @@
 
 这项配置由管理员完成，见[身份验证（OIDC）](/zh/self-hosting/authentication)。
 
+## 连接 YouTube {#connect-youtube}
+
+公开的 YouTube 视频无需 YouTube 账号即可播放。如果 YouTube 要求登录才能观看某个视频（例如有年龄限制的视频），TypeType 可以用你连接的 YouTube 账号播放它。此时观看页会引导你前往**连接**页面。
+
+1. 在侧边菜单中打开**连接**，然后选择**连接 YouTube**。
+2. TypeType 会显示一个代码。在任意设备上打开 `google.com/device` 并输入它。
+3. 选择 YouTube 账号并允许访问。状态会变为已连接。
+
+请使用备用 YouTube 账号，并尽快输入代码：代码会在几分钟后过期。YouTube 会话加密保存在服务器上，绝不会发送到网页。**断开连接**会删除它。如果 YouTube 不再接受该会话，观看页会提示你重新连接。
+
+![带有“连接 YouTube”按钮的 YouTube 登录页面](/screenshot-youtube-session.png)
+
+同一页面顶部的 **BiliBili** 标签用于连接 BiliBili 账号。
+
 ## 你的个人资料 {#your-profile}
 
 在个人资料中管理你的账号信息。管理员还有一个 **控制台** 区域，用来查看错误报告和管理实例。

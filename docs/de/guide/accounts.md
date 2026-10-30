@@ -34,6 +34,28 @@ Je nachdem, wie der Administrator es eingerichtet hat:
 Die Einrichtung liegt beim Administrator, siehe
 [Authentifizierung (OIDC)](/de/self-hosting/authentication).
 
+## YouTube verbinden {#connect-youtube}
+
+Öffentliche YouTube-Videos laufen ohne YouTube-Konto. Wenn YouTube ein Video ohne
+Anmeldung verweigert, etwa ein altersbeschränktes, kann TypeType es mit einem
+verbundenen YouTube-Konto abspielen. Die Wiedergabeseite verweist Sie dann auf
+**Anmeldung**.
+
+1. Öffnen Sie **Anmeldung** im Seitenmenü und wählen Sie **Mit YouTube verbinden**.
+2. TypeType zeigt einen Code. Öffnen Sie `google.com/device` auf einem beliebigen
+   Gerät und geben Sie ihn ein.
+3. Wählen Sie das YouTube-Konto und erlauben Sie den Zugriff. Der Status wechselt auf
+   verbunden.
+
+Verwenden Sie ein zweites YouTube-Konto und geben Sie den Code zügig ein: Er läuft
+nach einigen Minuten ab. Die YouTube-Sitzung bleibt verschlüsselt auf dem Server und
+wird nie an die Webseite gesendet. **Trennen** entfernt sie. Akzeptiert YouTube die
+Sitzung nicht mehr, fordert die Wiedergabeseite Sie auf, sich erneut zu verbinden.
+
+![Die YouTube-Anmeldeseite mit der Schaltfläche Mit YouTube verbinden](/screenshot-youtube-session.png)
+
+Der Reiter **BiliBili** oben auf derselben Seite verbindet ein BiliBili-Konto.
+
 ## Ihr Profil {#your-profile}
 
 In Ihrem Profil verwalten Sie Ihre Kontodaten. Administratoren haben außerdem einen

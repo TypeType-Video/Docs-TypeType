@@ -1,50 +1,61 @@
 # 导入你的数据
 
-实例运行起来、账号创建好之后，你可以把已有的订阅、播放列表和历史记录带进来。TypeType 支持从两种来源导入：**Google Takeout** 导出文件，或 **PipePipe** 备份。
+实例运行起来、账号也创建好之后，你可以把以前所用应用中的订阅、播放列表、历史记录等内容迁移进来，之后也可以再导出到其他应用。打开侧边栏中的**数据传输**；新账号注册后会直接来到这里。
 
-注册之后的引导界面上就有这个功能，之后也可以随时在侧边栏的 **导入** 中找到。
+## 支持的应用 {#supported-apps}
 
-![导入界面](/screenshot-onboarding.png)
+| 应用或格式 | 文件 | 导入 | 导出 |
+| --- | --- | --- | --- |
+| TypeType | `.json` | 全部 | 全部 |
+| PipePipe | `.zip` | 支持 | 不支持 |
+| NewPipe | `.zip` | 支持 | 支持 |
+| Invidious | `.json` | 支持 | 支持 |
+| Piped | `.json` | 支持 | 支持 |
+| LibreTube | `.json` | 支持 | 支持 |
+| ViewTube | `.zip` | 支持 | 不支持 |
+| Flow | `.json` | 支持 | 支持 |
+| Grayjay | `.zip` | 支持 | 支持 |
+| YouTube Takeout | `.zip` | 支持 | 不支持 |
+| OPML | `.opml` | 订阅 | 订阅 |
+| Materialious | `.json` | 订阅 | 订阅 |
+| SkyTube | `.opml` | 订阅 | 订阅 |
+| youtube-local | `.opml` | 订阅 | 订阅 |
+
+能迁移哪些内容取决于各个应用保存了什么：订阅、订阅分组、观看历史、播放列表、稍后再看、收藏、播放进度、搜索历史、已保存的播放列表、设置或内容过滤规则。TypeType 备份包含全部内容。如果某个格式只保存了某一类别的部分内容，预览和最终报告都会注明。
+
+![“导入来源”菜单，列出所有支持的来源](/screenshot-import-sources.png)
+
+## 导入 {#import}
+
+1. 从你现在使用的应用中导出备份，并保持文件原样：不要解压，也不要修改。
+2. 在**数据传输**中停留在**导入**，把**导入来源**保持为**自动检测**，或者自己选择应用。
+3. 拖入文件或选择文件。大小上限为 512 MB。
+4. TypeType 会分析文件并显示预览：检测到的来源、每个类别找到的条目数、重复项以及兼容性说明。在这一步之前不会写入任何数据。
+5. 随后，导入会针对检测到的全部内容自动开始。你已有的条目会被跳过。你可以离开页面，导入会继续进行。
+
+完成后，会有一份报告列出导入和跳过的内容，你可以下载它。
 
 ## 从 YouTube 导入（Google Takeout） {#from-youtube-google-takeout}
 
-这会带入你的**订阅、播放列表、收藏和观看历史**（历史和收藏只有在导出文件包含相应的“我的活动”记录时才会导入）。
+Takeout 可以导入你的**订阅、观看历史、播放列表、稍后再看以及点赞的视频**（作为收藏）。
 
-1. 申请导出 **YouTube 和 YouTube Music** 的 Google Takeout；如果想要观看历史，还要加上**我的活动**。应用提供了一个一键链接，会替你预先选好需要的产品。
-2. 等 Google 准备好之后，下载 ZIP 文件。较大的导出会被拆成多个 ZIP，这是正常的。
-3. 在导入界面选择 **Import from YouTube**，然后拖入**一个或多个 Takeout ZIP 文件**（可以一次选择多个）。
-4. 开始导入，然后检查你的订阅和播放列表。
+1. 在**导入来源**中选择 **YouTube Takeout**，然后选择 **Open Google Takeout**：这个链接会预先选好 YouTube 和“我的活动”。如果想导入观看历史，请保留“我的活动”。
+2. 创建一次性的 ZIP 导出，并从 Google 下载。
+3. 拖入原始 ZIP。如果 Google 把导出拆成了多个 ZIP，请逐个导入。
 
-::: warning 导入进度停在零
-如果预览成功，但导入一直停在 `00` 个类别、没有任何进展，请在取消之前记下任务标识符和预览中的数量。这个问题在 [issue #276](https://github.com/TypeType-Video/TypeType/issues/276) 中跟踪；它与 Takeout 文件识别失败是两回事。报告时不要附上压缩包或任何账号数据。
-:::
+导入会去除重复的订阅、播放列表和视频，在匹配时复用已有的播放列表，并把 YouTube 的系统播放列表对应到 TypeType 的**收藏**和**稍后再看**，而不是普通播放列表。当系统播放列表缺失或不完整时，“赞”的活动记录也可以补全收藏，并保留原始时间和顺序。元数据不完整的条目会在后台补全，因此播放列表可以立即打开。
 
-::: tip
-不需要解压任何东西：把 Google 给你的 Takeout ZIP 原样上传即可。
-:::
+如果导入提示没有找到账号数据，说明你拖入的是只包含视频的导出部分：请选择包含历史记录、订阅或播放列表的 ZIP。如果提示压缩包超出限制或已加密，请重新以更小的 ZIP 分卷导出 YouTube 数据。
 
-选择多个压缩包时，Frontend 会逐个处理并提交。每次导入都会去掉重复的订阅、播放列表和视频链接；当播放列表的来源对应关系或名称已经匹配时，会复用已有的播放列表；并把已存在的条目报告为已跳过。因此，后面的压缩包会跳过前面已经提交的数据。YouTube 的系统播放列表会对应到 TypeType 的**收藏**和**稍后再看**，而不是作为重复的普通播放列表出现。
+## 导出 {#export}
 
-当系统播放列表缺失或不完整时，“赞过的视频”的活动记录也可以用来恢复收藏。导入程序会保留活动原本的时间，能识别 Takeout 的英文和法文日期格式，并忽略已删除、私享或不可用的赞过视频记录。这样可以保留原来的顺序，而不是按相反的顺序赋予导入时的时间戳。
+在**导出**标签中，选择**目标格式**和要包含的类别，然后点击 **Generate export** 并下载文件。如果目标格式无法保存 TypeType 的全部字段，会显示警告，报告也会列出无法保留的内容。TypeType 导出会保留全部内容，迁移到另一个 TypeType 实例时请使用它。
 
-较旧或不可用的 Takeout 行可能只包含备用的元数据。播放列表会立即打开，Server 在后台安排元数据修复，而不是在解析每一项的过程中阻塞整个响应。
-
-这些细节是在 [lelam183 报告导入的播放列表缓慢、顺序颠倒且有重复](https://github.com/TypeType-Video/TypeType/issues/135)之后复查的。
-
-## 从 PipePipe 导入 {#from-pipepipe}
-
-从 PipePipe 应用过来？直接从它的备份恢复。
-
-1. 从 PipePipe 导出一份备份（一个 `.zip` 文件）。
-2. 在导入界面选择 **Import from PipePipe**，然后拖入备份 ZIP。
-3. 这会恢复你的**历史记录、订阅、播放列表和观看进度**。
-
-## 导入之后 {#after-importing}
-
-导入完成后，它会显示一份简短的报告，说明带入了什么、跳过了什么，让你清楚地知道发生了什么。你的订阅和播放列表立即可用。
+**设置 > 数据**也可以直接创建和恢复 TypeType 备份。在那里恢复会替换备份中包含的类别。
 
 ## 参考链接 {#source-references}
 
-- [Takeout 解析与去重](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/YoutubeTakeoutParserService.kt)
-- [Takeout 的提交行为](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/YoutubeTakeoutImporterService.kt)
-- [后台元数据修复](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/UserVideoMetadataRepairService.kt)
+- [支持的格式](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-portability/src/main/kotlin/dev/typetype/server/portability/PortabilityFormat.kt)
+- [已注册的导入器和导出器](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-portability/src/main/kotlin/dev/typetype/server/portability/PortabilityEngineFactory.kt)
+- [Takeout 解析与去重](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-services/src/main/kotlin/dev/typetype/server/services/YoutubeTakeoutParserService.kt)
+- [后台元数据修复](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-services/src/main/kotlin/dev/typetype/server/services/UserVideoMetadataRepairService.kt)

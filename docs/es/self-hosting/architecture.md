@@ -59,8 +59,8 @@ flowchart LR
 ```
 
 Token es una dependencia interna para los tokens PO de YouTube, la decodificación del
-reproductor, los metadatos de sesión SABR y los subtítulos. El inicio de sesión remoto
-es opcional, pero el propio servicio Token forma parte de la pila normal. Server es
+reproductor, los metadatos de sesión SABR, los subtítulos y el inicio de sesión en
+YouTube con código. El servicio Token forma parte de la pila normal. Server es
 dueño de la sesión de origen y entrega al navegador rutas de medios propias de
 TypeType; el navegador nunca llama a Token directamente.
 

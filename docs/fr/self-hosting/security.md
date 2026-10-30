@@ -25,8 +25,8 @@ Dragonfly par votre proxy inverse public.
 
 La stack sépare trois sortes de secrets :
 
-- `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` authentifie les rappels de connexion distante
-  de Server vers Token.
+- `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` est toujours généré et partagé entre Server
+  et Token, même si la connexion distante qui s'en servait a été retirée.
 - `YOUTUBE_SESSION_ENCRYPTION_KEY` chiffre les identifiants de session YouTube
   stockés.
 - `GARAGE_RPC_SECRET` authentifie le trafic RPC du cluster Garage.
@@ -60,7 +60,7 @@ root, en lecture seule et sans capacités étudié dans la
 
 ::: warning N'appliquez pas à l'aveugle un durcissement non testé
 Un conteneur peut répondre à `/health` alors que `/potoken`, SABR ou la connexion
-distante est cassé. Tourner sous un utilisateur `nobody` arbitraire laisse aussi
+YouTube est cassé. Tourner sous un utilisateur `nobody` arbitraire laisse aussi
 Chromium sans dossier personnel utilisable. Validez tous les parcours de Token, pas
 seulement son point de santé, quand vous testez un profil de sécurité sur mesure.
 :::
@@ -70,7 +70,7 @@ ont montré qu'un `/tmp` et un `/home/pwuser` inscriptibles peuvent permettre un
 système de fichiers racine en lecture seule. Cette configuration est un travail en
 cours utile, mais ce n'est pas encore le défaut de la stack prise en charge, parce que
 le bac à sable du navigateur, le choix IPC, les jetons PO, SABR et la connexion
-distante doivent être validés ensemble.
+YouTube doivent être validés ensemble.
 
 Merci à [hugoghx](https://github.com/hugoghx) pour l'étude détaillée des limites du
 conteneur et les tests reproductibles de la discussion #156.
@@ -90,12 +90,8 @@ services:
 ```
 
 `SUBTITLE_SERVICE_URL` est le nom actuel dans le code, même si Token s'occupe
-désormais des jetons PO, du décodage, de SABR et de la connexion distante en plus des
+désormais des jetons PO, du décodage, de SABR et de la connexion YouTube en plus des
 sous-titres. Le Server actuel ne lit pas de variable `TOKEN_SERVICE_URL`.
-
-Si la connexion distante utilise une adresse Token séparée, définissez aussi
-`YOUTUBE_REMOTE_LOGIN_SERVICE_URL` pour Server. Dans la stack prise en charge, les
-deux valeurs désignent le même service interne.
 
 ## Sessions d'authentification {#authentication-sessions}
 
@@ -132,7 +128,7 @@ connexion locale. Voir [Authentification (OIDC)](./authentication).
 
 - [Limites des services dans le Compose stable](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.yml)
 - [Image du conteneur Token](https://github.com/TypeType-Video/TypeType-Token/blob/dev/Dockerfile)
-- [Implémentation du navigateur de Token](https://github.com/TypeType-Video/TypeType-Token/blob/dev/src/remote-login-browser.ts)
-- [Durée de vie du jeton d'accès de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthAccessTokenCodec.kt)
-- [Durée de vie de la session de renouvellement de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthTokenIssuer.kt)
-- [Réglages du cookie de renouvellement](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthCookieHelpers.kt)
+- [Implémentation du navigateur de Token](https://github.com/TypeType-Video/TypeType-Token/blob/dev/src/botguard-browser.ts)
+- [Durée de vie du jeton d'accès de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthAccessTokenCodec.kt)
+- [Durée de vie de la session de renouvellement de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthTokenIssuer.kt)
+- [Réglages du cookie de renouvellement](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthCookieHelpers.kt)

@@ -26,8 +26,8 @@ PostgreSQL oder Dragonfly nicht über Ihren öffentlichen Reverse-Proxy frei.
 
 Der Stack trennt drei Arten von Geheimnissen:
 
-- `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` authentifiziert die Rückrufe der
-  Remote-Anmeldung von Server an Token.
+- `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` wird weiterhin erzeugt und zwischen Server
+  und Token geteilt, obwohl die Remote-Anmeldung, die ihn nutzte, entfernt wurde.
 - `YOUTUBE_SESSION_ENCRYPTION_KEY` verschlüsselt gespeicherte
   YouTube-Sitzungsdaten.
 - `GARAGE_RPC_SECRET` authentifiziert den RPC-Verkehr des Garage-Clusters.
@@ -63,7 +63,7 @@ untersucht wurde.
 
 ::: warning Wenden Sie keine ungetestete Härtung blind an
 Ein Container kann `/health` bestehen, während `/potoken`, SABR oder die
-Remote-Anmeldung defekt ist. Der Betrieb als beliebiger Nutzer `nobody` lässt Chromium
+YouTube-Anmeldung defekt ist. Der Betrieb als beliebiger Nutzer `nobody` lässt Chromium
 außerdem ohne nutzbares Home-Verzeichnis. Prüfen Sie alle Abläufe von Token, nicht nur
 den Zustandsendpunkt, wenn Sie ein eigenes Sicherheitsprofil testen.
 :::
@@ -72,7 +72,7 @@ Das aktuelle Playwright-Image enthält ein Konto `pwuser`, und Tests aus der Com
 haben ergeben, dass ein beschreibbares `/tmp` und `/home/pwuser` ein schreibgeschütztes
 Root-Dateisystem ermöglichen können. Diese Konfiguration ist nützliche laufende
 Arbeit, aber noch nicht der Standard des unterstützten Stacks, weil Browser-Sandbox,
-IPC-Wahl, PO-Token, SABR und Remote-Anmeldung gemeinsam geprüft werden müssen.
+IPC-Wahl, PO-Token, SABR und YouTube-Anmeldung gemeinsam geprüft werden müssen.
 
 Dank an [hugoghx](https://github.com/hugoghx) für die ausführliche Untersuchung der
 Container-Grenzen und die reproduzierbaren Tests in Diskussion #156.
@@ -92,12 +92,9 @@ services:
 ```
 
 `SUBTITLE_SERVICE_URL` ist der aktuelle Name in der Implementierung, obwohl Token
-inzwischen neben Untertiteln auch PO-Token, Dekodierung, SABR und Remote-Anmeldung
-übernimmt. Der aktuelle Server liest keine Variable `TOKEN_SERVICE_URL`.
-
-Nutzt die Remote-Anmeldung eine eigene Token-Adresse, setzen Sie für Server auch
-`YOUTUBE_REMOTE_LOGIN_SERVICE_URL`. Im unterstützten Stack zeigen beide Werte auf
-denselben internen Dienst.
+inzwischen neben Untertiteln auch PO-Token, Dekodierung, SABR und die
+YouTube-Anmeldung übernimmt. Der aktuelle Server liest keine Variable
+`TOKEN_SERVICE_URL`.
 
 ## Authentifizierungssitzungen {#authentication-sessions}
 
@@ -134,7 +131,7 @@ Anmeldung abschalten. Siehe [Authentifizierung (OIDC)](./authentication).
 
 - [Dienstgrenzen im stabilen Compose](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.yml)
 - [Container-Image von Token](https://github.com/TypeType-Video/TypeType-Token/blob/dev/Dockerfile)
-- [Browser-Implementierung von Token](https://github.com/TypeType-Video/TypeType-Token/blob/dev/src/remote-login-browser.ts)
-- [Lebensdauer des Zugriffstokens von Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthAccessTokenCodec.kt)
-- [Lebensdauer der Erneuerungssitzung von Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthTokenIssuer.kt)
-- [Einstellungen des Erneuerungs-Cookies](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthCookieHelpers.kt)
+- [Browser-Implementierung von Token](https://github.com/TypeType-Video/TypeType-Token/blob/dev/src/botguard-browser.ts)
+- [Lebensdauer des Zugriffstokens von Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthAccessTokenCodec.kt)
+- [Lebensdauer der Erneuerungssitzung von Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthTokenIssuer.kt)
+- [Einstellungen des Erneuerungs-Cookies](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthCookieHelpers.kt)

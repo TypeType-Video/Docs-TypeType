@@ -9,7 +9,7 @@ TypeType 的每个组件都有明确而狭窄的职责范围、各自的检查�
 | Docker Compose、安装脚本、更新、迁移或回滚 | [TypeType](https://github.com/TypeType-Video/TypeType) | `docker-compose*.yml`, `scripts/` |
 | 页面、路由、nginx、设置项、账号界面或播放器控件 | [TypeType-Frontend](https://github.com/TypeType-Video/TypeType-Frontend) | `apps/web/src/`, `nginx.conf` |
 | 提取、API 路由、账号数据、导入、推荐或播放会话 | [TypeType-Server](https://github.com/TypeType-Video/TypeType-Server) | `src/main/kotlin/dev/typetype/server/` |
-| PO 令牌、YouTube 播放器解码器、字幕元数据或远程登录浏览器 | [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | `src/` |
+| PO 令牌、YouTube 播放器解码器、字幕元数据或用代码登录 YouTube | [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | `src/` |
 | 下载队列、传输、封装、存储或成品文件 | [TypeType-Downloader](https://github.com/TypeType-Video/TypeType-Downloader) | `cmd/`, `internal/`, `migrations/` |
 | MSE 缓冲、分段调度、跳转、画质切换或播放恢复 | [TypeType-Player](https://github.com/TypeType-Video/TypeType-Player) | `src/` |
 | 首页算法、它的设置或它推断出的内容 | [TypeType-Signals](https://github.com/TypeType-Video/TypeType-Signals) | `recommender/` |
@@ -79,7 +79,7 @@ Server 是一个运行在 JDK 25 上的 Kotlin/Ktor 应用。它用 PipePipeExtr
 
 ## Token {#token}
 
-Token 是一个内部的 Bun 服务，带有通过 Playwright 运行的 Chromium。它的名字是历史遗留的：如今它提供的远不止字幕或单个令牌端点。它提供 YouTube 的访客数据和 PO 令牌、播放器解码、SABR 会话元数据、字幕，以及用于远程登录的一次性浏览器会话。
+Token 是一个内部的 Bun 服务，带有通过 Playwright 运行的 Chromium。它的名字是历史遗留的：如今它提供的远不止字幕或单个令牌端点。它提供 YouTube 的访客数据和 PO 令牌、播放器解码、SABR 会话元数据、字幕，以及用代码登录 YouTube。
 
 frontend 不得直接调用 Token。Server 是它的使用方，也是它的安全边界。在自定义它的容器之前，请先阅读[安全边界](/zh/self-hosting/security#token-browser-boundary)。
 

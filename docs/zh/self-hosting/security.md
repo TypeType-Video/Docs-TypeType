@@ -20,7 +20,7 @@ TypeType 会处理账号数据、YouTube 会话 Cookie、在浏览器中执行�
 
 部署把密钥分成三类：
 
-- `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` 用于验证从 Server 到 Token 的远程登录回调。
+- `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` 仍会生成并在 Server 和 Token 之间共享，尽管使用它的远程登录已经移除。
 - `YOUTUBE_SESSION_ENCRYPTION_KEY` 用于加密保存的 YouTube 会话凭据。
 - `GARAGE_RPC_SECRET` 用于验证 Garage 集群的 RPC 流量。
 
@@ -41,10 +41,10 @@ TypeType-Token 通过 Playwright 启动 Chromium，用于 BotGuard 和 PO 令牌
 受支持的 Compose 目前使用 `init: true` 和 `ipc: host` 来保证 Chromium 的稳定。发布的镜像还没有声明[讨论 #156](https://github.com/TypeType-Video/TypeType/discussions/156)中研究的那种完整的非 root、只读、去除能力的配置。
 
 ::: warning 不要盲目套用未经测试的加固配置
-容器可能通过了 `/health`，而 `/potoken`、SABR 或远程登录却已经损坏。以任意的 `nobody` 用户运行也会让 Chromium 没有可用的主目录。测试自定义的安全配置时，请验证 Token 的全部流程，而不只是它的健康检查端点。
+容器可能通过了 `/health`，而 `/potoken`、SABR 或 YouTube 登录却已经损坏。以任意的 `nobody` 用户运行也会让 Chromium 没有可用的主目录。测试自定义的安全配置时，请验证 Token 的全部流程，而不只是它的健康检查端点。
 :::
 
-当前的 Playwright 镜像包含一个 `pwuser` 账号，社区测试发现，可写的 `/tmp` 和 `/home/pwuser` 可以支持只读的根文件系统。这种配置是有价值的进行中的工作，但还不是受支持部署的默认设置，因为浏览器沙箱、IPC 的选择、PO 令牌、SABR 和远程登录流程必须一起验证。
+当前的 Playwright 镜像包含一个 `pwuser` 账号，社区测试发现，可写的 `/tmp` 和 `/home/pwuser` 可以支持只读的根文件系统。这种配置是有价值的进行中的工作，但还不是受支持部署的默认设置，因为浏览器沙箱、IPC 的选择、PO 令牌、SABR 和 YouTube 登录流程必须一起验证。
 
 感谢 [hugoghx](https://github.com/hugoghx) 在讨论 #156 中对容器边界所做的详细研究和可复现的测试。
 
@@ -59,9 +59,7 @@ services:
       SUBTITLE_SERVICE_URL: http://my-token-service:8081
 ```
 
-`SUBTITLE_SERVICE_URL` 是当前实现中使用的名称，尽管 Token 现在除了字幕之外还负责 PO 令牌、解码、SABR 和远程登录。目前的 Server 不会读取 `TOKEN_SERVICE_URL` 变量。
-
-如果远程登录使用单独的 Token 地址，还要为 Server 设置 `YOUTUBE_REMOTE_LOGIN_SERVICE_URL`。在受支持的部署中，这两个值指向同一个内部服务。
+`SUBTITLE_SERVICE_URL` 是当前实现中使用的名称，尽管 Token 现在除了字幕之外还负责 PO 令牌、解码、SABR 和 YouTube 登录。目前的 Server 不会读取 `TOKEN_SERVICE_URL` 变量。
 
 ## 身份验证会话 {#authentication-sessions}
 
@@ -84,7 +82,7 @@ services:
 
 - [稳定版 Compose 中的服务边界](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.yml)
 - [Token 的容器镜像](https://github.com/TypeType-Video/TypeType-Token/blob/dev/Dockerfile)
-- [Token 的浏览器实现](https://github.com/TypeType-Video/TypeType-Token/blob/dev/src/remote-login-browser.ts)
-- [Server 访问令牌的有效期](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthAccessTokenCodec.kt)
-- [Server 刷新会话的有效期](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthTokenIssuer.kt)
-- [刷新 Cookie 的设置](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthCookieHelpers.kt)
+- [Token 的浏览器实现](https://github.com/TypeType-Video/TypeType-Token/blob/dev/src/botguard-browser.ts)
+- [Server 访问令牌的有效期](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthAccessTokenCodec.kt)
+- [Server 刷新会话的有效期](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthTokenIssuer.kt)
+- [刷新 Cookie 的设置](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthCookieHelpers.kt)

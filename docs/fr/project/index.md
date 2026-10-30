@@ -47,7 +47,7 @@ PostgreSQL, Dragonfly et Garage sont des services internes.
 | [TypeType](https://github.com/TypeType-Video/TypeType) | Stack Compose, nginx, installateur, mises à jour, retour arrière, coordination des versions et suivi central des issues |
 | [TypeType-Frontend](https://github.com/TypeType-Video/TypeType-Frontend) | Routes React, interface, paramètres, parcours de compte et commandes de lecture |
 | [TypeType-Server](https://github.com/TypeType-Video/TypeType-Server) | API HTTP, extraction, comptes, données privées des utilisateurs, sessions de lecture et intégrations |
-| [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | Jetons PO de YouTube, décodage du lecteur, métadonnées SABR, sous-titres et sessions de navigateur pour la connexion distante |
+| [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | Jetons PO de YouTube, décodage du lecteur, métadonnées SABR, sous-titres et connexion YouTube par code |
 | [TypeType-Downloader](https://github.com/TypeType-Video/TypeType-Downloader) | Tâches de téléchargement persistantes, transfert des médias, multiplexage et artefacts |
 | [TypeType-Player](https://github.com/TypeType-Video/TypeType-Player) | Chaîne Media Source Extensions du navigateur utilisée par le frontend |
 | [TypeType-RPC](https://github.com/TypeType-Video/TypeType-RPC) | Compagnon de bureau qui affiche votre lecture comme statut Discord Rich Presence |

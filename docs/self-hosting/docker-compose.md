@@ -82,12 +82,8 @@ Visit **`http://localhost:8082`**. On a fresh install the app detects that no ac
 exists yet and asks you to create one. The **first account becomes the administrator**
 automatically, no extra step.
 
-![The registration screen on a fresh install](/screenshot-register.png)
-
 Enter a name, email, and password, then **Register**. You are immediately signed in as
 the admin and land on the onboarding screen, where you can import your data.
-
-![Signed in as the administrator](/screenshot-onboarding.png)
 
 The whole flow from the empty form to the admin home:
 

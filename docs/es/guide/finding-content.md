@@ -4,14 +4,13 @@ Varias formas de descubrir y llegar a lo que quieres ver.
 
 ## Búsqueda {#search}
 
-Busca en el servicio activo y filtra los resultados por tipo, vídeos, canales, listas
-de reproducción, y música (canciones, vídeos, artistas).
+Busca en el servicio activo. Las pestañas sobre los resultados los filtran por tipo;
+en YouTube: vídeos, canales, listas, música (canciones, vídeos, álbumes, listas,
+artistas) y **Live streams**, que solo muestra los directos en curso. BiliBili ofrece
+directos, canales, anime, y películas y series. **Filters** añade orden, fecha de
+subida y duración cuando el servicio los admite.
 
-![Resultados de búsqueda](/screenshot-search.png)
-
----
-
-![Búsqueda desde la barra de búsqueda](/search.gif)
+![Buscar desde la barra de búsqueda y abrir la pestaña Live streams](/search.gif)
 
 ## Inicio {#home}
 
@@ -26,6 +25,20 @@ predeterminada distinta si prefieres abrir directamente en Suscripciones.
 
 Abre un canal para ver sus vídeos, listas de reproducción, y más, y suscríbete desde
 ahí para añadirlo a tu [biblioteca](./library#subscriptions).
+
+En un canal de BiliBili, **Collections & Series** lista las colecciones y series del
+canal, y **Search this channel** busca solo entre sus vídeos. Las listas públicas de
+BiliBili se pueden guardar en tu biblioteca, como las de YouTube.
+
+![Un canal de BiliBili: abrir Collections & Series y buscar en el canal](/bilibili-channel.gif)
+
+### Canales verificados de BiliBili {#verified-bilibili-channels}
+
+BiliBili marca los canales verificados con un rayo, en la búsqueda y en las páginas
+de canal: amarillo para un creador verificado, azul para una organización
+verificada. En la búsqueda de canales de BiliBili, los verificados aparecen primero.
+
+![Un rayo amarillo en un creador verificado y uno azul en una organización verificada](/screenshot-bilibili-verified.png)
 
 ## Shorts {#shorts}
 

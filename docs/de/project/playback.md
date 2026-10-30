@@ -66,9 +66,9 @@ adaptiven Formate und die SABR-Streaming-URL. Seine Antwort auf
 `/youtube/sabr/session` ist intern und wird in Server-Modelle umgewandelt, bevor
 irgendetwas den Browser erreicht.
 
-Token ist für die aktuelle YouTube-Wiedergabe erforderlich, auch wenn die
-Remote-Anmeldung bei YouTube abgeschaltet ist. Die optionale Einstellung steuert nur
-den interaktiven Anmeldeablauf, nicht den Token- und Decoder-Dienst selbst.
+Token ist für die aktuelle YouTube-Wiedergabe erforderlich, ob Zuschauer ein
+YouTube-Konto verbinden oder nicht. Auch die YouTube-Anmeldung per Code läuft über
+Token.
 
 ### Player {#player}
 
@@ -149,10 +149,10 @@ genannt werden müssen. Alle Danksagungen stehen unter
 
 ## Quellen {#source-references}
 
-- [SABR-Routen von Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/routes/SabrRoutes.kt)
-- [Sitzungsspeicher von Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/SabrSessionStore.kt)
-- [SABR-Client von Server zu Token](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/TypetypeTokenYoutubeSessionClient.kt)
+- [SABR-Routen von Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-http/src/main/kotlin/dev/typetype/server/routes/SabrRoutes.kt)
+- [Sitzungsspeicher von Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-playback/src/main/kotlin/dev/typetype/server/services/SabrSessionStore.kt)
+- [SABR-Client von Server zu Token](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-token-gateway/src/main/kotlin/dev/typetype/server/services/TypetypeTokenYoutubeSessionClient.kt)
 - [Implementierung der SABR-Sitzung in Token](https://github.com/TypeType-Video/TypeType-Token/blob/dev/src/youtube-sabr-session.ts)
 - [Quellcode von Player](https://github.com/TypeType-Video/TypeType-Player/tree/dev/src)
-- [Downloader-Gateway in Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/routes/DownloaderGatewayRoutes.kt)
+- [Downloader-Gateway in Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-http/src/main/kotlin/dev/typetype/server/routes/DownloaderGatewayRoutes.kt)
 - [Verarbeitungskette des Downloaders](https://github.com/TypeType-Video/TypeType-Downloader/tree/dev/internal/pipeline)

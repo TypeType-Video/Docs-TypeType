@@ -87,13 +87,9 @@ Visita **`http://localhost:8082`**. En una instalación nueva, la aplicación de
 que todavía no existe ninguna cuenta y te pide crear una. La **primera cuenta se
 convierte en administrador** automáticamente, sin ningún paso adicional.
 
-![La pantalla de registro en una instalación nueva](/screenshot-register.png)
-
 Introduce un nombre, un correo y una contraseña, y después **Register**. Inicias
 sesión de inmediato como administrador y llegas a la pantalla de bienvenida, desde
 donde puedes importar tus datos.
-
-![Sesión iniciada como administrador](/screenshot-onboarding.png)
 
 El proceso completo, del formulario vacío a la página de inicio del administrador:
 

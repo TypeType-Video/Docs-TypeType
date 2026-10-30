@@ -89,13 +89,9 @@ Rufen Sie **`http://localhost:8082`** auf. Bei einer frischen Installation erken
 App, dass noch kein Konto existiert, und fordert Sie auf, eines anzulegen. Das **erste
 Konto wird automatisch zum Administrator**, ohne weiteren Schritt.
 
-![Der Registrierungsbildschirm einer frischen Installation](/screenshot-register.png)
-
 Geben Sie Name, E-Mail-Adresse und Passwort ein, dann **Registrieren**. Sie sind
 sofort als Administrator angemeldet und landen auf dem Einstiegsbildschirm, von dem
 aus Sie Ihre Daten importieren können.
-
-![Als Administrator angemeldet](/screenshot-onboarding.png)
 
 Der gesamte Ablauf vom leeren Formular bis zur Startseite des Administrators:
 

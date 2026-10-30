@@ -4,14 +4,13 @@ Several ways to discover and reach what you want to watch.
 
 ## Search
 
-Search across the active service and filter the results by type, videos, channels,
-playlists, and music (songs, videos, artists).
+Search across the active service. The tabs above the results narrow them by type;
+on YouTube: videos, channels, playlists, music (songs, videos, albums, playlists,
+artists), and **Live streams**, which shows only streams that are live now. BiliBili
+offers live, channels, anime, and movies & TV. **Filters** adds sorting, upload date,
+and duration where the service supports them.
 
-![Search results](/screenshot-search.png)
-
----
-
-![Searching from the search bar](/search.gif)
+![Searching from the search bar, then opening the Live streams tab](/search.gif)
 
 ## Home
 
@@ -26,6 +25,20 @@ prefer to open straight on Subscriptions.
 
 Open a channel to see its videos, playlists, and more, and subscribe from there to add
 it to your [library](./library#subscriptions).
+
+On a BiliBili channel, **Collections & Series** lists the uploader's collections and
+series, and **Search this channel** finds videos from that channel only. Public
+BiliBili playlists can be saved to your library, like YouTube ones.
+
+![A BiliBili channel: opening Collections & Series, then searching the channel](/bilibili-channel.gif)
+
+### Verified BiliBili channels
+
+BiliBili marks verified channels with a lightning badge, in search and on channel
+pages: yellow for a verified creator, blue for a verified organization. In BiliBili
+channel search, verified channels come first.
+
+![A yellow badge on a verified creator and a blue badge on a verified organization](/screenshot-bilibili-verified.png)
 
 ## Shorts
 

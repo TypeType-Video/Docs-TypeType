@@ -31,7 +31,8 @@ instancia.
 ## Importar tus datos {#bringing-your-data-in}
 
 ¿Ya tienes suscripciones y listas de reproducción en otro sitio? Puedes importarlas
-desde una exportación de Google Takeout o una copia de seguridad de PipePipe, consulta
+desde PipePipe, NewPipe, LibreTube, Invidious, Piped, Grayjay, Google Takeout, un
+archivo OPML y más, consulta
 [Importar tus datos](/es/self-hosting/importing-data).
 
 ## ¿Primera vez aquí? {#first-time-here}

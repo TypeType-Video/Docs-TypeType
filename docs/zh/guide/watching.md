@@ -2,10 +2,6 @@
 
 打开任意视频就会进入观看页面：播放器、详情、相关视频和评论。
 
-![观看页面](/screenshot-watch.png)
-
----
-
 ![在自托管实例上播放的视频](/watch.gif)
 
 ## 播放器控件 {#player-controls}
@@ -16,6 +12,18 @@
 - **播放速度**。
 - **字幕**：视频带有字幕时选择一条字幕轨。
 - **音轨**：有多条音轨时切换语言。首选的音频语言可以在[设置](./settings#languages)中设定。
+
+进度条和控件使用在[设置 > 界面](./settings#what-you-see)中选择的播放器颜色。
+
+![进度条为紫色的播放器](/screenshot-player-color.png)
+
+## 听视频 {#audio-only}
+
+在视频下方选择**听视频**，只加载声音。播放器会用缩略图和标题代替画面，保留同样的控件，并且继续显示字幕：用 **CC** 按钮打开字幕。再次选择**听视频**即可恢复画面。如果想让每个视频都这样开始，在[设置 > 播放](./settings#playback)中打开 **Audio-only playback**。
+
+![听视频模式下，标题下方显示英文字幕](/screenshot-audio-only-subtitles.png)
+
+播放播放列表时，播放列表面板有自己的 **Audio-only playback** 开关。它的初始状态来自你的播放设置，只对这个播放列表生效：音乐播放列表可以保持听视频模式，其他视频仍然显示画面。
 
 ## 影院模式与画中画 {#cinema-mode-and-picture-in-picture}
 
@@ -61,6 +69,10 @@
 ## 自动播放 {#autoplay}
 
 开启后，当前视频结束时会自动开始下一个视频。在[设置](./settings#playback)中切换。
+
+## 服务器繁忙时 {#when-the-server-is-busy}
+
+如果 YouTube 限制了实例，播放器会显示**视频服务繁忙，正在重试…**，并在服务器要求的等待时间后重试。如果服务仍不可用，提示会请你稍后再试。
 
 ## 直播 {#livestreams}
 

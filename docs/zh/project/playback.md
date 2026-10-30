@@ -44,7 +44,7 @@ Server 在 `/sabr/playback/...` 下提供播放会话的约定。它选择格式
 
 Token 生成 Server 建立会话之前所需的 YouTube 一侧的材料：访客数据、PO 令牌、播放器地址的解码、自适应格式的元数据，以及 SABR 的流媒体地址。它的 `/youtube/sabr/session` 响应是内部的，在任何内容到达浏览器之前都会先转换成 Server 的模型。
 
-即使关闭了 YouTube 远程登录，目前的 YouTube 播放仍然需要 Token。那个可选的设置只控制交互式的登录流程，并不影响令牌与解码服务本身。
+无论观众是否连接 YouTube 账号，目前的 YouTube 播放都需要 Token。用代码登录 YouTube 同样要经过 Token。
 
 ### Player {#player}
 
@@ -103,10 +103,10 @@ curl -fsS https://watch.example.com/api/version/downloader
 
 ## 参考链接 {#source-references}
 
-- [Server 的 SABR 路由](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/routes/SabrRoutes.kt)
-- [Server 的会话存储](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/SabrSessionStore.kt)
-- [Server 到 Token 的 SABR 客户端](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/TypetypeTokenYoutubeSessionClient.kt)
+- [Server 的 SABR 路由](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-http/src/main/kotlin/dev/typetype/server/routes/SabrRoutes.kt)
+- [Server 的会话存储](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-playback/src/main/kotlin/dev/typetype/server/services/SabrSessionStore.kt)
+- [Server 到 Token 的 SABR 客户端](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-token-gateway/src/main/kotlin/dev/typetype/server/services/TypetypeTokenYoutubeSessionClient.kt)
 - [Token 的 SABR 会话实现](https://github.com/TypeType-Video/TypeType-Token/blob/dev/src/youtube-sabr-session.ts)
 - [Player 的源码](https://github.com/TypeType-Video/TypeType-Player/tree/dev/src)
-- [Server 中的 Downloader 网关](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/routes/DownloaderGatewayRoutes.kt)
+- [Server 中的 Downloader 网关](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-http/src/main/kotlin/dev/typetype/server/routes/DownloaderGatewayRoutes.kt)
 - [Downloader 的处理流程](https://github.com/TypeType-Video/TypeType-Downloader/tree/dev/internal/pipeline)

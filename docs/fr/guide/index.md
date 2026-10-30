@@ -31,7 +31,8 @@ votre instance.
 ## Importer vos données {#bringing-your-data-in}
 
 Vous avez déjà des abonnements et des playlists ailleurs ? Vous pouvez les importer
-depuis un export Google Takeout ou une sauvegarde PipePipe, voir
+depuis PipePipe, NewPipe, LibreTube, Invidious, Piped, Grayjay, Google Takeout, un
+fichier OPML et d'autres, voir
 [Importer vos données](/fr/self-hosting/importing-data).
 
 ## Première visite ? {#first-time-here}

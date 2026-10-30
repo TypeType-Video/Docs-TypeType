@@ -30,8 +30,9 @@ eigenen API-Server, Downloader und Ihre Anmeldedienste, alles auf Ihrer Instanz.
 
 ## Ihre Daten mitbringen {#bringing-your-data-in}
 
-Sie haben schon Abonnements und Wiedergabelisten anderswo? Sie können sie aus einem
-Google-Takeout-Export oder einer PipePipe-Sicherung importieren, siehe
+Sie haben schon Abonnements und Wiedergabelisten anderswo? Sie können sie aus
+PipePipe, NewPipe, LibreTube, Invidious, Piped, Grayjay, Google Takeout, einer
+OPML-Datei und mehr importieren, siehe
 [Ihre Daten importieren](/de/self-hosting/importing-data).
 
 ## Zum ersten Mal hier? {#first-time-here}
