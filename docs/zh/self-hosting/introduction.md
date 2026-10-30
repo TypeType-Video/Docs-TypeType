@@ -11,7 +11,7 @@ TypeType 不是单个应用，而是一个**可以自托管的生态**。一套�
 | 网页应用 | `ghcr.io/typetype-video/typetype` | 界面，外加一个把 `/api` 代理到服务器的 nginx |
 | API 服务器 | `ghcr.io/typetype-video/typetype-server` | 账号、提取、REST API，整个生态的核心 |
 | 下载器 | `ghcr.io/typetype-video/typetype-downloader` | 准备下载内容并把它们存入对象存储 |
-| Token | `ghcr.io/typetype-video/typetype-token` | YouTube PO 令牌、播放器解码、SABR 元数据、字幕，以及可选的远程登录 |
+| Token | `ghcr.io/typetype-video/typetype-token` | YouTube PO 令牌、播放器解码、SABR 元数据、字幕以及 YouTube 登录 |
 | 数据库 | `postgres` | 账号、历史记录、播放列表、设置 |
 | 缓存 | `dragonfly` | 兼容 Redis 的缓存 |
 | 对象存储 | `garage` | 兼容 S3 的存储，用于存放下载内容 |
@@ -34,27 +34,13 @@ flowchart TD
 
 只有**网页应用**需要能被你的用户访问到。在生产环境中，你要在它前面放一个反向代理并通过 HTTPS 提供服务，见[反向代理与 HTTPS](./reverse-proxy)。
 
-Token 是内部服务，但对于目前的 YouTube 播放来说它不是可选的。`YOUTUBE_REMOTE_LOGIN_ENABLED` 只控制交互式的 YouTube 登录功能；即使关闭远程登录，PO 令牌、解码器、字幕和 SABR 仍然要用到 Token。
+Token 是内部服务，但对于目前的 YouTube 播放来说它不是可选的。PO 令牌、播放器解码、字幕、SABR 和 YouTube 登录都要经过它。
 
 各仓库分别负责什么，以及浏览器中的播放路径，见[项目概览](/zh/project/)和[播放与下载](/zh/project/playback)。
 
 ## 它是什么样子 {#what-it-looks-like}
 
-一个运行中的自托管实例：播放视频、搜索，以及设置页面：
-
-![在自托管实例上观看视频](/screenshot-watch.png)
-
----
-
-![搜索结果](/screenshot-search.png)
-
----
-
-![设置页面](/screenshot-settings.png)
-
----
-
-实际播放效果：
+一个运行中的自托管实例正在播放视频：
 
 ![视频播放](/watch.gif)
 

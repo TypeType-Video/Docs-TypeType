@@ -60,7 +60,7 @@ server {
 使用 [certbot](https://certbot.eff.org/) 获取并续期证书。
 
 ::: warning 保留升级请求头和请求体大小
-应用使用 WebSocket，并且会接收大文件上传（Takeout 导入）。如果去掉 `Upgrade`/`Connection` 请求头，或者把 `client_max_body_size` 设得很小，应用的部分功能就会出问题。上面的设置与自带的网页容器所期望的一致。
+应用会接收大文件上传：备份导入最大可达 512 MB。如果把 `client_max_body_size` 设得很小，导入就会失败。上面的设置（包括升级请求头）与自带的网页容器所期望的一致。
 :::
 
 ## 方案 C - Traefik {#option-c---traefik}
@@ -113,23 +113,6 @@ http:
 ```
 
 网页容器在 80 端口提供明文 HTTP；HTTPS 由 Traefik 终止。请根据你选择的示例，在 Traefik 中启用 Docker 提供者或文件提供者。
-
-## 远程登录与 WebSocket {#remote-login-and-websockets}
-
-交互式的 YouTube 登录先发起一个普通的 HTTP 请求，然后在 `/api/youtube-session/browser/...` 下打开一个 WebSocket。外部的反向代理和自带的 nginx 配置都必须保留这次升级。
-
-典型的故障是这样的：
-
-```text
-POST /api/youtube-session/browser/start -> 201
-GET  /api/youtube-session/browser/<session-id> -> 404
-```
-
-`201` 说明 Server 和 Token 已经创建了会话。随后的 `404` 表示浏览器的连接是以普通的 HTTP GET 而不是 WebSocket 的形式到达 Ktor 的。请检查每一层代理上的 `Upgrade` 和 `Connection` 请求头。
-
-受支持的网页镜像自带这份 nginx 配置，所以正常更新会随镜像一起刷新它。自定义的主机挂载会覆盖自带的文件；如果你在 `docker-compose.override.yml` 中声明了挂载，那么在 WebSocket 或 API 的路由发生变化时，请把它与当前的 frontend 配置进行比较。
-
-感谢 [arcoast](https://github.com/arcoast)，他在[讨论 #122](https://github.com/TypeType-Video/TypeType/discussions/122) 中的手动部署发现，一份过时的 nginx 文件正是缺失的 WebSocket 环节。
 
 ## 域名之后的下载 {#downloads-behind-a-domain}
 

@@ -48,7 +48,7 @@ flowchart LR
     S -->|stateful SABR| Y[YouTube]
 ```
 
-Token 是 YouTube PO 令牌、播放器解码、SABR 会话元数据和字幕所需的内部依赖。远程登录功能是可选的，但 Token 服务本身属于正常部署的一部分。Server 拥有上游会话，并向浏览器提供属于 TypeType 的媒体路径；浏览器从不直接调用 Token。
+Token 是 YouTube PO 令牌、播放器解码、SABR 会话元数据、字幕以及用代码登录 YouTube 所需的内部依赖。Token 服务属于正常部署的一部分。Server 拥有上游会话，并向浏览器提供属于 TypeType 的媒体路径；浏览器从不直接调用 Token。
 
 源码层面的流程见[播放与下载](/zh/project/playback)。
 

@@ -76,7 +76,7 @@ docker compose up -d --force-recreate typetype-server
 
 这样的安排源自 [arcoast 在讨论 #123](https://github.com/TypeType-Video/TypeType/discussions/123) 中指出的不一致之处。
 
-使用外部数据库时，请通过 Compose 覆盖文件为 Server 设置 `DATABASE_URL`、`DATABASE_USER` 和 `DATABASE_PASSWORD`，并为 Downloader 设置 `DB_URL`。按照目前的设计，Downloader 需要它自己的 `typetype_downloader` 数据库。
+使用外部数据库时，通过 Compose override 为 Server 设置 `DATABASE_URL`、`DATABASE_USER` 和 `DATABASE_PASSWORD`，为 Downloader 设置 `DB_URL`、`DB_USER` 和 `DB_PASSWORD`。两个 URL 都使用 JDBC 形式，例如 `jdbc:postgresql://db.example:5432/typetype_downloader`；用户名和密码放在各自的变量中。按照目前的设计，Downloader 需要自己的 `typetype_downloader` 数据库。
 
 ## 下载与 Garage {#downloads-and-garage}
 
@@ -102,24 +102,13 @@ docker compose up -d --force-recreate typetype-server
 
 ## YouTube 与 Token {#youtube-and-token}
 
-Token 始终保持启用，因为 YouTube 播放要用到它的 PO 令牌、解码器、字幕和 SABR 端点。下面这个开关只控制交互式的远程登录：
+Token 保持启用，因为 YouTube 播放要用到它的 PO 令牌、解码器、字幕和 SABR 端点。观众在**连接**页面用一个在 `google.com/device` 输入的代码连接 YouTube 账号，见[连接 YouTube](/zh/guide/accounts#connect-youtube)。这种登录需要 Token 和由安装程序生成的 `YOUTUBE_SESSION_ENCRYPTION_KEY`。
 
-| 变量 | 默认值 | 用途 |
+| 变量 | 默认值 | 作用 |
 | --- | --- | --- |
-| `YOUTUBE_REMOTE_LOGIN_ENABLED` | `false` | 启用交互式的 YouTube 登录流程 |
-| `YOUTUBE_OUTBOUND_PROXY_URL` | 空 | 可选的出站代理，用于 YouTube 流量 |
-| `YOUTUBE_REMOTE_LOGIN_CALLBACK_BASE_URL` | `http://localhost:8080` | 接收 Token 完成回调的 Server 内部源 |
-| `YOUTUBE_REMOTE_LOGIN_CALLBACK_ORIGIN` | `http://typetype-server:8080` | Token 使用的内部回调源 |
-| `YOUTUBE_REMOTE_LOGIN_TTL_MS` | `480000` | Server 请求的有效时长，限制在 1 到 10 分钟之间 |
-| `YOUTUBE_REMOTE_LOGIN_MAX_SESSIONS` | `2` | 同时进行的远程浏览器会话数，限制在 1 到 8 之间 |
-| `YOUTUBE_REMOTE_LOGIN_FRAME_FPS` | `10` | 登录画面的捕获帧率 |
-| `YOUTUBE_REMOTE_LOGIN_MAX_FRAME_BYTES` | `524288` | 编码后的登录画面帧的最大大小 |
+| `YOUTUBE_OUTBOUND_PROXY_URL` | 空 | 可选的 YouTube 出站代理 |
 
-请让默认的回调保持为 Server 的内部地址。浏览器通过公开的网页源和 WebSocket 访问登录会话；它不会直接调用这个回调地址。
-
-在自定义的 Compose 部署中，两个回调设置必须使用同一个 Server 内部源。请把 Server 上的 `YOUTUBE_REMOTE_LOGIN_CALLBACK_BASE_URL` 和 Token 上的 `YOUTUBE_REMOTE_LOGIN_CALLBACK_ORIGIN` 都设为 Token 在 Compose 网络中能访问到的主机名和端口，例如 `http://typetype-server:8080`。这两个设置都不要使用公开的网页地址。
-
-在受支持的 Compose 文件中，Token 保留它自己默认的八分钟上限，因为这个时长变量只传给了 Server。因此，如果不对 Token 做自定义配置，超过八分钟的值并不会延长实际的保留时间。
+以前的远程浏览器登录已经从网页应用和 Server 中移除。受支持的 Compose 文件仍会传递 `YOUTUBE_REMOTE_LOGIN_*` 变量，安装程序也仍会生成 `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN`；请保持原样。修改它们不会让远程登录恢复。
 
 重命名了 `typetype-token` 服务的自定义 Compose 部署，必须设置 Server 当前使用的内部端点变量 `SUBTITLE_SERVICE_URL`，或者保留 `typetype-token` 作为网络别名。见[自定义 Token 服务名称](./security#custom-token-service-names)。
 
@@ -139,7 +128,8 @@ Server 从它自己的环境中读取这些值。受支持的 Compose 文件不�
 | `EXTRACTOR_SIMULTANEOUS_REQUESTS_PER_HOST` | `64` | 提取器同时发往同一主机的请求数上限 |
 | `EXTRACTOR_HTTP_VERSION` | HTTP/2 | 设为 `1` 时每个连接只发一个请求。如果 Server 在人多时停止响应而处理器却是空闲的，请使用它。 |
 | `SUBSCRIPTION_FEED_MAX_CONCURRENT_FETCHES` | `20` | 构建订阅信息流时同时请求的频道页面数；只能调低 |
-| `SUBSCRIPTION_FEED_FRESHNESS_SECONDS` | `60` | 订阅信息流可以有多旧，超过之后读取它会触发刷新；只能调高，最多一天 |
+| `SUBSCRIPTION_FEED_FRESHNESS_SECONDS` | `720` | Server 为正在查看订阅动态的观众刷新动态的间隔，范围 300 秒到一天 |
+| `SUBSCRIPTION_FEED_ACTIVE_WINDOW_SECONDS` | `3600` | 观众最后一次打开动态后，Server 继续刷新它的时长，范围 300 秒到七天 |
 | `YOUTUBE_REQUEST_LOG` | 关闭 | 设为 `1` 时，每个发往 YouTube 的请求写一行日志。仅用于诊断。 |
 
 ```yaml
@@ -158,6 +148,8 @@ docker compose up -d --force-recreate typetype-server
 
 Server 从不主动向 YouTube 请求字幕轨的文本；那是 YouTube 看管得最严的地址。
 
+读取订阅动态不会再触发刷新。Server 每分钟在后台刷新那些在活跃时间窗口内打开过动态的观众的动态，条件是动态已经比新鲜度值加上每位观众各自的小偏移更旧。只有还完全没有动态的观众，才会当场为其生成。
+
 ## 推荐服务 {#recommender}
 
 可选的推荐服务有它自己的页面，其中包含它的要求和全部设置：[推荐服务](./recommender)。
@@ -166,7 +158,7 @@ Server 从不主动向 YouTube 请求字幕轨的文本；那是 YouTube 看管�
 
 | 变量 | 用途 |
 | --- | --- |
-| `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` | 验证 Server 与 Token 之间的远程登录回调 |
+| `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` | 仍会生成并传给 Server 和 Token；使用它的远程登录已经移除 |
 | `YOUTUBE_SESSION_ENCRYPTION_KEY` | 加密保存的 YouTube 会话凭据 |
 
 初始化容器 `typetype-secrets` 把它们写入一个私有的命名卷。空值和 `SET_ME_...` 占位符会让系统在首次启动时生成一个值。在 `.env` 中提供真实的值会替换生成的文件。
@@ -225,4 +217,4 @@ docker compose config
 - [当前的 `.env.example`](https://github.com/TypeType-Video/TypeType/blob/main/.env.example)
 - [稳定版 Compose 的环境](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.yml)
 - [Server 加载环境的代码](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/Application.kt)
-- [远程登录的配置](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/YoutubeRemoteBrowserConfig.kt)
+- [YouTube 登录路由](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-http/src/main/kotlin/dev/typetype/server/routes/YoutubeSessionRoutes.kt)

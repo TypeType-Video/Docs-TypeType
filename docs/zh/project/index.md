@@ -39,7 +39,7 @@ flowchart LR
 | [TypeType](https://github.com/TypeType-Video/TypeType) | Compose 部署、nginx、安装脚本、更新、回滚、版本协调以及中心问题跟踪器 |
 | [TypeType-Frontend](https://github.com/TypeType-Video/TypeType-Frontend) | React 路由、界面、设置、账号流程和播放控制 |
 | [TypeType-Server](https://github.com/TypeType-Video/TypeType-Server) | HTTP API、提取、账号、用户的私有数据、播放会话和各种集成 |
-| [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | YouTube PO 令牌、播放器解码、SABR 元数据、字幕，以及远程登录所用的浏览器会话 |
+| [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | YouTube PO 令牌、播放器解码、SABR 元数据、字幕，以及用代码登录 YouTube |
 | [TypeType-Downloader](https://github.com/TypeType-Video/TypeType-Downloader) | 持久化的下载任务、媒体传输、封装和成品文件 |
 | [TypeType-Player](https://github.com/TypeType-Video/TypeType-Player) | frontend 使用的浏览器 Media Source Extensions 处理流程 |
 | [TypeType-RPC](https://github.com/TypeType-Video/TypeType-RPC) | 把你的播放内容显示为 Discord Rich Presence 状态的桌面伴侣程序 |

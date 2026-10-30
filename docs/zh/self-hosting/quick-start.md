@@ -62,11 +62,7 @@ docker compose exec -T typetype-server wget -qO- http://127.0.0.1:8080/health
 
 打开网页应用（安装脚本会输出确切的地址，默认是 `http://localhost:8082`）。在全新安装时，它会请你创建一个账号，**第一个账号会自动成为管理员**。
 
-![全新安装时的注册界面](/screenshot-register.png)
-
 输入名称、邮箱和密码，然后点 **注册**。你会以管理员身份登录，并进入引导界面，可以在那里导入你的数据。
-
-![以管理员身份登录](/screenshot-onboarding.png)
 
 完整流程：
 
