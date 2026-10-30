@@ -9,7 +9,7 @@ Jede Komponente von TypeType hat eine eng gefasste Zuständigkeit, eigene Prüfu
 | Docker Compose, Installer, Aktualisierung, Migration oder Rollback | [TypeType](https://github.com/TypeType-Video/TypeType) | `docker-compose*.yml`, `scripts/` |
 | Seite, Route, nginx, Einstellungsoption, Kontooberfläche oder Bedienelemente des Players | [TypeType-Frontend](https://github.com/TypeType-Video/TypeType-Frontend) | `apps/web/src/`, `nginx.conf` |
 | Extraktion, API-Route, Kontodaten, Import, Empfehlung oder Wiedergabesitzung | [TypeType-Server](https://github.com/TypeType-Video/TypeType-Server) | `src/main/kotlin/dev/typetype/server/` |
-| PO-Token, Decoder des YouTube-Players, Untertitel-Metadaten oder Browser für die Remote-Anmeldung | [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | `src/` |
+| PO-Token, Decoder des YouTube-Players, Untertitel-Metadaten oder YouTube-Anmeldung per Code | [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | `src/` |
 | Download-Warteschlange, Übertragung, Muxen, Speicher oder Artefakt | [TypeType-Downloader](https://github.com/TypeType-Video/TypeType-Downloader) | `cmd/`, `internal/`, `migrations/` |
 | MSE-Pufferung, Segmentplanung, Sprung, Qualitätswechsel oder Wiederaufnahme der Wiedergabe | [TypeType-Player](https://github.com/TypeType-Video/TypeType-Player) | `src/` |
 | Startseiten-Algorithmus, seine Einstellungen oder was er ableitet | [TypeType-Signals](https://github.com/TypeType-Video/TypeType-Signals) | `recommender/` |
@@ -79,7 +79,7 @@ Das Repository steht wegen seiner Extraktor-Integration unter der GPL-3.0.
 
 ## Token {#token}
 
-Token ist ein interner Bun-Dienst mit einer Chromium-Laufzeit über Playwright. Sein Name ist historisch: Er bietet heute weit mehr als Untertitel oder einen einzelnen Token-Endpunkt. Er liefert YouTube-Besucherdaten und PO-Token, die Player-Dekodierung, SABR-Sitzungsmetadaten, Untertitel und kurzlebige Browser-Sitzungen für die Remote-Anmeldung.
+Token ist ein interner Bun-Dienst mit einer Chromium-Laufzeit über Playwright. Sein Name ist historisch: Er bietet heute weit mehr als Untertitel oder einen einzelnen Token-Endpunkt. Er liefert YouTube-Besucherdaten und PO-Token, die Player-Dekodierung, SABR-Sitzungsmetadaten, Untertitel und die YouTube-Anmeldung per Code.
 
 Das Frontend darf Token nicht direkt aufrufen. Server ist sein Abnehmer und seine Sicherheitsgrenze. Lesen Sie [Sicherheitsgrenzen](/de/self-hosting/security#token-browser-boundary), bevor Sie seinen Container anpassen.
 

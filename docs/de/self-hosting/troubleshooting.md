@@ -80,23 +80,35 @@ Dieser Fehler kam bei der Nachverfolgung von
 ans Licht und wurde dann mit dem aktuellen Autorisierungsablauf von Server zu
 Downloader abgeglichen.
 
-## Die Remote-Anmeldung bei YouTube startet und zeigt dann einen 404 {#remote-youtube-login-starts-then-shows-a-404}
+## YouTube-Videos scheitern mit 503, 429 oder 504 {#youtube-busy}
 
-Wenn das Anlegen der Sitzung gelingt, die Browser-Route aber `404` zurückgibt, wurde
-der WebSocket vermutlich als normale HTTP-Anfrage weitergeleitet. Prüfen Sie auf jeder
-Proxy-Ebene:
+Wenn YouTube die Adresse der Instanz sperrt, sie drosselt oder nicht rechtzeitig
+antwortet, antwortet Server mit einem bestimmten Status statt mit einem allgemeinen
+`502`:
 
-```nginx
-proxy_http_version 1.1;
-proxy_set_header Upgrade $http_upgrade;
-proxy_set_header Connection $connection_upgrade;
+| Status | Bedeutung |
+| --- | --- |
+| `503` | YouTube weist die Instanz vorerst ab, oft mit „Sign in to confirm you're not a bot“ |
+| `429` | YouTube drosselt die Instanz, oder das Limit `YOUTUBE_OPENS_PER_MINUTE` lässt das Video warten |
+| `504` | YouTube hat nicht vor Ablauf der Extraktionszeit geantwortet |
+
+`503` und `429` tragen einen `Retry-After`-Header, 60 Sekunden, sofern Server keine
+bessere Wartezeit kennt. Der Web-Player wartet so lange, zeigt **Der Videodienst ist
+ausgelastet. Neuer Versuch…** und versucht es erneut. Solange YouTube die Adresse
+sperrt, pausiert Server seine YouTube-Anfragen, erneuert seine Sitzung einmal und
+macht weiter, sobald die Sperre aufgehoben ist.
+
+Prüfen Sie vom Host aus, ob Token bereit ist; ersetzen Sie `8081`, wenn Sie
+`HOST_PORT_TOKEN` geändert haben:
+
+```sh
+curl -i http://127.0.0.1:8081/ready
 ```
 
-Die unterstützte nginx-Konfiguration ist im Web-Image enthalten. Verwendet der Stack
-eine eigene Einbindung vom Host, vergleichen Sie sie mit der aktuellen Datei im
-Frontend-Repository. Siehe
-[Remote-Anmeldung und WebSockets](./reverse-proxy#remote-login-and-websockets) und die
-ursprüngliche [Diagnose aus der Community](https://github.com/TypeType-Video/TypeType/discussions/122).
+`/ready` antwortet mit `503`, bis Token eine bereite BotGuard-Sitzung und ein
+TV-Token hat. Bleibt es bei `503`, lesen Sie die Token-Logs, bevor Sie Server
+untersuchen. Kehren die Sperren zurück, senken Sie die Last mit den Einstellungen
+unter [Grenzen für Anfragen an YouTube](./configuration#youtube-request-limits).
 
 ## Unerwartete Abmeldungen {#unexpected-sign-outs}
 
@@ -139,8 +151,8 @@ Diese Prüfliste geht auf das unerwartete Verhalten zurück, das
 ## Eine gespeicherte YouTube-Sitzung funktioniert nach einer Änderung des Geheimnisses nicht mehr {#a-saved-youtube-session-stopped-working-after-a-secret-change}
 
 `YOUTUBE_SESSION_ENCRYPTION_KEY` verschlüsselt gespeicherte YouTube-Cookies und
-Wiedergabe-Token. Wenn Sie den Wert ändern, nachdem die Remote-Anmeldung verwendet
-wurde, lassen sich diese gespeicherten YouTube-Sitzungen nicht mehr entschlüsseln, und
+Wiedergabe-Token. Wenn Sie den Wert ändern, nachdem Zuschauer YouTube verbunden
+haben, lassen sich diese gespeicherten Sitzungen nicht mehr entschlüsseln, und
 betroffene Nutzer müssen YouTube erneut verbinden. Die Anmeldung am TypeType-Konto
 wird damit nicht verschlüsselt. Wählen Sie den Wert einmal und behalten Sie ihn. Der
 erzeugte Wert bleibt in `typetype_secrets` erhalten, Sie müssen ihn also in der Regel
@@ -166,7 +178,7 @@ docker compose config --images
 Eine Ausgabe mit `ghcr.io/priveetee/...` bedeutet, dass die aktive Compose-Datei noch
 auf den früheren Image-Namensraum zeigt. Folgen Sie
 [Einen älteren Priveetee-Stack migrieren](./maintenance#migrate-an-older-priveetee-stack),
-bevor Sie die Remote-Anmeldung, die private IP-Adresse oder die Proxy-Einstellungen
+bevor Sie die YouTube-Anmeldung, die private IP-Adresse oder die Proxy-Einstellungen
 untersuchen.
 
 Die alte Fehlerfolge und die erfolgreiche Aktualisierung hat
@@ -175,12 +187,13 @@ Die alte Fehlerfolge und die erfolgreiche Aktualisierung hat
 ## Token ist gesund, aber die YouTube-Wiedergabe scheitert {#token-is-healthy-but-youtube-playback-fails}
 
 `/health` beweist nur, dass der Bun-Dienst lauscht. PO-Token, Decoder, SABR und die
-Abläufe des Remote-Browsers brauchen außerdem Chromium über Playwright und
-beschreibbare Laufzeitpfade.
+YouTube-Anmeldung brauchen außerdem Chromium über Playwright und beschreibbare
+Laufzeitpfade. `/ready` antwortet erst mit `200`, wenn BotGuard-Sitzung und TV-Token
+bereit sind.
 
 Wenn Sie ein eigenes Container-Profil ohne root oder mit Schreibschutz angewendet
 haben, testen Sie `/potoken`, ein normales YouTube-Video, einen Livestream und die
-Remote-Anmeldung getrennt erneut. Ein beliebiger Nutzer `nobody` hat im aktuellen
+YouTube-Anmeldung getrennt erneut. Ein beliebiger Nutzer `nobody` hat im aktuellen
 Image kein nutzbares Home-Verzeichnis für Chromiums Crashpad. Kehren Sie zur
 unterstützten Definition des Token-Dienstes zurück, bevor Sie den Fehler als Fehler
 von Server oder Player behandeln.

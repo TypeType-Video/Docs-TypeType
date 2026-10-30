@@ -59,8 +59,8 @@ flowchart LR
 ```
 
 Token ist eine interne Abhängigkeit für YouTube-PO-Token, Player-Dekodierung,
-SABR-Sitzungsmetadaten und Untertitel. Die Remote-Anmeldung ist optional, der
-Token-Dienst selbst gehört aber zum normalen Stack. Server besitzt die Sitzung beim
+SABR-Sitzungsmetadaten, Untertitel und die YouTube-Anmeldung per Code. Der
+Token-Dienst gehört zum normalen Stack. Server besitzt die Sitzung beim
 Anbieter und gibt dem Browser Medienpfade, die zu TypeType gehören; der Browser ruft
 Token nie direkt auf.
 

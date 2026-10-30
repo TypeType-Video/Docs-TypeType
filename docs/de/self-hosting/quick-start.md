@@ -78,13 +78,9 @@ wenn der Installer einen anderen Host-Port gewählt hat.
 `http://localhost:8082`). Bei einer frischen Installation werden Sie aufgefordert, ein
 Konto anzulegen, und das **erste Konto wird automatisch zum Administrator**.
 
-![Der Registrierungsbildschirm einer frischen Installation](/screenshot-register.png)
-
 Geben Sie Name, E-Mail-Adresse und Passwort ein, dann **Registrieren**. Sie sind als
 Administrator angemeldet und landen auf dem Einstiegsbildschirm, von dem aus Sie Ihre
 Daten importieren können.
-
-![Als Administrator angemeldet](/screenshot-onboarding.png)
 
 Der gesamte Ablauf:
 

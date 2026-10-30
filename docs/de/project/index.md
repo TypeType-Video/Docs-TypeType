@@ -48,7 +48,7 @@ interne Dienste.
 | [TypeType](https://github.com/TypeType-Video/TypeType) | Compose-Stack, nginx, Installer, Aktualisierungen, Rollback, Koordination der Versionen und der zentrale Issue-Tracker |
 | [TypeType-Frontend](https://github.com/TypeType-Video/TypeType-Frontend) | React-Routen, Oberfläche, Einstellungen, Kontoabläufe und Wiedergabesteuerung |
 | [TypeType-Server](https://github.com/TypeType-Video/TypeType-Server) | HTTP-API, Extraktion, Konten, private Nutzerdaten, Wiedergabesitzungen und Integrationen |
-| [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | YouTube-PO-Token, Player-Dekodierung, SABR-Metadaten, Untertitel und Browser-Sitzungen für die Remote-Anmeldung |
+| [TypeType-Token](https://github.com/TypeType-Video/TypeType-Token) | YouTube-PO-Token, Player-Dekodierung, SABR-Metadaten, Untertitel und YouTube-Anmeldung per Code |
 | [TypeType-Downloader](https://github.com/TypeType-Video/TypeType-Downloader) | Dauerhafte Download-Aufträge, Medienübertragung, Muxen und Artefakte |
 | [TypeType-Player](https://github.com/TypeType-Video/TypeType-Player) | Media-Source-Extensions-Kette des Browsers, die das Frontend verwendet |
 | [TypeType-RPC](https://github.com/TypeType-Video/TypeType-RPC) | Desktop-Begleiter, der Ihre Wiedergabe als Discord-Rich-Presence-Status zeigt |

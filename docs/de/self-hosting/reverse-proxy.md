@@ -68,10 +68,10 @@ Verwenden Sie [certbot](https://certbot.eff.org/), um das Zertifikat zu beziehen
 zu erneuern.
 
 ::: warning Behalten Sie die Upgrade-Header und die Body-Größe bei
-Die App verwendet WebSockets und nimmt große Uploads an (Takeout-Importe). Wenn Sie
-die Header `Upgrade`/`Connection` weglassen oder eine kleine `client_max_body_size`
-setzen, funktionieren Teile der App nicht mehr. Die obigen Einstellungen entsprechen
-dem, was der mitgelieferte Web-Container erwartet.
+Die App nimmt große Uploads an: Importe von Sicherungen gehen bis 512 MB. Mit einer
+kleinen `client_max_body_size` schlagen Importe fehl. Die obigen Einstellungen,
+einschließlich der Upgrade-Header, entsprechen dem, was der mitgelieferte
+Web-Container erwartet.
 :::
 
 ## Option C - Traefik {#option-c---traefik}
@@ -139,35 +139,6 @@ http:
 Der Web-Container liefert unverschlüsseltes HTTP auf Port 80; Traefik terminiert
 HTTPS. Schalten Sie in Traefik den Docker- oder den Datei-Provider ein, je nach
 gewähltem Beispiel.
-
-## Remote-Anmeldung und WebSockets {#remote-login-and-websockets}
-
-Die interaktive YouTube-Anmeldung beginnt mit einer normalen HTTP-Anfrage und öffnet
-dann einen WebSocket unter `/api/youtube-session/browser/...`. Sowohl der externe
-Reverse-Proxy als auch die mitgelieferte nginx-Konfiguration müssen das Upgrade
-erhalten.
-
-Ein typischer Fehler sieht so aus:
-
-```text
-POST /api/youtube-session/browser/start -> 201
-GET  /api/youtube-session/browser/<session-id> -> 404
-```
-
-Das `201` zeigt, dass Server und Token die Sitzung angelegt haben. Das folgende `404`
-bedeutet, dass die Verbindung des Browsers bei Ktor als normales HTTP-GET statt als
-WebSocket angekommen ist. Prüfen Sie die Header `Upgrade` und `Connection` auf jeder
-Proxy-Ebene.
-
-Das unterstützte Web-Image enthält diese nginx-Konfiguration, normale Aktualisierungen
-erneuern sie also mit dem Image. Eine eigene Einbindung vom Host überschreibt die
-mitgelieferte Datei; ist eine in `docker-compose.override.yml` deklariert, vergleichen
-Sie sie mit der aktuellen Konfiguration des Frontends, wenn sich das Routing von
-WebSockets oder API ändert.
-
-Dank an [arcoast](https://github.com/arcoast), dessen manuelle Installation in
-[Diskussion #122](https://github.com/TypeType-Video/TypeType/discussions/122) eine
-veraltete nginx-Datei als die fehlende WebSocket-Grenze erkannt hat.
 
 ## Downloads hinter einer Domain {#downloads-behind-a-domain}
 
