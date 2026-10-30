@@ -1,82 +1,92 @@
 # Importar tus datos
 
-Cuando tu instancia esté en marcha y tu cuenta creada, puedes traer tus suscripciones,
-listas de reproducción e historial existentes. TypeType importa desde dos fuentes: una
-exportación de **Google Takeout** o una copia de seguridad de **PipePipe**.
+Cuando tu instancia funcione y tengas tu cuenta, puedes traer tus suscripciones,
+listas, historial y más desde la aplicación que usabas, y exportarlos más tarde a
+otra aplicación. Abre **Data transfer** en la barra lateral; las cuentas nuevas
+llegan ahí justo después del registro. TypeType todavía no está traducido al
+español, así que esta página usa las etiquetas en inglés.
 
-Lo encontrarás en la pantalla de bienvenida justo después de registrarte, y en
-cualquier momento posterior en **Import** en la barra lateral.
+## Aplicaciones compatibles {#supported-apps}
 
-![La pantalla de importación](/screenshot-onboarding.png)
+| Aplicación o formato | Archivo | Importar | Exportar |
+| --- | --- | --- | --- |
+| TypeType | `.json` | todo | todo |
+| PipePipe | `.zip` | sí | no |
+| NewPipe | `.zip` | sí | sí |
+| Invidious | `.json` | sí | sí |
+| Piped | `.json` | sí | sí |
+| LibreTube | `.json` | sí | sí |
+| ViewTube | `.zip` | sí | no |
+| Flow | `.json` | sí | sí |
+| Grayjay | `.zip` | sí | sí |
+| YouTube Takeout | `.zip` | sí | no |
+| OPML | `.opml` | suscripciones | suscripciones |
+| Materialious | `.json` | suscripciones | suscripciones |
+| SkyTube | `.opml` | suscripciones | suscripciones |
+| youtube-local | `.opml` | suscripciones | suscripciones |
+
+Lo que pasa depende de lo que guarda cada aplicación: suscripciones, grupos de
+suscripciones, historial, listas, Watch later, favoritos, progreso de reproducción,
+historial de búsqueda, listas guardadas, ajustes o filtros de contenido. Una copia
+de TypeType lo contiene todo. Cuando un formato solo guarda parte de una categoría,
+la vista previa y el informe final lo indican.
+
+![El menú Import from con todas las fuentes compatibles](/screenshot-import-sources.png)
+
+## Importar {#import}
+
+1. Exporta una copia desde tu aplicación actual y conserva el archivo tal cual: no
+   lo descomprimas ni lo modifiques.
+2. En **Data transfer**, quédate en **Import** y deja **Import from** en **Automatic
+   detection**, o elige tú la aplicación.
+3. Suelta el archivo o selecciónalo. El límite es de 512 MB.
+4. TypeType analiza el archivo y muestra una vista previa: la fuente detectada,
+   cuántos elementos encontró en cada categoría, los duplicados y las notas de
+   compatibilidad. No se escribe nada antes de este paso.
+5. Después, la importación empieza sola con todo lo detectado. Lo que ya tienes se
+   omite. Puedes salir de la página; la importación continúa.
+
+Al terminar, un informe muestra lo importado y lo omitido, y puedes descargarlo.
 
 ## Desde YouTube (Google Takeout) {#from-youtube-google-takeout}
 
-Esto trae tus **suscripciones, listas de reproducción, favoritos e historial de
-reproducción** (el historial y los favoritos solo si la exportación incluye los
-registros correspondientes de Mi actividad).
+Takeout trae tus **suscripciones, historial, listas, Watch later y vídeos que te
+gustan** (como favoritos).
 
-1. Solicita una exportación de Google Takeout de **YouTube y YouTube Music**, y añade
-   también **Mi actividad** si quieres tu historial de reproducción. La aplicación te
-   da un enlace de un clic que preselecciona los productos correctos.
-2. Espera a que Google la prepare y descarga el archivo o los archivos ZIP. Las
-   exportaciones grandes se dividen en varios ZIP, es normal.
-3. En la pantalla de importación, elige **Import from YouTube** y suelta **uno o varios
-   archivos ZIP de Takeout** (puedes seleccionar varios a la vez).
-4. Inicia la importación y después revisa tus suscripciones y listas.
+1. Elige **YouTube Takeout** en **Import from** y luego **Open Google Takeout**: el
+   enlace preselecciona YouTube y Mi actividad. Mantén Mi actividad si quieres tu
+   historial.
+2. Crea una exportación ZIP única y descárgala de Google.
+3. Suelta el ZIP original. Si Google dividió la exportación en varios ZIP,
+   impórtalos de uno en uno.
 
-::: warning El progreso de la importación se queda en cero
-Si la vista previa funciona pero una importación se queda en `00` categorías sin
-avanzar, guarda el identificador del trabajo y los recuentos de la vista previa antes
-de cancelarla. Este comportamiento se sigue en la
-[issue #276](https://github.com/TypeType-Video/TypeType/issues/276); es distinto de un
-archivo de Takeout cuya detección falló. No incluyas el archivo ni ningún dato de la
-cuenta en un informe.
-:::
+La importación elimina suscripciones, listas y vídeos duplicados, reutiliza una
+lista existente cuando coincide y lleva las listas del sistema de YouTube a
+**Favoritos** y **Watch later** de TypeType en lugar de listas normales. La
+actividad de «Me gusta» también puede llenar Favoritos cuando la lista del sistema
+falta o está incompleta; se conservan la fecha y el orden originales. Las filas con
+metadatos incompletos se completan en segundo plano, así que la lista se abre al
+momento.
 
-::: tip
-No hace falta descomprimir nada: sube los ZIP de Takeout tal como te los da Google.
-:::
+Si la importación dice que no encontró datos de la cuenta, soltaste una parte de la
+exportación que solo contiene vídeos: elige el ZIP con el historial, las
+suscripciones o las listas. Si dice que el archivo supera los límites o está
+cifrado, vuelve a exportar YouTube en partes ZIP más pequeñas.
 
-Cuando seleccionas varios archivos, el Frontend los procesa y los confirma de uno en
-uno. Cada importación elimina suscripciones, listas y URL de vídeos duplicadas;
-reutiliza una lista existente cuando su correspondencia de origen o su nombre ya
-coincide; e indica las entradas existentes como omitidas. Por tanto, un archivo
-posterior omite los datos ya confirmados por uno anterior. Las listas de sistema de
-YouTube se asignan a **Favorites** y **Watch later** de TypeType en lugar de aparecer
-duplicadas como listas normales.
+## Exportar {#export}
 
-La actividad de vídeos que te gustaron también puede restaurar los favoritos cuando la
-lista de sistema falta o está incompleta. El importador conserva la hora original de
-la actividad, entiende los formatos de fecha de Takeout en inglés y en francés, e
-ignora los registros de vídeos que te gustaron y están eliminados, son privados o no
-están disponibles. Así se conserva el orden original en lugar de asignar marcas de
-tiempo de importación en orden inverso.
+En la pestaña **Export**, elige un **Destination format** y las categorías que
+quieres incluir, luego **Generate export** y descarga el archivo. Un destino que no
+puede guardar todos los campos de TypeType muestra un aviso, y el informe lista lo
+que no se pudo conservar. Una exportación de TypeType lo conserva todo: es la copia
+que debes usar para pasar a otra instancia de TypeType.
 
-Las filas de Takeout antiguas o no disponibles pueden contener solo metadatos de
-reserva. La lista se abre de inmediato y Server programa la reparación de metadatos en
-segundo plano, en lugar de bloquear toda la respuesta mientras resuelve cada elemento.
-
-Estos detalles se revisaron después de que
-[lelam183 informara de listas importadas lentas, invertidas y duplicadas](https://github.com/TypeType-Video/TypeType/issues/135).
-
-## Desde PipePipe {#from-pipepipe}
-
-¿Vienes de la aplicación PipePipe? Restaura directamente desde su copia de seguridad.
-
-1. Exporta una copia de seguridad desde PipePipe (un archivo `.zip`).
-2. En la pantalla de importación, elige **Import from PipePipe** y suelta el ZIP de la
-   copia.
-3. Esto restaura tu **historial, suscripciones, listas de reproducción y progreso de
-   reproducción**.
-
-## Después de importar {#after-importing}
-
-Cuando la importación termina, muestra un breve informe de lo que se trajo y de lo que
-se omitió, para que veas exactamente qué pasó. Tus suscripciones y listas están
-disponibles de inmediato.
+**Settings > Data** también crea y restaura directamente una copia de TypeType.
+Restaurar ahí sustituye las categorías incluidas en la copia.
 
 ## Referencias {#source-references}
 
-- [Análisis de Takeout y eliminación de duplicados](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/YoutubeTakeoutParserService.kt)
-- [Confirmación de un Takeout](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/YoutubeTakeoutImporterService.kt)
-- [Reparación de metadatos en segundo plano](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/UserVideoMetadataRepairService.kt)
+- [Formatos compatibles](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-portability/src/main/kotlin/dev/typetype/server/portability/PortabilityFormat.kt)
+- [Importadores y exportadores registrados](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-portability/src/main/kotlin/dev/typetype/server/portability/PortabilityEngineFactory.kt)
+- [Análisis de Takeout y eliminación de duplicados](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-services/src/main/kotlin/dev/typetype/server/services/YoutubeTakeoutParserService.kt)
+- [Reparación de metadatos en segundo plano](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-services/src/main/kotlin/dev/typetype/server/services/UserVideoMetadataRepairService.kt)
