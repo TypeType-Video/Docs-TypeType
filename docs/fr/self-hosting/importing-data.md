@@ -1,83 +1,93 @@
 # Importer vos données
 
-Une fois votre instance en marche et votre compte créé, vous pouvez ramener vos
-abonnements, vos playlists et votre historique existants. TypeType importe depuis
-deux sources : un export **Google Takeout**, ou une sauvegarde **PipePipe**.
+Une fois votre instance lancée et votre compte créé, vous pouvez rapatrier vos
+abonnements, playlists, historique et le reste depuis l'application que vous
+utilisiez, puis les exporter plus tard vers une autre application. Ouvrez
+**Transfert de données** dans la barre latérale ; les nouveaux comptes y arrivent
+juste après l'inscription.
 
-Vous trouverez cela sur l'écran d'accueil juste après l'inscription, et à tout moment
-ensuite sous **Importer** dans la barre latérale.
+## Applications prises en charge {#supported-apps}
 
-![L'écran d'import](/screenshot-onboarding.png)
+| Application ou format | Fichier | Import | Export |
+| --- | --- | --- | --- |
+| TypeType | `.json` | tout | tout |
+| PipePipe | `.zip` | oui | non |
+| NewPipe | `.zip` | oui | oui |
+| Invidious | `.json` | oui | oui |
+| Piped | `.json` | oui | oui |
+| LibreTube | `.json` | oui | oui |
+| ViewTube | `.zip` | oui | non |
+| Flow | `.json` | oui | oui |
+| Grayjay | `.zip` | oui | oui |
+| YouTube Takeout | `.zip` | oui | non |
+| OPML | `.opml` | abonnements | abonnements |
+| Materialious | `.json` | abonnements | abonnements |
+| SkyTube | `.opml` | abonnements | abonnements |
+| youtube-local | `.opml` | abonnements | abonnements |
+
+Ce qui passe dépend de ce que chaque application enregistre : abonnements, groupes
+d'abonnements, historique, playlists, À regarder plus tard, favoris, progression de
+lecture, historique de recherche, playlists enregistrées, paramètres ou filtres de
+contenu. Une sauvegarde TypeType contient tout. Quand un format ne garde qu'une
+partie d'une catégorie, l'aperçu et le rapport final le signalent.
+
+![Le menu Importer depuis avec toutes les sources prises en charge](/screenshot-import-sources.png)
+
+## Importer {#import}
+
+1. Exportez une sauvegarde depuis votre application actuelle, et gardez le fichier
+   tel quel : ne le décompressez pas et ne le modifiez pas.
+2. Dans **Transfert de données**, restez sur **Importer** et laissez **Importer
+   depuis** sur **Détection automatique**, ou choisissez l'application vous-même.
+3. Déposez le fichier, ou choisissez-le. La limite est de 512 Mo.
+4. TypeType analyse le fichier et affiche un aperçu : la source détectée, le nombre
+   d'éléments trouvés par catégorie, les doublons et les remarques de compatibilité.
+   Rien n'est écrit avant cette étape.
+5. L'import démarre ensuite tout seul pour tout ce qui a été détecté. Les éléments que
+   vous avez déjà sont ignorés. Vous pouvez quitter la page, l'import continue.
+
+À la fin, un rapport liste ce qui a été importé et ce qui a été ignoré, et vous
+pouvez le télécharger.
 
 ## Depuis YouTube (Google Takeout) {#from-youtube-google-takeout}
 
-Cela ramène vos **abonnements, playlists, favoris et historique de visionnage**
-(l'historique et les favoris seulement si l'export contient les enregistrements Mon
-activité correspondants).
+Takeout apporte vos **abonnements, votre historique, vos playlists, À regarder plus
+tard et vos vidéos likées** (en favoris).
 
-1. Demandez un export Google Takeout de **YouTube et YouTube Music**, et ajoutez aussi
-   **Mon activité** si vous voulez votre historique de visionnage. L'application vous
-   donne un lien en un clic qui présélectionne les bons produits.
-2. Attendez que Google le prépare, puis téléchargez le ou les fichiers ZIP. Les gros
-   exports sont découpés en plusieurs ZIP, c'est normal.
-3. Sur l'écran d'import, choisissez **Import from YouTube** et déposez **un ou
-   plusieurs fichiers ZIP Takeout** (vous pouvez en sélectionner plusieurs d'un coup).
-4. Lancez l'import, puis vérifiez vos abonnements et vos playlists.
+1. Choisissez **YouTube Takeout** dans **Importer depuis**, puis **Ouvrir Google
+   Takeout** : le lien présélectionne YouTube et Mon activité. Gardez Mon activité si
+   vous voulez votre historique.
+2. Créez un export ZIP ponctuel et téléchargez-le depuis Google.
+3. Déposez le ZIP d'origine. Si Google a découpé l'export en plusieurs ZIP,
+   importez-les un par un.
 
-::: warning La progression de l'import reste à zéro
-Si l'aperçu réussit mais qu'un import reste à `00` catégorie sans avancer, notez
-l'identifiant de la tâche et les chiffres de l'aperçu avant de l'annuler. Ce
-comportement est suivi dans
-[l'issue #276](https://github.com/TypeType-Video/TypeType/issues/276) ; il est
-différent d'un fichier Takeout dont la détection a échoué. Ne joignez ni l'archive ni
-aucune donnée de compte à un signalement.
-:::
+L'import supprime les abonnements, playlists et vidéos en double, réutilise une
+playlist existante quand elle correspond, et range les playlists système de YouTube
+dans les **Favoris** et **À regarder plus tard** de TypeType plutôt que dans des
+playlists ordinaires. L'activité « J'aime » peut aussi remplir les Favoris quand la
+playlist système manque ou est incomplète ; la date et l'ordre d'origine sont
+conservés. Les lignes aux métadonnées incomplètes sont complétées en arrière-plan,
+si bien que la playlist s'ouvre tout de suite.
 
-::: tip
-Inutile de décompresser quoi que ce soit : envoyez les ZIP Takeout tels que Google
-vous les donne.
-:::
+Si l'import indique qu'aucune donnée de compte n'a été trouvée, vous avez déposé une
+partie de l'export qui ne contient que des vidéos : choisissez le ZIP qui contient
+l'historique, les abonnements ou les playlists. S'il indique que l'archive dépasse
+les limites ou est chiffrée, exportez de nouveau YouTube en parties ZIP plus petites.
 
-Quand vous sélectionnez plusieurs archives, le Frontend les traite et les enregistre
-une par une. Chaque import retire les abonnements, playlists et URL de vidéos en
-double ; réutilise une playlist existante quand sa correspondance d'origine ou son nom
-correspond déjà ; et signale les entrées existantes comme ignorées. Une archive
-suivante ignore donc les données déjà enregistrées par une précédente. Les playlists
-système de YouTube sont rattachées aux **Favoris** et à **À regarder plus tard** de
-TypeType au lieu d'apparaître en double comme des playlists ordinaires.
+## Exporter {#export}
 
-L'activité des vidéos aimées peut aussi restaurer les Favoris quand la playlist
-système manque ou est incomplète. L'importeur garde l'heure d'origine de l'activité,
-comprend les formats de date anglais et français de Takeout, et ignore les
-enregistrements de vidéos aimées supprimées, privées ou indisponibles. Cela conserve
-l'ordre d'origine au lieu d'attribuer des horodatages d'import dans l'ordre inverse.
+Dans l'onglet **Exporter**, choisissez un **Format de destination** et les catégories
+à inclure, puis **Générer l'export** et téléchargez le fichier. Une destination qui
+ne peut pas garder tous les champs de TypeType affiche un avertissement, et le
+rapport liste ce qui n'a pas pu être conservé. Un export TypeType garde tout : c'est
+la sauvegarde à utiliser pour passer à une autre instance TypeType.
 
-Des lignes Takeout anciennes ou indisponibles peuvent ne contenir que des métadonnées
-de secours. La playlist s'ouvre tout de suite et Server planifie la réparation des
-métadonnées en arrière-plan, plutôt que de bloquer toute la réponse pendant qu'il
-résout chaque élément.
-
-Ces détails ont été revus après que
-[lelam183 a signalé des playlists importées lentes, inversées et en double](https://github.com/TypeType-Video/TypeType/issues/135).
-
-## Depuis PipePipe {#from-pipepipe}
-
-Vous venez de l'application PipePipe ? Restaurez directement depuis sa sauvegarde.
-
-1. Exportez une sauvegarde depuis PipePipe (un fichier `.zip`).
-2. Sur l'écran d'import, choisissez **Import from PipePipe** et déposez le ZIP de
-   sauvegarde.
-3. Cela restaure votre **historique, vos abonnements, vos playlists et votre
-   progression de lecture**.
-
-## Après l'import {#after-importing}
-
-Quand l'import se termine, il affiche un court rapport de ce qui a été ramené et de ce
-qui a été ignoré, pour que vous voyiez exactement ce qui s'est passé. Vos abonnements
-et vos playlists sont disponibles tout de suite.
+**Paramètres > Données** crée et restaure aussi directement une sauvegarde TypeType.
+Une restauration y remplace les catégories contenues dans la sauvegarde.
 
 ## Références {#source-references}
 
-- [Analyse du Takeout et dédoublonnage](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/YoutubeTakeoutParserService.kt)
-- [Enregistrement d'un Takeout](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/YoutubeTakeoutImporterService.kt)
-- [Réparation des métadonnées en arrière-plan](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/UserVideoMetadataRepairService.kt)
+- [Formats pris en charge](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-portability/src/main/kotlin/dev/typetype/server/portability/PortabilityFormat.kt)
+- [Imports et exports enregistrés](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-portability/src/main/kotlin/dev/typetype/server/portability/PortabilityEngineFactory.kt)
+- [Analyse de Takeout et dédoublonnage](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-services/src/main/kotlin/dev/typetype/server/services/YoutubeTakeoutParserService.kt)
+- [Réparation des métadonnées en arrière-plan](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-services/src/main/kotlin/dev/typetype/server/services/UserVideoMetadataRepairService.kt)
