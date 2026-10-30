@@ -87,13 +87,9 @@ Allez sur **`http://localhost:8082`**. Sur une installation neuve, l'application
 détecte qu'aucun compte n'existe encore et vous demande d'en créer un. Le **premier
 compte devient administrateur** automatiquement, sans étape supplémentaire.
 
-![L'écran d'inscription sur une installation neuve](/screenshot-register.png)
-
 Saisissez un nom, une adresse e-mail et un mot de passe, puis **Créer un compte**.
 Vous êtes aussitôt connecté en administrateur et arrivez sur l'écran d'accueil, d'où
 vous pouvez importer vos données.
-
-![Connecté en tant qu'administrateur](/screenshot-onboarding.png)
 
 Le déroulé complet, du formulaire vide à l'accueil de l'administrateur :
 

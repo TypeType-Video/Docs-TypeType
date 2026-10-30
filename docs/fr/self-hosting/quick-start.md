@@ -77,13 +77,9 @@ Ouvrez l'application web (l'installateur affiche l'URL exacte,
 `http://localhost:8082` par défaut). Sur une installation neuve, elle vous demande de
 créer un compte, et le **premier compte devient administrateur** automatiquement.
 
-![L'écran d'inscription sur une installation neuve](/screenshot-register.png)
-
 Saisissez un nom, une adresse e-mail et un mot de passe, puis **Créer un compte**.
 Vous êtes connecté en administrateur et arrivez sur l'écran d'accueil, d'où vous
 pouvez importer vos données.
-
-![Connecté en tant qu'administrateur](/screenshot-onboarding.png)
 
 Le déroulé complet :
 

@@ -76,7 +76,7 @@ Choisissez ces valeurs avant le premier démarrage. Une fois que PostgreSQL a in
 
 Cette disposition fait suite à l'incohérence relevée par [arcoast dans la discussion #123](https://github.com/TypeType-Video/TypeType/discussions/123).
 
-Pour une base externe, définissez `DATABASE_URL`, `DATABASE_USER` et `DATABASE_PASSWORD` pour Server, et `DB_URL` pour Downloader, avec un override Compose. Dans la conception actuelle, Downloader a besoin de sa propre base `typetype_downloader`.
+Pour une base externe, définissez `DATABASE_URL`, `DATABASE_USER` et `DATABASE_PASSWORD` pour Server, et `DB_URL`, `DB_USER` et `DB_PASSWORD` pour Downloader, avec un override Compose. Les deux URL prennent la forme JDBC, par exemple `jdbc:postgresql://db.example:5432/typetype_downloader` ; l'utilisateur et le mot de passe restent dans leurs propres variables. Dans la conception actuelle, Downloader a besoin de sa propre base `typetype_downloader`.
 
 ## Téléchargements et Garage {#downloads-and-garage}
 
@@ -102,24 +102,13 @@ Gardez les changements voulus de nginx ou de Garage dans des fichiers séparés 
 
 ## YouTube et Token {#youtube-and-token}
 
-Token reste activé parce que la lecture YouTube utilise ses points d'accès pour les jetons PO, le décodeur, les sous-titres et SABR. Le drapeau suivant ne commande que la connexion distante interactive :
+Token reste activé parce que la lecture YouTube utilise ses points d'accès pour les jetons PO, le décodeur, les sous-titres et SABR. Les spectateurs connectent un compte YouTube depuis la page **Connexion**, avec un code saisi sur `google.com/device` ; voir [Connecter YouTube](/fr/guide/accounts#connect-youtube). Cette connexion a besoin de Token et de `YOUTUBE_SESSION_ENCRYPTION_KEY`, que l'installateur génère.
 
 | Variable | Défaut | Rôle |
 | --- | --- | --- |
-| `YOUTUBE_REMOTE_LOGIN_ENABLED` | `false` | Active la connexion interactive à YouTube |
 | `YOUTUBE_OUTBOUND_PROXY_URL` | vide | Proxy sortant optionnel utilisé pour le trafic YouTube |
-| `YOUTUBE_REMOTE_LOGIN_CALLBACK_BASE_URL` | `http://localhost:8080` | Origine interne de Server qui reçoit le rappel de fin de Token |
-| `YOUTUBE_REMOTE_LOGIN_CALLBACK_ORIGIN` | `http://typetype-server:8080` | Origine interne de rappel utilisée par Token |
-| `YOUTUBE_REMOTE_LOGIN_TTL_MS` | `480000` | Durée de vie demandée par Server, bornée entre 1 et 10 minutes |
-| `YOUTUBE_REMOTE_LOGIN_MAX_SESSIONS` | `2` | Sessions de navigateur distant simultanées, bornées entre 1 et 8 |
-| `YOUTUBE_REMOTE_LOGIN_FRAME_FPS` | `10` | Cadence de capture de la vue de connexion |
-| `YOUTUBE_REMOTE_LOGIN_MAX_FRAME_BYTES` | `524288` | Taille maximale d'une image de connexion encodée |
 
-Gardez le rappel par défaut sur une URL interne de Server. Le navigateur atteint la session de connexion par l'origine web publique et un WebSocket ; il n'appelle pas directement cette adresse de rappel.
-
-Les deux réglages de rappel doivent utiliser la même origine interne de Server dans une stack Compose sur mesure. Donnez à `YOUTUBE_REMOTE_LOGIN_CALLBACK_BASE_URL` sur Server et à `YOUTUBE_REMOTE_LOGIN_CALLBACK_ORIGIN` sur Token le nom d'hôte et le port que Token peut joindre sur le réseau Compose, par exemple `http://typetype-server:8080`. N'utilisez l'URL web publique pour aucun des deux.
-
-Dans le fichier Compose pris en charge, Token garde son propre plafond par défaut de huit minutes, parce que cette variable de durée n'est transmise qu'à Server. Les valeurs au-dessus de huit minutes ne prolongent donc pas la réservation effective sans une configuration de Token sur mesure.
+L'ancienne connexion par navigateur distant a été retirée de l'application web et de Server. Le fichier Compose pris en charge transmet toujours les variables `YOUTUBE_REMOTE_LOGIN_*` et l'installateur génère toujours `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` ; laissez-les telles quelles. Les modifier ne ramène pas la connexion distante.
 
 Les stacks Compose sur mesure qui renomment le service `typetype-token` doivent définir la variable actuelle du point d'accès interne de Server, `SUBTITLE_SERVICE_URL`, ou garder `typetype-token` comme alias réseau. Voir [Noms sur mesure du service Token](./security#custom-token-service-names).
 
@@ -139,7 +128,8 @@ Server lit ces valeurs dans son propre environnement. Le fichier Compose pris en
 | `EXTRACTOR_SIMULTANEOUS_REQUESTS_PER_HOST` | `64` | Requêtes que l'extracteur peut avoir en cours vers un même hôte en même temps |
 | `EXTRACTOR_HTTP_VERSION` | HTTP/2 | `1` utilise une requête par connexion. À utiliser si Server cesse de répondre sous une foule alors que son processeur est au repos. |
 | `SUBSCRIPTION_FEED_MAX_CONCURRENT_FETCHES` | `20` | Pages de chaînes demandées en même temps quand un flux d'abonnements est construit ; ne peut qu'être abaissé |
-| `SUBSCRIPTION_FEED_FRESHNESS_SECONDS` | `60` | Âge qu'un flux d'abonnements peut avoir avant que sa lecture lance un rafraîchissement ; ne peut qu'être relevé, jusqu'à un jour |
+| `SUBSCRIPTION_FEED_FRESHNESS_SECONDS` | `720` | Fréquence à laquelle Server rafraîchit le flux d'un spectateur qui le consulte, de 300 secondes à un jour |
+| `SUBSCRIPTION_FEED_ACTIVE_WINDOW_SECONDS` | `3600` | Durée pendant laquelle Server continue de rafraîchir un flux après sa dernière ouverture, de 300 secondes à sept jours |
 | `YOUTUBE_REQUEST_LOG` | désactivé | `1` écrit une ligne de journal par requête envoyée à YouTube. Pour le diagnostic seulement. |
 
 ```yaml
@@ -158,6 +148,8 @@ docker compose up -d --force-recreate typetype-server
 
 Server ne demande jamais de lui-même à YouTube le texte d'une piste de sous-titres ; c'est l'adresse que YouTube surveille le plus étroitement.
 
+Lire un flux d'abonnements ne lance plus de rafraîchissement. Chaque minute, Server rafraîchit en arrière-plan les flux des spectateurs qui ont ouvert le leur pendant la fenêtre d'activité, dès qu'ils sont plus vieux que la valeur de fraîcheur plus un petit décalage propre à chacun. Seul un spectateur qui n'a encore aucun flux en obtient un construit sur-le-champ.
+
 ## Service de recommandations {#recommender}
 
 Le service de recommandations optionnel a sa propre page, avec ses prérequis et tous ses réglages : [Service de recommandations](./recommender).
@@ -166,7 +158,7 @@ Le service de recommandations optionnel a sa propre page, avec ses prérequis et
 
 | Variable | Rôle |
 | --- | --- |
-| `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` | Authentifie les rappels de connexion distante entre Server et Token |
+| `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` | Généré et transmis à Server et Token ; la connexion distante qui s'en servait a été retirée |
 | `YOUTUBE_SESSION_ENCRYPTION_KEY` | Chiffre les identifiants de session YouTube stockés |
 
 Le conteneur d'initialisation `typetype-secrets` les écrit dans un volume nommé privé. Des valeurs vides et les textes `SET_ME_...` font générer une valeur au premier démarrage. Fournir une vraie valeur dans `.env` remplace le fichier généré.
@@ -225,4 +217,4 @@ La deuxième commande développe les variables : ne collez donc pas sa sortie en
 - [`.env.example` actuel](https://github.com/TypeType-Video/TypeType/blob/main/.env.example)
 - [Environnement du Compose stable](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.yml)
 - [Chargement de l'environnement de Server](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/Application.kt)
-- [Configuration de la connexion distante](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/YoutubeRemoteBrowserConfig.kt)
+- [Routes de connexion YouTube](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-http/src/main/kotlin/dev/typetype/server/routes/YoutubeSessionRoutes.kt)
