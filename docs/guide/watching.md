@@ -3,10 +3,6 @@
 Open any video to land on the watch page: the player, the details, related videos, and
 comments.
 
-![The watch page](/screenshot-watch.png)
-
----
-
 ![A video playing on a self-hosted instance](/watch.gif)
 
 ## Player controls
@@ -20,6 +16,25 @@ settings menu where you choose:
 - **Captions / subtitles**, choose a track when the video has them.
 - **Audio track**, switch language when several are available. A preferred audio
   language can be set in [Settings](./settings#languages).
+
+The progress bar and controls use the player color chosen in
+[Settings > Interface](./settings#what-you-see).
+
+![The player with a purple progress bar](/screenshot-player-color.png)
+
+## Audio only {#audio-only}
+
+Select **Audio only** under the video to load only the sound. The player shows the
+thumbnail and title instead of the picture, keeps the same controls, and still shows
+subtitles: turn them on with the **CC** button. Select **Audio only** again to
+bring the video back. To start every video this way, turn on **Audio-only playback**
+in [Settings > Playback](./settings#playback).
+
+![Audio-only playback with English subtitles under the title](/screenshot-audio-only-subtitles.png)
+
+When you play a playlist, the playlist panel has its own **Audio-only playback**
+switch. It starts from your Playback setting and applies to that playlist only, so a
+music playlist can stay audio-only while other videos keep the picture.
 
 ## Cinema mode and picture-in-picture
 
@@ -69,6 +84,12 @@ On a touch screen:
 
 When enabled, the next video starts automatically when the current one ends. Toggle it
 in [Settings](./settings#playback).
+
+## When the server is busy
+
+If YouTube limits the instance, the player shows **The video service is busy.
+Retrying…** and tries again after the delay the server asks for. If the service
+stays unavailable, the message asks you to try again in a moment.
 
 ## Livestreams
 
