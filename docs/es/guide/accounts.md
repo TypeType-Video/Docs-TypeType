@@ -37,6 +37,28 @@ Dependiendo de cómo lo haya configurado el administrador:
 Configurar esto es cosa del administrador, consulta
 [Autenticación (OIDC)](/es/self-hosting/authentication).
 
+## Conectar YouTube {#connect-youtube}
+
+Los vídeos públicos de YouTube se reproducen sin cuenta de YouTube. Cuando YouTube
+rechaza un vídeo sin iniciar sesión, por ejemplo uno con restricción de edad,
+TypeType puede reproducirlo con una cuenta de YouTube que conectes. La página de
+reproducción te lleva entonces a **Login**.
+
+1. Abre **Login** en el menú lateral y selecciona **Connect with YouTube**.
+2. TypeType muestra un código. Abre `google.com/device` en cualquier dispositivo e
+   introdúcelo.
+3. Elige la cuenta de YouTube y permite el acceso. El estado pasa a conectado.
+
+Usa una cuenta de YouTube secundaria e introduce el código rápido: caduca a los pocos
+minutos. La sesión de YouTube se queda cifrada en el servidor y nunca se envía a la
+página web. **Disconnect** la elimina. Si YouTube deja de aceptar la sesión, la
+página de reproducción te pide conectarla de nuevo.
+
+![La página de inicio de sesión de YouTube con el botón Connect with YouTube](/screenshot-youtube-session.png)
+
+La pestaña **BiliBili** en la parte superior de la misma página conecta una cuenta de
+BiliBili.
+
 ## Tu perfil {#your-profile}
 
 Desde tu perfil gestionas los detalles de tu cuenta. Los administradores también
