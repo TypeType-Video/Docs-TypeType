@@ -77,13 +77,9 @@ Abre la aplicación web (el instalador muestra la URL exacta, `http://localhost:
 por defecto). En una instalación nueva te pide crear una cuenta, y la **primera cuenta
 se convierte en administrador** automáticamente.
 
-![La pantalla de registro en una instalación nueva](/screenshot-register.png)
-
 Introduce un nombre, un correo y una contraseña, y después **Register**. Has iniciado
 sesión como administrador y llegas a la pantalla de bienvenida, desde donde puedes
 importar tus datos.
-
-![Sesión iniciada como administrador](/screenshot-onboarding.png)
 
 El proceso completo:
 

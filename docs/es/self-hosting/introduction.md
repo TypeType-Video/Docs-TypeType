@@ -18,7 +18,7 @@ comandos sencillos, para que puedas inspeccionar y controlar cada paso.
 | Aplicación web | `ghcr.io/typetype-video/typetype` | La interfaz, más un nginx que redirige `/api` al servidor |
 | Servidor API | `ghcr.io/typetype-video/typetype-server` | Cuentas, extracción, la API REST, el núcleo del ecosistema |
 | Descargador | `ghcr.io/typetype-video/typetype-downloader` | Prepara las descargas y las guarda en el almacén de objetos |
-| Token | `ghcr.io/typetype-video/typetype-token` | Tokens PO de YouTube, decodificación del reproductor, metadatos SABR, subtítulos e inicio de sesión remoto opcional |
+| Token | `ghcr.io/typetype-video/typetype-token` | Tokens PO de YouTube, decodificación del reproductor, metadatos SABR, subtítulos e inicio de sesión en YouTube |
 | Base de datos | `postgres` | Cuentas, historial, listas de reproducción, ajustes |
 | Caché | `dragonfly` | Caché compatible con Redis |
 | Almacén de objetos | `garage` | Almacenamiento compatible con S3 para las descargas |
@@ -45,9 +45,8 @@ pones un proxy inverso delante y la sirves por HTTPS, como se describe en
 [Proxy inverso y HTTPS](./reverse-proxy).
 
 Token es un servicio interno, pero no es opcional para la reproducción actual de
-YouTube. `YOUTUBE_REMOTE_LOGIN_ENABLED` controla únicamente el inicio de sesión
-interactivo en YouTube; los tokens PO, el decodificador, los subtítulos y SABR siguen
-usando Token cuando el inicio de sesión remoto está desactivado.
+YouTube: los tokens PO, la decodificación del reproductor, los subtítulos, SABR y el
+inicio de sesión en YouTube pasan todos por él.
 
 Para saber qué repositorio es dueño de qué y conocer la ruta de reproducción en el
 navegador, consulta la [visión general del proyecto](/es/project/) y
@@ -55,22 +54,7 @@ navegador, consulta la [visión general del proyecto](/es/project/) y
 
 ## Qué aspecto tiene {#what-it-looks-like}
 
-Una instancia autoalojada en funcionamiento, reproduciendo un vídeo, buscando, y sus
-ajustes:
-
-![Viendo un vídeo en una instancia autoalojada](/screenshot-watch.png)
-
----
-
-![Resultados de búsqueda](/screenshot-search.png)
-
----
-
-![La página de configuración](/screenshot-settings.png)
-
----
-
-La reproducción en acción:
+Una instancia autoalojada en funcionamiento, reproduciendo un vídeo:
 
 ![Reproducción de vídeo](/watch.gif)
 

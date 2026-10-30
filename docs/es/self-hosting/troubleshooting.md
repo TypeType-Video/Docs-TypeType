@@ -77,23 +77,34 @@ Este fallo salió a la luz al dar seguimiento al
 [informe de descargas en iOS de nanhoes](https://github.com/TypeType-Video/TypeType/issues/116)
 y después se contrastó con el flujo de autorización actual de Server a Downloader.
 
-## El inicio de sesión remoto en YouTube empieza y luego muestra un 404 {#remote-youtube-login-starts-then-shows-a-404}
+## Los vídeos de YouTube fallan con 503, 429 o 504 {#youtube-busy}
 
-Si la creación de la sesión funciona pero la ruta del navegador devuelve `404`,
-probablemente el WebSocket se reenvió como una petición HTTP normal. Comprueba en cada
-capa de proxy que estén:
+Cuando YouTube bloquea la dirección de la instancia, la limita o no responde a
+tiempo, Server responde con un estado concreto en lugar de un `502` genérico:
 
-```nginx
-proxy_http_version 1.1;
-proxy_set_header Upgrade $http_upgrade;
-proxy_set_header Connection $connection_upgrade;
+| Estado | Significado |
+| --- | --- |
+| `503` | YouTube rechaza la instancia por ahora, a menudo con "Sign in to confirm you're not a bot" |
+| `429` | YouTube limita la instancia, o el límite `YOUTUBE_OPENS_PER_MINUTE` hace esperar al vídeo |
+| `504` | YouTube no respondió antes del tiempo límite de extracción |
+
+`503` y `429` llevan una cabecera `Retry-After`, 60 segundos salvo que Server conozca
+una espera mejor. El reproductor web espera ese tiempo, muestra **The video service
+is busy. Retrying…** y vuelve a intentarlo. Mientras YouTube bloquea la dirección,
+Server pausa sus peticiones a YouTube, renueva su sesión una vez y continúa cuando se
+levanta el bloqueo.
+
+Comprueba desde el host que Token está listo, cambiando `8081` si modificaste
+`HOST_PORT_TOKEN`:
+
+```sh
+curl -i http://127.0.0.1:8081/ready
 ```
 
-La configuración de nginx compatible viene incluida en la imagen web. Si la pila usa
-un montaje personalizado desde el host, compáralo con el archivo actual del
-repositorio del frontend. Consulta
-[Inicio de sesión remoto y WebSockets](./reverse-proxy#remote-login-and-websockets) y
-el [diagnóstico original de la comunidad](https://github.com/TypeType-Video/TypeType/discussions/122).
+`/ready` responde `503` hasta que Token tiene lista una sesión de BotGuard y un token
+de TV. Si sigue en `503`, lee los registros de Token antes de investigar Server. Si
+los bloqueos vuelven, reduce la presión con los ajustes de
+[Límites de peticiones a YouTube](./configuration#youtube-request-limits).
 
 ## Cierres de sesión inesperados {#unexpected-sign-outs}
 
@@ -135,8 +146,8 @@ Esta lista de comprobación responde al comportamiento inesperado del que inform
 ## Una sesión de YouTube guardada dejó de funcionar tras cambiar un secreto {#a-saved-youtube-session-stopped-working-after-a-secret-change}
 
 `YOUTUBE_SESSION_ENCRYPTION_KEY` cifra las cookies de YouTube y los tokens de
-reproducción almacenados. Si la cambias después de haber usado el inicio de sesión
-remoto, esas sesiones de YouTube guardadas ya no pueden descifrarse y los usuarios
+reproducción almacenados. Si la cambias después de que los espectadores hayan
+conectado YouTube, esas sesiones guardadas ya no pueden descifrarse y los usuarios
 afectados deben volver a conectar YouTube. No cifra el inicio de sesión de la cuenta
 de TypeType. Elige el valor una vez y consérvalo. El valor generado se guarda en
 `typetype_secrets`, así que normalmente no necesitas tocarlo.
@@ -162,8 +173,8 @@ docker compose config --images
 Una salida que contenga `ghcr.io/priveetee/...` significa que el archivo Compose
 activo sigue apuntando al antiguo espacio de nombres de imágenes. Sigue
 [Migrar una pila antigua de Priveetee](./maintenance#migrate-an-older-priveetee-stack)
-antes de investigar el inicio de sesión remoto, la IP residencial o el ajuste del
-proxy.
+antes de investigar el inicio de sesión en YouTube, la IP residencial o el ajuste
+del proxy.
 
 La antigua secuencia de fallo y la actualización correcta las documentó
 [filippobaroni en la discusión #133](https://github.com/TypeType-Video/TypeType/discussions/133#discussioncomment-17779201).
@@ -171,12 +182,13 @@ La antigua secuencia de fallo y la actualización correcta las documentó
 ## Token está sano pero la reproducción de YouTube falla {#token-is-healthy-but-youtube-playback-fails}
 
 `/health` solo prueba que el servicio de Bun está escuchando. Los flujos de tokens PO,
-decodificador, SABR y navegador remoto también necesitan Chromium con Playwright y
-rutas de ejecución con escritura.
+decodificador, SABR e inicio de sesión en YouTube también necesitan Chromium con
+Playwright y rutas de ejecución con escritura. `/ready` solo responde `200` cuando la
+sesión de BotGuard y el token de TV están listos.
 
 Si aplicaste un perfil de contenedor personalizado sin root o de solo lectura, vuelve
 a probar por separado `/potoken`, un vídeo normal de YouTube, un directo y el inicio
-de sesión remoto. Un usuario `nobody` arbitrario no tiene un directorio personal
+de sesión en YouTube. Un usuario `nobody` arbitrario no tiene un directorio personal
 utilizable para el Crashpad de Chromium en la imagen actual. Vuelve a la definición
 compatible del servicio Token antes de tratar el fallo como un error de Server o del
 Player.
