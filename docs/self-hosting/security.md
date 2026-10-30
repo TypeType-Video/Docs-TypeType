@@ -24,8 +24,8 @@ Dragonfly through your public reverse proxy.
 
 The stack separates three kinds of secrets:
 
-- `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` authenticates Server-to-Token remote-login
-  callbacks.
+- `YOUTUBE_REMOTE_LOGIN_INTERNAL_TOKEN` is still generated and shared between
+  Server and Token, although the remote sign-in that used it has been removed.
 - `YOUTUBE_SESSION_ENCRYPTION_KEY` encrypts stored YouTube session credentials.
 - `GARAGE_RPC_SECRET` authenticates Garage cluster RPC traffic.
 
@@ -55,7 +55,7 @@ capability-dropped profile investigated in
 [discussion #156](https://github.com/TypeType-Video/TypeType/discussions/156).
 
 ::: warning Do not apply an untested hardening fragment blindly
-A container can pass `/health` while `/potoken`, SABR, or remote login is broken.
+A container can pass `/health` while `/potoken`, SABR, or the YouTube sign-in is broken.
 Running as an arbitrary `nobody` user also leaves Chromium without a usable home
 directory. Validate all Token flows, not only its health endpoint, when testing a
 custom security profile.
@@ -64,8 +64,8 @@ custom security profile.
 The current Playwright image contains a `pwuser` account, and community testing found
 that a writable `/tmp` and `/home/pwuser` can support a read-only root filesystem.
 That configuration is useful ongoing work, but it is not yet the supported stack
-default because the browser sandbox, IPC choice, PO tokens, SABR, and remote-login
-flows must be validated together.
+default because the browser sandbox, IPC choice, PO tokens, SABR, and YouTube
+sign-in flows must be validated together.
 
 Thanks to [hugoghx](https://github.com/hugoghx) for the detailed container-boundary
 investigation and reproducible tests in discussion #156.
@@ -84,12 +84,8 @@ services:
 ```
 
 `SUBTITLE_SERVICE_URL` is the current implementation name even though Token now owns
-PO tokens, decoding, SABR, and remote login as well as subtitles. The current Server
-does not read a `TOKEN_SERVICE_URL` variable.
-
-If remote login uses a separate Token address, also set
-`YOUTUBE_REMOTE_LOGIN_SERVICE_URL` for Server. In the supported stack both values
-resolve to the same internal service.
+PO tokens, decoding, SABR, and the YouTube sign-in as well as subtitles. The current
+Server does not read a `TOKEN_SERVICE_URL` variable.
 
 ## Authentication sessions
 
@@ -121,7 +117,7 @@ verify OIDC before disabling local login. See [Authentication (OIDC)](./authenti
 
 - [Stable Compose service boundaries](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.yml)
 - [Token container image](https://github.com/TypeType-Video/TypeType-Token/blob/dev/Dockerfile)
-- [Token browser implementation](https://github.com/TypeType-Video/TypeType-Token/blob/dev/src/remote-login-browser.ts)
-- [Server access-token lifetime](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthAccessTokenCodec.kt)
-- [Server refresh-session lifetime](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthTokenIssuer.kt)
-- [Refresh-cookie settings](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/AuthCookieHelpers.kt)
+- [Token browser implementation](https://github.com/TypeType-Video/TypeType-Token/blob/dev/src/botguard-browser.ts)
+- [Server access-token lifetime](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthAccessTokenCodec.kt)
+- [Server refresh-session lifetime](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthTokenIssuer.kt)
+- [Refresh-cookie settings](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-auth/src/main/kotlin/dev/typetype/server/services/AuthCookieHelpers.kt)

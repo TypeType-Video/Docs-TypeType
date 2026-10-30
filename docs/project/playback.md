@@ -60,9 +60,8 @@ visitor data, PO tokens, player URL decoding, adaptive format metadata, and the 
 streaming URL. Its `/youtube/sabr/session` response is internal and is converted into
 Server models before anything reaches the browser.
 
-Token is required for current YouTube playback even when remote YouTube login is
-disabled. The optional setting controls only the interactive login flow, not the
-token and decoder service itself.
+Token is required for current YouTube playback, whether or not viewers connect a
+YouTube account. The YouTube sign-in with a code goes through Token as well.
 
 ### Player
 
@@ -140,10 +139,10 @@ See [Community sources](./community) for the complete acknowledgements.
 
 ## Source references
 
-- [Server SABR routes](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/routes/SabrRoutes.kt)
-- [Server session store](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/SabrSessionStore.kt)
-- [Server-to-Token SABR client](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/services/TypetypeTokenYoutubeSessionClient.kt)
+- [Server SABR routes](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-http/src/main/kotlin/dev/typetype/server/routes/SabrRoutes.kt)
+- [Server session store](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-playback/src/main/kotlin/dev/typetype/server/services/SabrSessionStore.kt)
+- [Server-to-Token SABR client](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-token-gateway/src/main/kotlin/dev/typetype/server/services/TypetypeTokenYoutubeSessionClient.kt)
 - [Token SABR session implementation](https://github.com/TypeType-Video/TypeType-Token/blob/dev/src/youtube-sabr-session.ts)
 - [Player source](https://github.com/TypeType-Video/TypeType-Player/tree/dev/src)
-- [Server Downloader gateway](https://github.com/TypeType-Video/TypeType-Server/blob/dev/src/main/kotlin/dev/typetype/server/routes/DownloaderGatewayRoutes.kt)
+- [Server Downloader gateway](https://github.com/TypeType-Video/TypeType-Server/blob/dev/server-http/src/main/kotlin/dev/typetype/server/routes/DownloaderGatewayRoutes.kt)
 - [Downloader pipeline](https://github.com/TypeType-Video/TypeType-Downloader/tree/dev/internal/pipeline)

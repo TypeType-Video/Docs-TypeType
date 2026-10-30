@@ -17,7 +17,7 @@ commands so you can inspect and control each step.
 | Web app | `ghcr.io/typetype-video/typetype` | The interface, plus an nginx that proxies `/api` to the server |
 | API server | `ghcr.io/typetype-video/typetype-server` | Accounts, extraction, the REST API, the core of the ecosystem |
 | Downloader | `ghcr.io/typetype-video/typetype-downloader` | Prepares downloads and stores them in the object store |
-| Token | `ghcr.io/typetype-video/typetype-token` | YouTube PO tokens, player decoding, SABR metadata, subtitles, and optional remote login |
+| Token | `ghcr.io/typetype-video/typetype-token` | YouTube PO tokens, player decoding, SABR metadata, subtitles, and YouTube sign-in |
 | Database | `postgres` | Accounts, history, playlists, settings |
 | Cache | `dragonfly` | Redis-compatible cache |
 | Object store | `garage` | S3-compatible storage for downloads |
@@ -43,31 +43,16 @@ Only the **web app** needs to be reachable by your users. In production you put 
 reverse proxy in front of it and serve it over HTTPS, as described in
 [Reverse proxy and HTTPS](./reverse-proxy).
 
-Token is an internal service, but it is not optional for current YouTube playback.
-`YOUTUBE_REMOTE_LOGIN_ENABLED` controls only the interactive YouTube sign-in feature;
-PO-token, decoder, subtitle, and SABR work still use Token when remote login is off.
+Token is an internal service, but it is not optional for current YouTube playback:
+PO tokens, player decoding, subtitles, SABR, and the YouTube sign-in all go through
+it.
 
 For source ownership and the browser playback path, see the
 [project overview](/project/) and [Playback and downloads](/project/playback).
 
 ## What it looks like
 
-A self-hosted instance once it is running, playing a video, searching, and the
-settings:
-
-![Watching a video on a self-hosted instance](/screenshot-watch.png)
-
----
-
-![Search results](/screenshot-search.png)
-
----
-
-![The settings page](/screenshot-settings.png)
-
----
-
-Playback in action:
+A self-hosted instance once it is running, playing a video:
 
 ![Video playback](/watch.gif)
 

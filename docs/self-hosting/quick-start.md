@@ -74,12 +74,8 @@ Open the web app (the installer prints the exact URL, `http://localhost:8082` by
 default). On a fresh install it asks you to create an account, and the **first account
 becomes the administrator** automatically.
 
-![The registration screen on a fresh install](/screenshot-register.png)
-
 Enter a name, email, and password, then **Register**. You are signed in as the admin
 and land on the onboarding screen, where you can import your data.
-
-![Signed in as the administrator](/screenshot-onboarding.png)
 
 The whole flow:
 
