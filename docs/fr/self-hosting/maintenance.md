@@ -25,6 +25,27 @@ sous `.typetype-backups/` un dossier horodaté qui contient les fichiers de stac
 précédents et, quand l'ancienne configuration est valide, ses références d'images
 résolues et en cours d'exécution.
 
+### Épingler une version {#pin-a-release}
+
+À partir de TypeType 1.16.0, la stack suit `latest` sauf si vous épinglez une version.
+Toutes les images TypeType utilisent alors la même version :
+
+```dotenv
+TYPETYPE_VERSION=1.16.0
+```
+
+L'installateur vous demande quelle version vous voulez : la dernière version, les
+versions candidates ou une seule version. Choisissez `3` et tapez le numéro, ou
+indiquez-la dans `.env`, ou passez `--version 1.16.0`. Pour mettre à jour une stack
+épinglée, changez le numéro et relancez l'installateur, ou récupérez et recréez la
+stack comme ci-dessous. Laissez la valeur vide pour suivre de nouveau `latest`. Une
+valeur `TYPETYPE_*_IMAGE` reste prioritaire pour son image.
+
+Pour essayer la prochaine version avant sa sortie, voir
+[Versions candidates](./release-candidates).
+
+### Sans l'installateur {#without-the-installer}
+
 Pour une installation sans script, remplacez d'abord le fichier Compose et les scripts
 par ceux de la version actuelle, en gardant `.env`, un éventuel override et la
 configuration sur mesure. Puis validez et recréez la stack :

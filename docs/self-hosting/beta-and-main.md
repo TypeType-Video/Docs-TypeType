@@ -5,12 +5,14 @@ host.
 
 | Channel | Branch | Images | Default ports |
 | --- | --- | --- | --- |
-| **main** (stable) | `main` | `ghcr.io/typetype-video/typetype:latest`, `...-server:latest`, ... | web `8082`, server `8080`, token `8081`, S3 `3900` |
+| **main** (stable) | `main` | `ghcr.io/typetype-video/typetype:latest` or `:1.16.0`, `...-server:latest`, ... | web `8082`, server `8080`, token `8081`, S3 `3900` |
 | **beta** | `dev` | `ghcr.io/typetype-video/typetype-beta:latest`, `...-server-beta:latest`, ... | web `18082`, server `18080`, downloader `19093`, token `18081`, S3 `3900` |
 
-CI builds the images automatically: a push to `main` updates the `:latest` images,
-a push to `dev` updates the `-beta` images. So **main is the stable release** and
-**beta is the preview of what is coming next**.
+CI builds the images automatically: a push to `dev` updates the `-beta` images, and a
+release tag publishes the `:1.16.0` images and moves `:latest`. So **main is the stable
+release** and **beta is the preview of what is coming next**. Release candidates such
+as `:1.16.0-rc.1` sit in between, on the stable image names: a main stack can follow
+them instead of `latest`, see [Release candidates](./release-candidates).
 
 The repositories, submodule pins, image notifications, and deployments are separate
 parts of the release path. Read [Branches and releases](/project/releases) when you

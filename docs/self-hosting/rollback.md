@@ -59,7 +59,12 @@ for file in docker-compose.arm64.yml docker-compose.override.yml nginx.conf gara
 done
 ```
 
-Open `.env` and set these values to the four references recorded before the update:
+If the stack is pinned with `TYPETYPE_VERSION`, set it back to the release that ran
+before, for example `TYPETYPE_VERSION=1.15.0`, and skip the digests below. Every
+TypeType image returns to that release together.
+
+Otherwise, open `.env` and set these values to the four references recorded before
+the update:
 
 ```dotenv
 TYPETYPE_WEB_IMAGE=ghcr.io/typetype-video/typetype@sha256:WEB_DIGEST
@@ -106,5 +111,6 @@ are lost.
 ## Return to normal updates
 
 After the faulty release has been replaced, remove the four `TYPETYPE_*_IMAGE`
-overrides from `.env` or leave their values empty. The next normal update will then
-follow the stable `latest` images again. See [Maintenance](./maintenance#updating).
+overrides from `.env` or leave their values empty, and set `TYPETYPE_VERSION` to the
+fixed release or leave it empty. The next normal update will then follow that release,
+or the stable `latest` images again. See [Maintenance](./maintenance#updating).

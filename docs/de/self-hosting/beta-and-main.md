@@ -5,12 +5,15 @@ demselben Host betreiben.
 
 | Kanal | Branch | Images | Standard-Ports |
 | --- | --- | --- | --- |
-| **main** (stabil) | `main` | `ghcr.io/typetype-video/typetype:latest`, `...-server:latest`, ... | Web `8082`, Server `8080`, Token `8081`, S3 `3900` |
+| **main** (stabil) | `main` | `ghcr.io/typetype-video/typetype:latest` oder `:1.16.0`, `...-server:latest`, ... | Web `8082`, Server `8080`, Token `8081`, S3 `3900` |
 | **beta** | `dev` | `ghcr.io/typetype-video/typetype-beta:latest`, `...-server-beta:latest`, ... | Web `18082`, Server `18080`, Downloader `19093`, Token `18081`, S3 `3900` |
 
-Die CI baut die Images automatisch: Ein Push auf `main` aktualisiert die
-`:latest`-Images, ein Push auf `dev` die `-beta`-Images. **main ist also die stabile
-Version** und **beta die Vorschau auf das, was als Nächstes kommt**.
+Die CI baut die Images automatisch: Ein Push auf `dev` aktualisiert die
+`-beta`-Images, und ein Versions-Tag veröffentlicht die `:1.16.0`-Images und verschiebt
+`:latest`. **main ist also die stabile Version** und **beta die Vorschau auf das, was als
+Nächstes kommt**. Release-Kandidaten wie `:1.16.0-rc.1` liegen dazwischen, unter den
+stabilen Image-Namen: Ein main-Stack kann ihnen statt `latest` folgen, siehe
+[Release-Kandidaten](./release-candidates).
 
 Die Repositorys, die festgelegten Submodul-Stände, die Image-Benachrichtigungen und
 die Bereitstellungen sind getrennte Teile des Veröffentlichungswegs. Lesen Sie

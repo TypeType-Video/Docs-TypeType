@@ -26,6 +26,28 @@ Volumes. Bevor er verwaltete Dateien ändert, legt der Installer unter
 Stack-Dateien und, wenn die alte Konfiguration gültig ist, ihre aufgelösten und
 laufenden Image-Referenzen enthält.
 
+### Eine Version festlegen {#pin-a-release}
+
+Ab TypeType 1.16.0 folgt der Stack `latest`, solange Sie keine Version festlegen. Alle
+TypeType-Images verwenden dann dieselbe Version:
+
+```dotenv
+TYPETYPE_VERSION=1.16.0
+```
+
+Das Installationsskript fragt, welche Version Sie möchten: die neueste Version, die
+Release-Kandidaten oder eine einzelne Version. Wählen Sie `3` und geben Sie die Nummer
+ein, setzen Sie sie in `.env` oder übergeben Sie `--version 1.16.0`. Um einen
+festgelegten Stack zu aktualisieren, ändern Sie die Nummer und führen Sie das
+Installationsskript erneut aus, oder laden und erstellen Sie den Stack wie unten neu.
+Lassen Sie den Wert leer, um wieder `latest` zu folgen. Ein Wert `TYPETYPE_*_IMAGE` hat
+für sein Image weiterhin Vorrang.
+
+Um die nächste Version vor ihrer Veröffentlichung zu testen, siehe
+[Release-Kandidaten](./release-candidates).
+
+### Ohne Installationsskript {#without-the-installer}
+
 Bei einer Installation ohne Skripte ersetzen Sie zuerst die Compose-Datei und die
 Skripte durch die der aktuellen Version und behalten dabei `.env`, ein eventuelles
 Override und eigene Konfiguration. Prüfen Sie dann den Stack und erstellen Sie ihn

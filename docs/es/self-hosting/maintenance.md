@@ -26,6 +26,27 @@ instalador crea bajo `.typetype-backups/` un directorio con marca de tiempo que
 contiene los archivos anteriores de la pila y, cuando la configuración antigua es
 válida, sus referencias de imágenes resueltas y en ejecución.
 
+### Fijar una versión {#pin-a-release}
+
+A partir de TypeType 1.16.0, el stack sigue `latest` salvo que fijes una versión. Todas
+las imágenes de TypeType usan entonces la misma versión:
+
+```dotenv
+TYPETYPE_VERSION=1.16.0
+```
+
+El instalador te pregunta qué versión quieres: la última versión, las versiones
+candidatas o una sola versión. Elige `3` y escribe el número, ponla en `.env` o pasa
+`--version 1.16.0`. Para actualizar un stack fijado, cambia el número y vuelve a
+ejecutar el instalador, o descarga y recrea el stack como se muestra abajo. Déjala
+vacía para volver a seguir `latest`. Un valor `TYPETYPE_*_IMAGE` sigue teniendo
+prioridad para su imagen.
+
+Para probar la próxima versión antes de su publicación, consulta
+[Versiones candidatas](./release-candidates).
+
+### Sin el instalador {#without-the-installer}
+
 En una instalación sin scripts, sustituye primero el archivo Compose y los scripts por
 los de la versión actual, conservando `.env`, cualquier override y la configuración
 personalizada. Después valida y vuelve a crear la pila:

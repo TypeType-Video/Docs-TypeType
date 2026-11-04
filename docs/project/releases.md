@@ -4,43 +4,61 @@ TypeType components are developed independently and then assembled by the centra
 stack. Understanding the distinction between a source branch, a component image,
 and a running deployment avoids most version confusion.
 
-## Development and stable lines
+## One version for the whole stack
 
-| Line | Branch | Container image pattern | Purpose |
+Since TypeType 1.15.0, every component ships with the TypeType version. TypeType
+1.16.0 is web 1.16.0, server 1.16.0, token 1.16.0 and downloader 1.16.0, even when a
+component did not change, so one number tells what an instance runs.
+
+## Development, staging and stable lines
+
+| Line | Branch | Image tags | Purpose |
 | --- | --- | --- | --- |
-| Development | `dev` | `typetype-beta`, `typetype-server-beta`, `typetype-token-beta`, `typetype-downloader-beta` | Integration and beta deployment |
-| Stable | `main` | `typetype`, `typetype-server`, `typetype-token`, `typetype-downloader` | Released self-hosted stack |
+| Development | `dev` | `typetype-beta:latest`, `typetype-beta:1.15.0-beta.N`, ... | Integration and beta deployment, can break |
+| Staging | `staging` | `typetype:1.16.0-rc.N`, `typetype:rc`, ... | Release candidates of the next version |
+| Stable | `main` | `typetype:1.16.0`, `typetype:latest`, ... | Released self-hosted stack |
 
-All image names above live under `ghcr.io/typetype-video/` and use the `:latest` tag
-unless an override selects another tag or digest.
+The same tags exist for `typetype-server`, `typetype-token` and `typetype-downloader`,
+all under `ghcr.io/typetype-video/`. A beta image carries the last release number and
+its build number, so `1.15.0-beta.N` is a build made after 1.15.0.
 
-Most component repositories use `dev` as their default branch. Code pull requests
-target `dev`; a release promotion moves the selected work to `main`. The central
-TypeType repository uses `main` as its default because it is also the installation
-and release entry point.
+Code pull requests target `dev`. The central TypeType repository uses `main` as its
+default branch because it is also the installation and release entry point.
 
-`latest` is a moving container tag. It identifies the newest image on that channel,
-not an immutable release. Record the image digests before updating and use those
-digests for rollback, as described in [Roll back an update](/self-hosting/rollback).
-
-## Component image flow
+## How a release is made
 
 ```mermaid
 flowchart LR
-    dev[component dev] --> betaImage[beta image]
-    betaImage --> dispatch[central component-image event]
-    dispatch --> beta[beta deployment]
-
-    main[component main] --> stableImage[stable image]
-    stableImage --> record[central release coordination]
-    record --> selfhost[self-hosters pull the image]
+    dev[component dev] --> beta[beta images]
+    dev -->|release.sh rc| staging[component staging]
+    staging -->|tag v1.16.0-rc.N| rc[1.16.0-rc.N and rc images]
+    staging -->|release.sh final| main[main of every component]
+    main -->|tag v1.16.0| stable[1.16.0 and latest images]
 ```
 
-Component workflows build and publish their own images. They then notify the central
-repository with the component name, channel, image digest, source revision, and build
-version. The central workflow deploys beta automatically. Stable notifications are
-recorded; a public or self-hosted stable deployment updates through its own release
-or installer process.
+1. Work lands on `dev`. Every push builds the beta images.
+2. When a component is ready, `scripts/release.sh rc 1.16.0 web` in the central
+   repository moves that component's `staging` branch to `dev` and tags the next
+   `v1.16.0-rc.N`. The tag builds the `1.16.0-rc.N` image and moves `rc`. Each
+   component gets its own release candidates, as many as it needs. The `staging`
+   branch of the central repository moves to its `dev` at the same time, so the stack
+   files that go with the candidates are always on `staging`. The official instance
+   follows the `rc` images, and self-hosters can too, see
+   [Release candidates](/self-hosting/release-candidates).
+3. When the release candidates work together, `scripts/release.sh final 1.16.0`
+   moves `main` to `staging` and tags `v1.16.0` in every component at once. The tags
+   build the `1.16.0` images and move `latest`.
+4. The central repository publishes the release notes and its own `v1.16.0` tag.
+
+Images come only from these tags: a push to `main` builds nothing, and the version is
+read from the tag, not from a file. `scripts/release.sh status 1.16.0` shows where
+every component stands.
+
+`latest` only moves on release day, so a pull always gives a set of images released
+together. It is still a moving tag: pin a release with `TYPETYPE_VERSION`, as
+described in [Maintenance](/self-hosting/maintenance#pin-a-release), or record the
+image digests before updating, as described in
+[Roll back an update](/self-hosting/rollback).
 
 ## Central submodules
 

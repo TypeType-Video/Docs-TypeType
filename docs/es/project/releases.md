@@ -5,46 +5,65 @@ ensambla la pila central. Entender la diferencia entre una rama de código, una 
 de componente y un despliegue en ejecución evita la mayor parte de las confusiones de
 versión.
 
-## Líneas de desarrollo y estable {#development-and-stable-lines}
+## Una sola versión para todo el stack {#one-version-for-the-whole-stack}
 
-| Línea | Rama | Patrón de las imágenes de contenedor | Propósito |
+Desde TypeType 1.15.0, cada componente sale con la versión de TypeType. TypeType
+1.16.0 es web 1.16.0, servidor 1.16.0, token 1.16.0 y downloader 1.16.0, aunque un
+componente no haya cambiado, así que un solo número dice qué ejecuta una instancia.
+
+## Líneas de desarrollo, staging y estable {#development-staging-and-stable-lines}
+
+| Línea | Rama | Etiquetas de imagen | Función |
 | --- | --- | --- | --- |
-| Desarrollo | `dev` | `typetype-beta`, `typetype-server-beta`, `typetype-token-beta`, `typetype-downloader-beta` | Integración y despliegue beta |
-| Estable | `main` | `typetype`, `typetype-server`, `typetype-token`, `typetype-downloader` | Pila autoalojada publicada |
+| Desarrollo | `dev` | `typetype-beta:latest`, `typetype-beta:1.15.0-beta.N`, ... | Integración y despliegue beta, puede romperse |
+| Staging | `staging` | `typetype:1.16.0-rc.N`, `typetype:rc`, ... | Versiones candidatas de la próxima versión |
+| Estable | `main` | `typetype:1.16.0`, `typetype:latest`, ... | Stack autoalojado publicado |
 
-Todos los nombres de imagen anteriores están bajo `ghcr.io/typetype-video/` y usan la
-etiqueta `:latest`, salvo que un valor alternativo seleccione otra etiqueta o un
-resumen.
+Las mismas etiquetas existen para `typetype-server`, `typetype-token` y
+`typetype-downloader`, todas bajo `ghcr.io/typetype-video/`. Una imagen beta lleva el
+número de la última versión y su número de compilación: `1.15.0-beta.N` es una
+compilación hecha después de la 1.15.0.
 
-La mayoría de los repositorios de componentes usan `dev` como rama por defecto. Las
-pull requests de código apuntan a `dev`; una promoción de versión lleva el trabajo
-seleccionado a `main`. El repositorio central TypeType usa `main` por defecto porque
-también es el punto de entrada de la instalación y de las versiones.
+Las pull requests de código apuntan a `dev`. El repositorio central de TypeType usa
+`main` por defecto porque también es el punto de entrada de la instalación y de las
+versiones.
 
-`latest` es una etiqueta de contenedor móvil. Identifica la imagen más reciente de ese
-canal, no una versión inmutable. Anota los resúmenes de las imágenes antes de
-actualizar y úsalos para revertir, como se describe en
-[Revertir una actualización](/es/self-hosting/rollback).
-
-## Flujo de las imágenes de los componentes {#component-image-flow}
+## Cómo se publica una versión {#how-a-release-is-made}
 
 ```mermaid
 flowchart LR
-    dev[component dev] --> betaImage[beta image]
-    betaImage --> dispatch[central component-image event]
-    dispatch --> beta[beta deployment]
-
-    main[component main] --> stableImage[stable image]
-    stableImage --> record[central release coordination]
-    record --> selfhost[self-hosters pull the image]
+    dev[component dev] --> beta[beta images]
+    dev -->|release.sh rc| staging[component staging]
+    staging -->|tag v1.16.0-rc.N| rc[1.16.0-rc.N and rc images]
+    staging -->|release.sh final| main[main of every component]
+    main -->|tag v1.16.0| stable[1.16.0 and latest images]
 ```
 
-Los flujos de trabajo de los componentes construyen y publican sus propias imágenes.
-Después notifican al repositorio central con el nombre del componente, el canal, el
-resumen de la imagen, la revisión del código y la versión de compilación. El flujo de
-trabajo central despliega la beta automáticamente. Las notificaciones estables se
-registran; un despliegue estable, público o autoalojado, se actualiza mediante su
-propio proceso de versión o de instalación.
+1. El trabajo llega a `dev`. Cada push construye las imágenes beta.
+2. Cuando un componente está listo, `scripts/release.sh rc 1.16.0 web` en el
+   repositorio central lleva la rama `staging` de ese componente a `dev` y pone la
+   siguiente etiqueta `v1.16.0-rc.N`. La etiqueta construye la imagen `1.16.0-rc.N` y
+   mueve `rc`. Cada componente tiene sus propias versiones candidatas, tantas como
+   necesite. La rama `staging` del repositorio central pasa a su `dev` al mismo tiempo,
+   así que los archivos del stack que van con las candidatas siempre están en
+   `staging`. La instancia oficial sigue las imágenes `rc`, y quien aloja su propia instancia
+   también puede, consulta [Versiones candidatas](/es/self-hosting/release-candidates).
+3. Cuando las versiones candidatas funcionan juntas, `scripts/release.sh final 1.16.0`
+   lleva `main` a `staging` y pone la etiqueta `v1.16.0` en todos los componentes a la
+   vez. Las etiquetas construyen las imágenes `1.16.0` y mueven `latest`.
+4. El repositorio central publica las notas de la versión y su propia etiqueta
+   `v1.16.0`.
+
+Las imágenes solo salen de estas etiquetas: un push a `main` no construye nada, y la
+versión se lee de la etiqueta, no de un archivo. `scripts/release.sh status 1.16.0`
+muestra en qué punto está cada componente.
+
+`latest` solo se mueve el día de una versión, así que un pull siempre trae imágenes
+publicadas juntas. Aun así es una etiqueta móvil: fija una versión con
+`TYPETYPE_VERSION`, como se explica en
+[Mantenimiento](/es/self-hosting/maintenance#pin-a-release), o anota los digests de las
+imágenes antes de actualizar, como se explica en
+[Revertir una actualización](/es/self-hosting/rollback).
 
 ## Submódulos centrales {#central-submodules}
 

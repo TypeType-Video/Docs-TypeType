@@ -2,33 +2,41 @@
 
 TypeType 的各个组件独立开发，然后由中心部署组装在一起。分清源码分支、组件镜像和正在运行的部署这三者，可以避免绝大多数关于版本的混淆。
 
-## 开发线与稳定线 {#development-and-stable-lines}
+## 整个部署共用一个版本号 {#one-version-for-the-whole-stack}
 
-| 线 | 分支 | 容器镜像的命名 | 用途 |
+从 TypeType 1.15.0 起，每个组件都随 TypeType 的版本号一起发布。TypeType 1.16.0 就是 web 1.16.0、server 1.16.0、token 1.16.0 和 downloader 1.16.0，即使某个组件没有改动也一样，所以一个版本号就能说明一个实例运行的是什么。
+
+## 开发线、staging 线与稳定线 {#development-staging-and-stable-lines}
+
+| 线 | 分支 | 镜像标签 | 用途 |
 | --- | --- | --- | --- |
-| 开发 | `dev` | `typetype-beta`、`typetype-server-beta`、`typetype-token-beta`、`typetype-downloader-beta` | 集成与 beta 部署 |
-| 稳定 | `main` | `typetype`、`typetype-server`、`typetype-token`、`typetype-downloader` | 已发布的自托管部署 |
+| 开发 | `dev` | `typetype-beta:latest`、`typetype-beta:1.15.0-beta.N`、... | 集成与 beta 部署，可能出问题 |
+| Staging | `staging` | `typetype:1.16.0-rc.N`、`typetype:rc`、... | 下一个版本的候选版本 |
+| 稳定 | `main` | `typetype:1.16.0`、`typetype:latest`、... | 已发布的自托管部署 |
 
-上面所有的镜像名都位于 `ghcr.io/typetype-video/` 之下，并使用 `:latest` 标签，除非通过替换值选择了其他标签或摘要。
+`typetype-server`、`typetype-token` 和 `typetype-downloader` 也有同样的标签，都位于 `ghcr.io/typetype-video/` 之下。beta 镜像带有上一个正式版本的版本号和它自己的构建号，所以 `1.15.0-beta.N` 是 1.15.0 之后的一次构建。
 
-大多数组件仓库以 `dev` 作为默认分支。代码的 pull request 指向 `dev`；发布时再把选定的工作提升到 `main`。中心的 TypeType 仓库以 `main` 作为默认分支，因为它同时也是安装和发布的入口。
+代码的 pull request 指向 `dev`。中心的 TypeType 仓库以 `main` 作为默认分支，因为它同时也是安装和发布的入口。
 
-`latest` 是一个会移动的容器标签。它指向该通道上最新的镜像，而不是一个不可变的版本。更新之前请记录镜像摘要，并在回滚时使用这些摘要，做法见[回滚一次更新](/zh/self-hosting/rollback)。
-
-## 组件镜像的流转 {#component-image-flow}
+## 一个版本是怎样发布的 {#how-a-release-is-made}
 
 ```mermaid
 flowchart LR
-    dev[component dev] --> betaImage[beta image]
-    betaImage --> dispatch[central component-image event]
-    dispatch --> beta[beta deployment]
-
-    main[component main] --> stableImage[stable image]
-    stableImage --> record[central release coordination]
-    record --> selfhost[self-hosters pull the image]
+    dev[component dev] --> beta[beta images]
+    dev -->|release.sh rc| staging[component staging]
+    staging -->|tag v1.16.0-rc.N| rc[1.16.0-rc.N and rc images]
+    staging -->|release.sh final| main[main of every component]
+    main -->|tag v1.16.0| stable[1.16.0 and latest images]
 ```
 
-各组件的工作流构建并发布各自的镜像。然后它们把组件名称、通道、镜像摘要、源码修订号和构建版本通知给中心仓库。中心的工作流会自动部署 beta。稳定版的通知只做记录；无论是公开的还是自托管的稳定部署，都通过各自的发布或安装流程来更新。
+1. 工作先进入 `dev`。每次推送都会构建 beta 镜像。
+2. 某个组件准备好后，在中心仓库运行 `scripts/release.sh rc 1.16.0 web`，把这个组件的 `staging` 分支移到 `dev`，并打上下一个 `v1.16.0-rc.N` 标签。这个标签会构建 `1.16.0-rc.N` 镜像并移动 `rc`。每个组件都有自己的候选版本，需要多少个就打多少个。与此同时，中心仓库的 `staging` 分支也会移到它的 `dev`，所以与候选版本配套的部署文件始终在 `staging` 上。官方实例跟随 `rc` 镜像，自托管的用户也可以这样做，见[候选版本](/zh/self-hosting/release-candidates)。
+3. 候选版本可以一起正常工作后，运行 `scripts/release.sh final 1.16.0`，把每个组件的 `main` 移到 `staging`，并同时打上 `v1.16.0` 标签。这些标签会构建 `1.16.0` 镜像并移动 `latest`。
+4. 中心仓库发布版本说明，并打上它自己的 `v1.16.0` 标签。
+
+镜像只来自这些标签：推送到 `main` 不会构建任何东西，版本号从标签读取，而不是从文件读取。`scripts/release.sh status 1.16.0` 会显示每个组件的进度。
+
+`latest` 只在发布当天移动，所以拉取得到的总是一起发布的一组镜像。不过它仍然是一个会移动的标签：可以用 `TYPETYPE_VERSION` 固定一个版本，做法见[维护](/zh/self-hosting/maintenance#pin-a-release)；或者在更新之前记录镜像摘要，做法见[回滚一次更新](/zh/self-hosting/rollback)。
 
 ## 中心仓库的子模块 {#central-submodules}
 

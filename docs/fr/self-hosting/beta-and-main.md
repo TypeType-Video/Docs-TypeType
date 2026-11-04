@@ -5,12 +5,15 @@ le même hôte.
 
 | Canal | Branche | Images | Ports par défaut |
 | --- | --- | --- | --- |
-| **main** (stable) | `main` | `ghcr.io/typetype-video/typetype:latest`, `...-server:latest`, ... | web `8082`, serveur `8080`, token `8081`, S3 `3900` |
+| **main** (stable) | `main` | `ghcr.io/typetype-video/typetype:latest` ou `:1.16.0`, `...-server:latest`, ... | web `8082`, serveur `8080`, token `8081`, S3 `3900` |
 | **beta** | `dev` | `ghcr.io/typetype-video/typetype-beta:latest`, `...-server-beta:latest`, ... | web `18082`, serveur `18080`, téléchargeur `19093`, token `18081`, S3 `3900` |
 
-La CI construit les images automatiquement : un push sur `main` met à jour les images
-`:latest`, un push sur `dev` met à jour les images `-beta`. **main est donc la version
-stable** et **beta l'aperçu de ce qui arrive**.
+La CI construit les images automatiquement : un push sur `dev` met à jour les images
+`-beta`, et une étiquette de version publie les images `:1.16.0` et déplace `:latest`.
+**main est donc la version stable** et **beta l'aperçu de ce qui arrive**. Les versions
+candidates comme `:1.16.0-rc.1` se placent entre les deux, sous les noms d'images
+stables : une stack main peut les suivre au lieu de `latest`, voir
+[Versions candidates](./release-candidates).
 
 Les dépôts, les épinglages de sous-modules, les notifications d'images et les
 déploiements sont des parties distinctes du chemin de publication. Lisez

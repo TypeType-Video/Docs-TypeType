@@ -62,8 +62,12 @@ for file in docker-compose.arm64.yml docker-compose.override.yml nginx.conf gara
 done
 ```
 
-Ouvrez `.env` et donnez à ces valeurs les quatre références notées avant la mise à
-jour :
+Si la stack est épinglée avec `TYPETYPE_VERSION`, remettez la version qui tournait
+avant, par exemple `TYPETYPE_VERSION=1.15.0`, et ignorez les empreintes ci-dessous.
+Toutes les images TypeType reviennent ensemble à cette version.
+
+Sinon, ouvrez `.env` et donnez à ces valeurs les quatre références notées avant la mise
+à jour :
 
 ```dotenv
 TYPETYPE_WEB_IMAGE=ghcr.io/typetype-video/typetype@sha256:WEB_DIGEST
@@ -112,5 +116,6 @@ sauvegarde sont donc perdus.
 ## Revenir aux mises à jour normales {#return-to-normal-updates}
 
 Une fois la version fautive remplacée, retirez de `.env` les quatre valeurs
-`TYPETYPE_*_IMAGE`, ou laissez-les vides. La prochaine mise à jour normale suivra alors
-de nouveau les images stables `latest`. Voir [Maintenance](./maintenance#updating).
+`TYPETYPE_*_IMAGE`, ou laissez-les vides, et donnez à `TYPETYPE_VERSION` la version
+corrigée ou laissez-la vide. La prochaine mise à jour normale suivra alors cette
+version, ou de nouveau les images stables `latest`. Voir [Maintenance](./maintenance#updating).
