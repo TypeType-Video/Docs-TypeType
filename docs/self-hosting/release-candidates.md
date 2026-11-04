@@ -34,14 +34,6 @@ the release candidates from the `staging` branch. Run it again later to switch: 
 suggests your current choice by default. Your `.env`, ports and data volumes stay as
 they are.
 
-::: tip Until TypeType 1.16.0
-Only the installer on `staging` asks this question. Use it for now:
-
-```sh
-curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scripts/install-stack.sh | bash
-```
-:::
-
 A `TYPETYPE_*_IMAGE` value in `.env` still takes precedence for its image. Remove those
 lines, or leave them empty, so every image follows your choice.
 
@@ -56,7 +48,7 @@ For scripts and automatic setups, choose with an option and add `--yes`:
 | `--version 1.15.0` | Stay on one version |
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scripts/install-stack.sh | bash -s -- --rc --yes --dir "$STACK_DIR"
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --rc --yes --dir "$STACK_DIR"
 ```
 
 `$STACK_DIR` is your stack directory, `~/typetype-stack` unless you chose another one.

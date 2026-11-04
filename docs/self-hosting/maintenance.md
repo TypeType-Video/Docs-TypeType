@@ -26,7 +26,7 @@ configuration is valid, its resolved and running image references.
 
 ### Pin a release
 
-From TypeType 1.16.0 the stack follows `latest` unless you pin a version. Every
+The stack follows `latest` unless you pin a version. Every
 TypeType image then uses the same release:
 
 ```dotenv

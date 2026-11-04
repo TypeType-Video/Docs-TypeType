@@ -25,14 +25,6 @@ Choose 1, 2 or 3 [1]:
 
 选择 `2` 即可使用候选版本。安装脚本会在 `.env` 中写入 `TYPETYPE_VERSION=rc`，让四个 TypeType 镜像都使用 `:rc` 标签，并从 `staging` 分支获取与候选版本配套的部署文件。以后想切换时再运行一次即可，它会默认选中你当前的选择。你的 `.env`、端口和数据卷都保持不变。
 
-::: tip TypeType 1.16.0 之前
-只有 `staging` 上的安装脚本会提出这个问题。目前请使用：
-
-```sh
-curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scripts/install-stack.sh | bash
-```
-:::
-
 `.env` 中的 `TYPETYPE_*_IMAGE` 值对它自己的镜像仍然优先。删除这些行或把它们留空，所有镜像才会跟随你的选择。
 
 ## 不提问的安装 {#without-questions}
@@ -46,7 +38,7 @@ curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scr
 | `--version 1.15.0` | 停留在一个版本 |
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scripts/install-stack.sh | bash -s -- --rc --yes --dir "$STACK_DIR"
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --rc --yes --dir "$STACK_DIR"
 ```
 
 `$STACK_DIR` 是你的部署目录，除非你选择了其他目录，否则是 `~/typetype-stack`。这些选项不能与 `--beta` 一起使用。

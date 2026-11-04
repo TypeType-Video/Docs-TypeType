@@ -28,7 +28,7 @@ laufenden Image-Referenzen enthält.
 
 ### Eine Version festlegen {#pin-a-release}
 
-Ab TypeType 1.16.0 folgt der Stack `latest`, solange Sie keine Version festlegen. Alle
+Der Stack folgt `latest`, solange Sie keine Version festlegen. Alle
 TypeType-Images verwenden dann dieselbe Version:
 
 ```dotenv

@@ -28,7 +28,7 @@ válida, sus referencias de imágenes resueltas y en ejecución.
 
 ### Fijar una versión {#pin-a-release}
 
-A partir de TypeType 1.16.0, el stack sigue `latest` salvo que fijes una versión. Todas
+El stack sigue `latest` salvo que fijes una versión. Todas
 las imágenes de TypeType usan entonces la misma versión:
 
 ```dotenv
