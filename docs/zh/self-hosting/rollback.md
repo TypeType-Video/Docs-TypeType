@@ -51,7 +51,9 @@ for file in docker-compose.arm64.yml docker-compose.override.yml nginx.conf gara
 done
 ```
 
-打开 `.env`，把下面这些值设为更新之前记录的四个引用：
+如果部署用 `TYPETYPE_VERSION` 固定了版本，把它改回之前运行的版本，例如 `TYPETYPE_VERSION=1.15.0`，并跳过下面的摘要。所有 TypeType 镜像会一起回到那个版本。
+
+否则，打开 `.env`，把下面这些值设为更新之前记录的四个引用：
 
 ```dotenv
 TYPETYPE_WEB_IMAGE=ghcr.io/typetype-video/typetype@sha256:WEB_DIGEST
@@ -92,4 +94,4 @@ docker compose up -d --wait --wait-timeout 180
 
 ## 回到正常的更新 {#return-to-normal-updates}
 
-有问题的版本被替换之后，从 `.env` 中删除那四个 `TYPETYPE_*_IMAGE` 值，或者把它们留空。下一次正常更新就会重新跟随稳定版的 `latest` 镜像。见[维护](./maintenance#updating)。
+有问题的版本被替换之后，从 `.env` 中删除那四个 `TYPETYPE_*_IMAGE` 值，或者把它们留空，并把 `TYPETYPE_VERSION` 设为修复后的版本或留空。下一次正常更新就会跟随那个版本，或者重新跟随稳定版的 `latest` 镜像。见[维护](./maintenance#updating)。

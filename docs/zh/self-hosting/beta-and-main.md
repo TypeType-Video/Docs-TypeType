@@ -4,10 +4,10 @@ TypeType 通过两个通道发布，你可以在同一台主机上同时运行�
 
 | 通道 | 分支 | 镜像 | 默认端口 |
 | --- | --- | --- | --- |
-| **main**（稳定版） | `main` | `ghcr.io/typetype-video/typetype:latest`、`...-server:latest` 等 | 网页 `8082`、服务器 `8080`、token `8081`、S3 `3900` |
+| **main**（稳定版） | `main` | `ghcr.io/typetype-video/typetype:latest` 或 `:1.16.0`、`...-server:latest` 等 | 网页 `8082`、服务器 `8080`、token `8081`、S3 `3900` |
 | **beta** | `dev` | `ghcr.io/typetype-video/typetype-beta:latest`、`...-server-beta:latest` 等 | 网页 `18082`、服务器 `18080`、下载器 `19093`、token `18081`、S3 `3900` |
 
-CI 会自动构建镜像：推送到 `main` 会更新 `:latest` 镜像，推送到 `dev` 会更新 `-beta` 镜像。所以 **main 是稳定版**，**beta 是即将到来的内容的预览**。
+CI 会自动构建镜像：推送到 `dev` 会更新 `-beta` 镜像，版本标签会发布 `:1.16.0` 镜像并移动 `:latest`。所以 **main 是稳定版**，**beta 是即将到来的内容的预览**。`:1.16.0-rc.1` 这样的候选版本介于两者之间，使用稳定版的镜像名。
 
 仓库、子模块的固定版本、镜像通知和部署是发布流程中各自独立的环节。需要了解确切的源码或镜像来源时，请阅读[分支与版本](/zh/project/releases)。
 
