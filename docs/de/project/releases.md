@@ -43,7 +43,11 @@ flowchart LR
 2. Ist eine Komponente bereit, setzt `scripts/release.sh rc 1.16.0 web` im zentralen
    Repository den `staging`-Branch dieser Komponente auf `dev` und setzt den nächsten
    Tag `v1.16.0-rc.N`. Der Tag baut das Image `1.16.0-rc.N` und verschiebt `rc`. Jede
-   Komponente bekommt ihre eigenen Release-Kandidaten, so viele wie nötig.
+   Komponente bekommt ihre eigenen Release-Kandidaten, so viele wie nötig. Der Branch
+   `staging` des zentralen Repositorys wandert gleichzeitig auf dessen `dev`, die
+   Stack-Dateien zu den Kandidaten liegen also immer auf `staging`. Die offizielle
+   Instanz folgt den `rc`-Images, und Selbsthoster können das ebenfalls, siehe
+   [Release-Kandidaten](/de/self-hosting/release-candidates).
 3. Funktionieren die Release-Kandidaten zusammen, setzt `scripts/release.sh final
    1.16.0` `main` auf `staging` und setzt in allen Komponenten gleichzeitig den Tag
    `v1.16.0`. Die Tags bauen die Images `1.16.0` und verschieben `latest`.

@@ -12,7 +12,8 @@ Die CI baut die Images automatisch: Ein Push auf `dev` aktualisiert die
 `-beta`-Images, und ein Versions-Tag veröffentlicht die `:1.16.0`-Images und verschiebt
 `:latest`. **main ist also die stabile Version** und **beta die Vorschau auf das, was als
 Nächstes kommt**. Release-Kandidaten wie `:1.16.0-rc.1` liegen dazwischen, unter den
-stabilen Image-Namen.
+stabilen Image-Namen: Ein main-Stack kann ihnen statt `latest` folgen, siehe
+[Release-Kandidaten](./release-candidates).
 
 Die Repositorys, die festgelegten Submodul-Stände, die Image-Benachrichtigungen und
 die Bereitstellungen sind getrennte Teile des Veröffentlichungswegs. Lesen Sie
