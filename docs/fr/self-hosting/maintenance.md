@@ -27,7 +27,7 @@ résolues et en cours d'exécution.
 
 ### Épingler une version {#pin-a-release}
 
-À partir de TypeType 1.16.0, la stack suit `latest` sauf si vous épinglez une version.
+La stack suit `latest` sauf si vous épinglez une version.
 Toutes les images TypeType utilisent alors la même version :
 
 ```dotenv

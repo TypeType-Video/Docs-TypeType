@@ -36,14 +36,6 @@ archivos del stack de las versiones candidatas de la rama `staging`. Vuelve a
 ejecutarlo más tarde para cambiar: propone tu elección actual por defecto. Tu `.env`,
 tus puertos y tus volúmenes de datos se quedan como están.
 
-::: tip Hasta TypeType 1.16.0
-Solo el instalador de `staging` hace esta pregunta. Úsalo por ahora:
-
-```sh
-curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scripts/install-stack.sh | bash
-```
-:::
-
 Un valor `TYPETYPE_*_IMAGE` en `.env` sigue teniendo prioridad para su imagen. Quita esas
 líneas, o déjalas vacías, para que todas las imágenes sigan tu elección.
 
@@ -58,7 +50,7 @@ Para scripts e instalaciones automáticas, elige con una opción y añade `--yes
 | `--version 1.15.0` | Quedarse en una versión |
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scripts/install-stack.sh | bash -s -- --rc --yes --dir "$STACK_DIR"
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --rc --yes --dir "$STACK_DIR"
 ```
 
 `$STACK_DIR` es el directorio de tu stack, `~/typetype-stack` salvo que hayas elegido

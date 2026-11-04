@@ -36,14 +36,6 @@ verwenden, und holt die Stack-Dateien der Release-Kandidaten aus dem Branch `sta
 F체hren Sie es sp채ter erneut aus, um zu wechseln: Es schl채gt Ihre aktuelle Wahl als
 Standard vor. Ihre `.env`, Ports und Datenvolumes bleiben unver채ndert.
 
-::: tip Bis TypeType 1.16.0
-Nur das Installationsskript auf `staging` stellt diese Frage. Verwenden Sie vorerst:
-
-```sh
-curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scripts/install-stack.sh | bash
-```
-:::
-
 Ein Wert `TYPETYPE_*_IMAGE` in `.env` hat f체r sein Image weiterhin Vorrang. Entfernen
 Sie diese Zeilen oder lassen Sie sie leer, damit alle Images Ihrer Wahl folgen.
 
@@ -59,7 +51,7 @@ F체r Skripte und automatische Installationen w채hlen Sie mit einer Option und f�
 | `--version 1.15.0` | Auf einer Version bleiben |
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scripts/install-stack.sh | bash -s -- --rc --yes --dir "$STACK_DIR"
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --rc --yes --dir "$STACK_DIR"
 ```
 
 `$STACK_DIR` ist Ihr Stack-Verzeichnis, `~/typetype-stack`, sofern Sie kein anderes

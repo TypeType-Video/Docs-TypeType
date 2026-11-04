@@ -36,14 +36,6 @@ l'étiquette `:rc`, et il prend les fichiers de la stack des versions candidates
 branche `staging`. Relancez-le plus tard pour changer : il propose votre choix actuel
 par défaut. Votre `.env`, vos ports et vos volumes de données restent tels quels.
 
-::: tip Jusqu'à TypeType 1.16.0
-Seul l'installateur de `staging` pose cette question. Utilisez-le pour l'instant :
-
-```sh
-curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scripts/install-stack.sh | bash
-```
-:::
-
 Une valeur `TYPETYPE_*_IMAGE` dans `.env` reste prioritaire pour son image. Retirez ces
 lignes, ou laissez-les vides, pour que toutes les images suivent votre choix.
 
@@ -59,7 +51,7 @@ ajoutez `--yes` :
 | `--version 1.15.0` | Rester sur une version |
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scripts/install-stack.sh | bash -s -- --rc --yes --dir "$STACK_DIR"
+curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --rc --yes --dir "$STACK_DIR"
 ```
 
 `$STACK_DIR` est le dossier de votre stack, `~/typetype-stack` sauf si vous en avez

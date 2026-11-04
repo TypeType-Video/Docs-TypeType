@@ -18,7 +18,7 @@ docker compose ps
 
 ### 固定一个版本 {#pin-a-release}
 
-从 TypeType 1.16.0 起，除非你固定了一个版本，否则部署会跟随 `latest`。固定之后，所有 TypeType 镜像都使用同一个版本：
+除非你固定了一个版本，否则部署会跟随 `latest`。固定之后，所有 TypeType 镜像都使用同一个版本：
 
 ```dotenv
 TYPETYPE_VERSION=1.16.0
