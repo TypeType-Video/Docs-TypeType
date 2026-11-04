@@ -42,7 +42,11 @@ flowchart LR
 2. Quand un composant est prêt, `scripts/release.sh rc 1.16.0 web` dans le dépôt
    central place la branche `staging` de ce composant sur `dev` et pose l'étiquette
    `v1.16.0-rc.N` suivante. L'étiquette construit l'image `1.16.0-rc.N` et déplace
-   `rc`. Chaque composant a ses propres versions candidates, autant qu'il en faut.
+   `rc`. Chaque composant a ses propres versions candidates, autant qu'il en faut. La
+   branche `staging` du dépôt central passe sur son `dev` en même temps : les fichiers
+   de la stack qui vont avec les versions candidates sont donc toujours sur `staging`.
+   L'instance officielle suit les images `rc`, et les auto-hébergeurs peuvent le faire
+   aussi, voir [Versions candidates](/fr/self-hosting/release-candidates).
 3. Quand les versions candidates fonctionnent ensemble, `scripts/release.sh final
    1.16.0` place `main` sur `staging` et pose l'étiquette `v1.16.0` dans tous les
    composants en même temps. Les étiquettes construisent les images `1.16.0` et

@@ -34,10 +34,15 @@ Toutes les images TypeType utilisent alors la même version :
 TYPETYPE_VERSION=1.16.0
 ```
 
-Indiquez-la dans `.env`, ou passez `--version 1.16.0` à l'installateur. Pour mettre à
-jour une stack épinglée, changez le numéro et relancez l'installateur, ou récupérez et
-recréez la stack comme ci-dessous. Laissez la valeur vide pour suivre de nouveau
-`latest`. Une valeur `TYPETYPE_*_IMAGE` reste prioritaire pour son image.
+L'installateur vous demande quelle version vous voulez : la dernière version, les
+versions candidates ou une seule version. Choisissez `3` et tapez le numéro, ou
+indiquez-la dans `.env`, ou passez `--version 1.16.0`. Pour mettre à jour une stack
+épinglée, changez le numéro et relancez l'installateur, ou récupérez et recréez la
+stack comme ci-dessous. Laissez la valeur vide pour suivre de nouveau `latest`. Une
+valeur `TYPETYPE_*_IMAGE` reste prioritaire pour son image.
+
+Pour essayer la prochaine version avant sa sortie, voir
+[Versions candidates](./release-candidates).
 
 ### Sans l'installateur {#without-the-installer}
 
