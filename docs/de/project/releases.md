@@ -5,45 +5,61 @@ zusammengesetzt. Wer zwischen einem Quell-Branch, einem Komponenten-Image und ei
 laufenden Installation unterscheidet, vermeidet die meisten Verwechslungen bei
 Versionen.
 
-## Entwicklungs- und stabile Linie {#development-and-stable-lines}
+## Eine Version für den ganzen Stack {#one-version-for-the-whole-stack}
 
-| Linie | Branch | Muster der Container-Images | Zweck |
+Seit TypeType 1.15.0 erscheint jede Komponente mit der TypeType-Version. TypeType
+1.16.0 bedeutet Web 1.16.0, Server 1.16.0, Token 1.16.0 und Downloader 1.16.0, auch
+wenn sich eine Komponente nicht geändert hat. Eine einzige Nummer sagt also, was eine
+Instanz ausführt.
+
+## Entwicklungs-, Staging- und stabile Linie {#development-staging-and-stable-lines}
+
+| Linie | Branch | Image-Tags | Zweck |
 | --- | --- | --- | --- |
-| Entwicklung | `dev` | `typetype-beta`, `typetype-server-beta`, `typetype-token-beta`, `typetype-downloader-beta` | Integration und Beta-Bereitstellung |
-| Stabil | `main` | `typetype`, `typetype-server`, `typetype-token`, `typetype-downloader` | Veröffentlichter Stack zum Selbsthosten |
+| Entwicklung | `dev` | `typetype-beta:latest`, `typetype-beta:1.15.0-beta.N`, ... | Integration und Beta-Bereitstellung, kann kaputtgehen |
+| Staging | `staging` | `typetype:1.16.0-rc.N`, `typetype:rc`, ... | Release-Kandidaten der nächsten Version |
+| Stabil | `main` | `typetype:1.16.0`, `typetype:latest`, ... | Veröffentlichter Stack zum Selbsthosten |
 
-Alle obigen Image-Namen liegen unter `ghcr.io/typetype-video/` und verwenden den Tag
-`:latest`, sofern kein abweichender Wert einen anderen Tag oder Digest auswählt.
+Dieselben Tags gibt es für `typetype-server`, `typetype-token` und
+`typetype-downloader`, alle unter `ghcr.io/typetype-video/`. Ein Beta-Image trägt die
+Nummer der letzten Version und seine Build-Nummer: `1.15.0-beta.N` ist ein Build nach
+1.15.0.
 
-Die meisten Komponenten-Repositorys verwenden `dev` als Standard-Branch. Pull Requests
-für Code zielen auf `dev`; eine Versionsübernahme bringt die ausgewählte Arbeit nach
-`main`. Das zentrale TypeType-Repository verwendet `main` als Standard, weil es auch
-der Einstiegspunkt für Installation und Versionen ist.
+Pull Requests für Code zielen auf `dev`. Das zentrale TypeType-Repository verwendet
+`main` als Standard, weil es auch der Einstiegspunkt für Installation und Versionen ist.
 
-`latest` ist ein beweglicher Container-Tag. Er bezeichnet das neueste Image dieses
-Kanals, keine unveränderliche Version. Halten Sie vor einer Aktualisierung die
-Image-Digests fest und verwenden Sie diese für ein Rollback, wie unter
-[Eine Aktualisierung zurücknehmen](/de/self-hosting/rollback) beschrieben.
-
-## Weg der Komponenten-Images {#component-image-flow}
+## So entsteht eine Version {#how-a-release-is-made}
 
 ```mermaid
 flowchart LR
-    dev[component dev] --> betaImage[beta image]
-    betaImage --> dispatch[central component-image event]
-    dispatch --> beta[beta deployment]
-
-    main[component main] --> stableImage[stable image]
-    stableImage --> record[central release coordination]
-    record --> selfhost[self-hosters pull the image]
+    dev[component dev] --> beta[beta images]
+    dev -->|release.sh rc| staging[component staging]
+    staging -->|tag v1.16.0-rc.N| rc[1.16.0-rc.N and rc images]
+    staging -->|release.sh final| main[main of every component]
+    main -->|tag v1.16.0| stable[1.16.0 and latest images]
 ```
 
-Die Workflows der Komponenten bauen und veröffentlichen ihre eigenen Images. Danach
-benachrichtigen sie das zentrale Repository mit dem Namen der Komponente, dem Kanal,
-dem Image-Digest, der Quellrevision und der Build-Version. Der zentrale Workflow
-stellt die Beta automatisch bereit. Stabile Benachrichtigungen werden festgehalten;
-eine stabile Installation, öffentlich oder selbst gehostet, aktualisiert sich über
-ihren eigenen Versions- oder Installer-Ablauf.
+1. Die Arbeit landet auf `dev`. Jeder Push baut die Beta-Images.
+2. Ist eine Komponente bereit, setzt `scripts/release.sh rc 1.16.0 web` im zentralen
+   Repository den `staging`-Branch dieser Komponente auf `dev` und setzt den nächsten
+   Tag `v1.16.0-rc.N`. Der Tag baut das Image `1.16.0-rc.N` und verschiebt `rc`. Jede
+   Komponente bekommt ihre eigenen Release-Kandidaten, so viele wie nötig.
+3. Funktionieren die Release-Kandidaten zusammen, setzt `scripts/release.sh final
+   1.16.0` `main` auf `staging` und setzt in allen Komponenten gleichzeitig den Tag
+   `v1.16.0`. Die Tags bauen die Images `1.16.0` und verschieben `latest`.
+4. Das zentrale Repository veröffentlicht die Versionshinweise und seinen eigenen Tag
+   `v1.16.0`.
+
+Images entstehen nur aus diesen Tags: Ein Push auf `main` baut nichts, und die Version
+wird aus dem Tag gelesen, nicht aus einer Datei. `scripts/release.sh status 1.16.0`
+zeigt, wo jede Komponente steht.
+
+`latest` bewegt sich nur am Tag einer Version, ein Pull liefert also immer Images, die
+zusammen veröffentlicht wurden. Es bleibt trotzdem ein beweglicher Tag: Legen Sie eine
+Version mit `TYPETYPE_VERSION` fest, wie unter
+[Wartung](/de/self-hosting/maintenance#pin-a-release) beschrieben, oder halten Sie vor
+einer Aktualisierung die Image-Digests fest, wie unter
+[Eine Aktualisierung zurücknehmen](/de/self-hosting/rollback) beschrieben.
 
 ## Zentrale Submodule {#central-submodules}
 
