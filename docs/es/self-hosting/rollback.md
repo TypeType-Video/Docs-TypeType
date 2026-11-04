@@ -61,7 +61,11 @@ for file in docker-compose.arm64.yml docker-compose.override.yml nginx.conf gara
 done
 ```
 
-Abre `.env` y asigna a estos valores las cuatro referencias anotadas antes de la
+Si el stack está fijado con `TYPETYPE_VERSION`, vuelve a poner la versión que se
+ejecutaba antes, por ejemplo `TYPETYPE_VERSION=1.15.0`, y omite los digests de abajo.
+Todas las imágenes de TypeType vuelven juntas a esa versión.
+
+Si no, abre `.env` y asigna a estos valores las cuatro referencias anotadas antes de la
 actualización:
 
 ```dotenv
@@ -111,5 +115,6 @@ cambios hechos después de la copia se pierden.
 ## Volver a las actualizaciones normales {#return-to-normal-updates}
 
 Cuando la versión defectuosa haya sido sustituida, quita de `.env` los cuatro valores
-`TYPETYPE_*_IMAGE` o déjalos vacíos. La siguiente actualización normal volverá a seguir
-las imágenes estables `latest`. Consulta [Mantenimiento](./maintenance#updating).
+`TYPETYPE_*_IMAGE` o déjalos vacíos, y pon en `TYPETYPE_VERSION` la versión corregida
+o déjala vacía. La siguiente actualización normal seguirá esa versión, o de nuevo las
+imágenes estables `latest`. Consulta [Mantenimiento](./maintenance#updating).

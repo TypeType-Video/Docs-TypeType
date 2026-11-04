@@ -5,12 +5,14 @@ host.
 
 | Canal | Rama | Imágenes | Puertos por defecto |
 | --- | --- | --- | --- |
-| **main** (estable) | `main` | `ghcr.io/typetype-video/typetype:latest`, `...-server:latest`, ... | web `8082`, servidor `8080`, token `8081`, S3 `3900` |
+| **main** (estable) | `main` | `ghcr.io/typetype-video/typetype:latest` o `:1.16.0`, `...-server:latest`, ... | web `8082`, servidor `8080`, token `8081`, S3 `3900` |
 | **beta** | `dev` | `ghcr.io/typetype-video/typetype-beta:latest`, `...-server-beta:latest`, ... | web `18082`, servidor `18080`, descargador `19093`, token `18081`, S3 `3900` |
 
-La CI construye las imágenes automáticamente: un push a `main` actualiza las imágenes
-`:latest`, y un push a `dev` actualiza las imágenes `-beta`. Así, **main es la versión
-estable** y **beta es el adelanto de lo que viene**.
+La CI construye las imágenes automáticamente: un push a `dev` actualiza las imágenes
+`-beta`, y una etiqueta de versión publica las imágenes `:1.16.0` y mueve `:latest`.
+Así, **main es la versión estable** y **beta es el adelanto de lo que viene**. Las
+versiones candidatas como `:1.16.0-rc.1` quedan en medio, con los nombres de imagen
+estables.
 
 Los repositorios, las fijaciones de submódulos, las notificaciones de imágenes y los
 despliegues son partes distintas de la ruta de publicación. Lee
