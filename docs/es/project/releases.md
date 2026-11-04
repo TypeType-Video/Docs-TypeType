@@ -44,7 +44,10 @@ flowchart LR
    repositorio central lleva la rama `staging` de ese componente a `dev` y pone la
    siguiente etiqueta `v1.16.0-rc.N`. La etiqueta construye la imagen `1.16.0-rc.N` y
    mueve `rc`. Cada componente tiene sus propias versiones candidatas, tantas como
-   necesite.
+   necesite. La rama `staging` del repositorio central pasa a su `dev` al mismo tiempo,
+   así que los archivos del stack que van con las candidatas siempre están en
+   `staging`. La instancia oficial sigue las imágenes `rc`, y quien aloja su propia instancia
+   también puede, consulta [Versiones candidatas](/es/self-hosting/release-candidates).
 3. Cuando las versiones candidatas funcionan juntas, `scripts/release.sh final 1.16.0`
    lleva `main` a `staging` y pone la etiqueta `v1.16.0` en todos los componentes a la
    vez. Las etiquetas construyen las imágenes `1.16.0` y mueven `latest`.

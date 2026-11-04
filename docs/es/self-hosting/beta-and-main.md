@@ -12,7 +12,8 @@ La CI construye las imágenes automáticamente: un push a `dev` actualiza las im
 `-beta`, y una etiqueta de versión publica las imágenes `:1.16.0` y mueve `:latest`.
 Así, **main es la versión estable** y **beta es el adelanto de lo que viene**. Las
 versiones candidatas como `:1.16.0-rc.1` quedan en medio, con los nombres de imagen
-estables.
+estables: un stack main puede seguirlas en lugar de `latest`, consulta
+[Versiones candidatas](./release-candidates).
 
 Los repositorios, las fijaciones de submódulos, las notificaciones de imágenes y los
 despliegues son partes distintas de la ruta de publicación. Lee
