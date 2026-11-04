@@ -33,10 +33,14 @@ TypeType image then uses the same release:
 TYPETYPE_VERSION=1.16.0
 ```
 
-Set it in `.env`, or pass `--version 1.16.0` to the installer. To update a pinned
-stack, change the number and run the installer again, or pull and recreate the stack
-as shown below. Leave it empty to follow `latest` again. A `TYPETYPE_*_IMAGE` value
-still takes precedence for its image.
+The installer asks which version you want: the latest release, the release
+candidates, or one version. Pick `3` and type the number, or set it in `.env`, or pass
+`--version 1.16.0`. To update a pinned stack, change the number and run the installer
+again, or pull and recreate the stack as shown below. Leave it empty to follow `latest`
+again. A `TYPETYPE_*_IMAGE` value still takes precedence for its image.
+
+To try the next version before its release, see
+[Release candidates](./release-candidates).
 
 ### Without the installer
 

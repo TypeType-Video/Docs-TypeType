@@ -40,7 +40,11 @@ flowchart LR
 2. When a component is ready, `scripts/release.sh rc 1.16.0 web` in the central
    repository moves that component's `staging` branch to `dev` and tags the next
    `v1.16.0-rc.N`. The tag builds the `1.16.0-rc.N` image and moves `rc`. Each
-   component gets its own release candidates, as many as it needs.
+   component gets its own release candidates, as many as it needs. The `staging`
+   branch of the central repository moves to its `dev` at the same time, so the stack
+   files that go with the candidates are always on `staging`. The official instance
+   follows the `rc` images, and self-hosters can too, see
+   [Release candidates](/self-hosting/release-candidates).
 3. When the release candidates work together, `scripts/release.sh final 1.16.0`
    moves `main` to `staging` and tags `v1.16.0` in every component at once. The tags
    build the `1.16.0` images and move `latest`.

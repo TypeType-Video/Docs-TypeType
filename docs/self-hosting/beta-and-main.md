@@ -11,7 +11,8 @@ host.
 CI builds the images automatically: a push to `dev` updates the `-beta` images, and a
 release tag publishes the `:1.16.0` images and moves `:latest`. So **main is the stable
 release** and **beta is the preview of what is coming next**. Release candidates such
-as `:1.16.0-rc.1` sit in between, on the stable image names.
+as `:1.16.0-rc.1` sit in between, on the stable image names: a main stack can follow
+them instead of `latest`, see [Release candidates](./release-candidates).
 
 The repositories, submodule pins, image notifications, and deployments are separate
 parts of the release path. Read [Branches and releases](/project/releases) when you
