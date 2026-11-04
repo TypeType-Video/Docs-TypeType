@@ -24,6 +24,22 @@ Before changing managed files, the installer creates a timestamped directory und
 `.typetype-backups/` containing the previous stack files and, when the old
 configuration is valid, its resolved and running image references.
 
+### Pin a release
+
+From TypeType 1.16.0 the stack follows `latest` unless you pin a version. Every
+TypeType image then uses the same release:
+
+```dotenv
+TYPETYPE_VERSION=1.16.0
+```
+
+Set it in `.env`, or pass `--version 1.16.0` to the installer. To update a pinned
+stack, change the number and run the installer again, or pull and recreate the stack
+as shown below. Leave it empty to follow `latest` again. A `TYPETYPE_*_IMAGE` value
+still takes precedence for its image.
+
+### Without the installer
+
 For a script-free installation, first replace the Compose file and scripts with the
 current release while keeping `.env`, any override, and custom configuration. Then
 validate and recreate the stack:
