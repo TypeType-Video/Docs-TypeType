@@ -288,6 +288,7 @@ export default defineConfig({
                             items: [
                                 { text: "导入你的数据", link: "/zh/self-hosting/importing-data" },
                                 { text: "推荐服务（实验性）", link: "/zh/self-hosting/recommender" },
+                                { text: "Twitch（可选）", link: "/zh/self-hosting/twitch" },
                             ],
                         },
                         {
