@@ -52,6 +52,7 @@ export default defineConfig({
                             items: [
                                 { text: "Importer vos données", link: "/fr/self-hosting/importing-data" },
                                 { text: "Service de recommandations (expérimental)", link: "/fr/self-hosting/recommender" },
+                                { text: "Twitch (optionnel)", link: "/fr/self-hosting/twitch" },
                             ],
                         },
                         {
@@ -169,6 +170,7 @@ export default defineConfig({
                             items: [
                                 { text: "Ihre Daten importieren", link: "/de/self-hosting/importing-data" },
                                 { text: "Empfehlungsdienst (experimentell)", link: "/de/self-hosting/recommender" },
+                                { text: "Twitch (optional)", link: "/de/self-hosting/twitch" },
                             ],
                         },
                         {
@@ -286,6 +288,7 @@ export default defineConfig({
                             items: [
                                 { text: "导入你的数据", link: "/zh/self-hosting/importing-data" },
                                 { text: "推荐服务（实验性）", link: "/zh/self-hosting/recommender" },
+                                { text: "Twitch（可选）", link: "/zh/self-hosting/twitch" },
                             ],
                         },
                         {
@@ -403,6 +406,7 @@ export default defineConfig({
                             items: [
                                 { text: "Importar tus datos", link: "/es/self-hosting/importing-data" },
                                 { text: "Servicio de recomendaciones (experimental)", link: "/es/self-hosting/recommender" },
+                                { text: "Twitch (opcional)", link: "/es/self-hosting/twitch" },
                             ],
                         },
                         {
@@ -551,6 +555,7 @@ export default defineConfig({
                     items: [
                         { text: "Importing your data", link: "/self-hosting/importing-data" },
                         { text: "Recommender (experimental)", link: "/self-hosting/recommender" },
+                        { text: "Twitch (optional)", link: "/self-hosting/twitch" },
                     ],
                 },
                 {
