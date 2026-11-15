@@ -170,6 +170,7 @@ export default defineConfig({
                             items: [
                                 { text: "Ihre Daten importieren", link: "/de/self-hosting/importing-data" },
                                 { text: "Empfehlungsdienst (experimentell)", link: "/de/self-hosting/recommender" },
+                                { text: "Twitch (optional)", link: "/de/self-hosting/twitch" },
                             ],
                         },
                         {
