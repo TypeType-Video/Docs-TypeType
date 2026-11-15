@@ -551,6 +551,7 @@ export default defineConfig({
                     items: [
                         { text: "Importing your data", link: "/self-hosting/importing-data" },
                         { text: "Recommender (experimental)", link: "/self-hosting/recommender" },
+                        { text: "Twitch (optional)", link: "/self-hosting/twitch" },
                     ],
                 },
                 {
