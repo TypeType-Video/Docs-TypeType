@@ -405,6 +405,7 @@ export default defineConfig({
                             items: [
                                 { text: "Importar tus datos", link: "/es/self-hosting/importing-data" },
                                 { text: "Servicio de recomendaciones (experimental)", link: "/es/self-hosting/recommender" },
+                                { text: "Twitch (opcional)", link: "/es/self-hosting/twitch" },
                             ],
                         },
                         {
