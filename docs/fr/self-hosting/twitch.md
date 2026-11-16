@@ -1,10 +1,10 @@
 # Twitch (optionnel)
 
 La prise en charge de Twitch est un service optionnel, publié sous le nom
-[TypeType-Live](https://github.com/TypeType-Video/TypeType-Live). Avec lui, les utilisateurs
-parcourent les lives, catégories et tags de Twitch, regardent les lives, les rediffusions et les
-clips, lisent et écrivent dans le chat, et peuvent lier leur compte Twitch. Les rediffusions gardent
-leur position comme n'importe quelle vidéo. Twitch ne voit jamais leur adresse IP, et leur navigateur ne contacte jamais Twitch.
+[TypeType-Live](https://github.com/TypeType-Video/TypeType-Live). Avec lui, les utilisateurs parcourent
+les lives, catégories et tags de Twitch, regardent les lives, les rediffusions et les clips, lisent et
+écrivent dans le chat, et peuvent lier leur compte Twitch. Les rediffusions gardent leur position comme
+n'importe quelle vidéo. Twitch ne voit jamais leur adresse IP, et leur navigateur ne contacte jamais Twitch.
 
 Une stack sans ce service fonctionne exactement comme avant et n'affiche aucune section Twitch.
 
@@ -12,23 +12,12 @@ Une stack sans ce service fonctionne exactement comme avant et n'affiche aucune 
 
 | Ressource | Quantité |
 | --- | --- |
-| Mémoire | Environ 128 Mo (`LIVE_MEMORY_LIMIT`) |
+| Mémoire | Environ 128 Mo |
 | Disque | Environ 10 Mo pour l'image |
-| TypeType | 1.18.0 ou plus récent, installé avec l'installeur ou le fichier Compose pris en charge |
+| TypeType | 1.18.0 ou plus récent |
 
-Ce qui change sur votre stack quand vous l'ajoutez :
-
-- un nouveau conteneur, `typetype-live` ;
-- trois nouveaux secrets dans le volume `typetype_secrets`, créés par `typetype-init` : le secret
-  partagé entre Server et Live, la clé qui chiffre les comptes Twitch liés, et la clé qui garde les
-  liens de lecture valides après un redémarrage ;
-- Server est recréé avec l'adresse du service.
-
-Les commandes de cette page utilisent `$STACK_DIR` pour le dossier de votre stack :
-
-```sh
-STACK_DIR=~/typetype-stack
-```
+Ce qui change sur votre stack : un nouveau conteneur, `typetype-live`, et Server est recréé avec l'adresse
+du service. Seuls Server et le conteneur web lui parlent ; ne publiez pas son port.
 
 ## A. Avec l'installeur {#install}
 
@@ -44,81 +33,89 @@ Tant que 1.18.0 n'est pas sortie, `--twitch` n'existe que dans l'installeur des 
 `bash -s -- --rc --twitch`.
 :::
 
-Sans `--yes`, l'installeur pose aussi la question. Il écrit `TWITCH_ENABLED=true` dans `.env`, pour que
-les mises à jour suivantes gardent Twitch.
+L'installeur crée les secrets, ajoute le service et le garde lors des mises à jour suivantes.
 
 ## B. À la main {#install-by-hand}
 
-```sh
-cd "$STACK_DIR"
-COMPOSE_TWITCH_FILE=docker-compose.twitch.yml ./scripts/run-stack-init.sh
-docker compose -f docker-compose.yml -f docker-compose.twitch.yml up -d --wait
-```
+Pour ceux qui gèrent leur stack eux-mêmes, par exemple avec Dockge.
 
-Ajoutez `TWITCH_ENABLED=true` dans `.env` si vous mettez ensuite à jour avec l'installeur.
+1. Ajoutez dans `.env` trois secrets aléatoires d'au moins 32 caractères. N'importe quel générateur de mots
+   de passe convient ; `openssl rand -hex 32` en affiche un.
+
+   ```dotenv
+   TWITCH_SERVICE_SECRET=remplacez-par-une-valeur-aleatoire
+   TWITCH_TOKEN_ENCRYPTION_KEY=remplacez-par-une-autre-valeur-aleatoire
+   LIVE_SIGNING_KEY=remplacez-par-une-troisieme-valeur-aleatoire
+   ```
+
+   Gardez `TWITCH_TOKEN_ENCRYPTION_KEY` une fois que des comptes sont liés : la changer oblige les
+   utilisateurs à les lier de nouveau.
+
+2. Ajoutez le service dans `docker-compose.override.yml`, à côté de `docker-compose.yml` (créez le fichier
+   si vous n'en avez pas ; l'installeur le garde lors des mises à jour) :
+
+   ```yaml
+   services:
+     typetype-server:
+       environment:
+         TWITCH_SERVICE_URL: http://typetype-live:8080
+         TWITCH_SERVICE_SECRET: ${TWITCH_SERVICE_SECRET}
+         TWITCH_TOKEN_ENCRYPTION_KEY: ${TWITCH_TOKEN_ENCRYPTION_KEY}
+
+     typetype-live:
+       image: ghcr.io/typetype-video/typetype-live:${TYPETYPE_VERSION:-latest}
+       restart: unless-stopped
+       environment:
+         LIVE_SECRET: ${TWITCH_SERVICE_SECRET}
+         LIVE_SIGNING_KEY: ${LIVE_SIGNING_KEY}
+         LIVE_PUBLIC_BASE: /live
+       mem_limit: 128m
+       read_only: true
+       cap_drop: [ALL]
+       security_opt: ["no-new-privileges:true"]
+   ```
+
+   Pendant la release candidate, la stack suit `TYPETYPE_VERSION=rc`, et Live aussi.
+
+3. Démarrez-le :
+
+   ```sh
+   docker compose up -d
+   ```
+
+   Le conteneur web envoie déjà les liens vidéo sous `/live/` vers `typetype-live:8080`. Si votre conteneur
+   Live porte un autre nom, définissez `TYPETYPE_LIVE_HOST` (et `TYPETYPE_LIVE_PORT`) sur le conteneur web.
 
 ## Vérifier que ça marche {#check}
 
-Ouvrez l'instance : la barre latérale affiche **Live**. Ouvrez une chaîne en direct et son chat.
-
-```sh
-docker compose -f docker-compose.yml -f docker-compose.twitch.yml ps typetype-live
-```
-
-Le conteneur doit être `healthy`.
+Ouvrez l'instance : la barre latérale affiche **Live**. Ouvrez une chaîne en direct et son chat. Dans le
+dossier de la stack, `docker compose ps typetype-live` montre le conteneur `healthy`.
 
 ## Lier un compte Twitch {#link-account}
 
-Chaque utilisateur peut lier son propre compte Twitch depuis **Live > Lier un compte Twitch**.
-TypeType affiche un code à saisir sur `twitch.tv/activate` depuis n'importe quel appareil connecté à
-Twitch. Un compte lié affiche les lives suivis, permet d'écrire dans le chat et de suivre des chaînes,
-et lit le chat et les chapitres des rediffusions avec ce compte. Les jetons restent chiffrés dans la
-base de données et n'arrivent jamais au navigateur.
+Chaque utilisateur peut lier son propre compte Twitch depuis **Live > Lier un compte Twitch**. TypeType
+affiche un code à saisir sur `twitch.tv/activate` depuis n'importe quel appareil connecté à Twitch. Un compte
+lié affiche les lives suivis, permet d'écrire dans le chat et de suivre des chaînes, et lit le chat et les
+chapitres des rediffusions avec ce compte. Les jetons restent chiffrés dans la base de données et n'arrivent
+jamais au navigateur.
 
 ## Le retirer {#remove}
 
-Mettez `TWITCH_ENABLED=false` dans `.env`, pour qu'une mise à jour ne l'ajoute pas de nouveau, puis
-démarrez la stack sans le fichier Twitch :
-
-```sh
-cd "$STACK_DIR"
-docker compose -f docker-compose.yml up -d --remove-orphans --wait
-```
-
-La section Twitch disparaît. Les comptes liés restent chiffrés dans la base de données.
+Avec l'installeur, mettez `TWITCH_ENABLED=false` dans `.env` et relancez-le. À la main, retirez le bloc
+`typetype-live` et les trois lignes `TWITCH_*` de `docker-compose.override.yml`, puis lancez
+`docker compose up -d --remove-orphans`. La section Twitch disparaît ; les comptes liés restent chiffrés dans
+la base de données.
 
 ## Réglages {#settings}
 
 | Variable | Défaut | Rôle |
 | --- | --- | --- |
-| `TYPETYPE_LIVE_IMAGE` | suit `TYPETYPE_VERSION` | Image de Live |
-| `LIVE_MEMORY_LIMIT` | `128m` | Mémoire maximale du conteneur |
-| `LIVE_SEGMENT_CACHE` | `48MiB` | Cache partagé des segments vidéo |
+| `TWITCH_SERVICE_URL` | | Adresse du service, telle que Server la joint |
+| `TWITCH_SERVICE_SECRET` | | Partagé par Server et Live (`LIVE_SECRET`), 32 caractères ou plus |
+| `TWITCH_TOKEN_ENCRYPTION_KEY` | | Chiffre les comptes Twitch liés, 32 caractères ou plus |
+| `LIVE_SIGNING_KEY` | aléatoire au démarrage | Garde les liens vidéo valides après un redémarrage, 32 caractères ou plus |
+| `LIVE_SEGMENT_CACHE` | `32MiB` | Mémoire des segments vidéo partagés |
 | `TWITCH_SERVICE_TIMEOUT_MS` | `15000` | Délai des appels de Server vers Live |
 
-## Votre propre fichier Compose {#own-compose}
-
-Si vous faites tourner TypeType avec votre propre fichier Compose, ajoutez le service `typetype-live` de
-[docker-compose.twitch.yml](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.twitch.yml)
-sans publier son port : seuls le serveur et le conteneur web lui parlent. Ses variables sont listées dans le
-[README de TypeType-Live](https://github.com/TypeType-Video/TypeType-Live).
-
-### Relier le serveur au service {#server}
-
-| Variable | Rôle |
-| --- | --- |
-| `TWITCH_SERVICE_URL` | Adresse du service, par exemple `http://typetype-live:8080` |
-| `TWITCH_SERVICE_SECRET` | La même valeur que `LIVE_SECRET` |
-| `TWITCH_TOKEN_ENCRYPTION_KEY` | Au moins 32 caractères aléatoires ; chiffre les comptes Twitch liés par les utilisateurs |
-| `TWITCH_SERVICE_TIMEOUT_MS` | Délai d'attente des requêtes vers le service, `15000` par défaut |
-
-`TWITCH_SERVICE_SECRET` et `TWITCH_TOKEN_ENCRYPTION_KEY` acceptent aussi une variante
-`_FILE` qui lit la valeur dans un fichier. Twitch reste désactivé tant que les trois
-premières variables ne sont pas toutes définies.
-
-### Le conteneur web {#web}
-
-L'image web envoie déjà `/live/hls/` au service à l'adresse `typetype-live:8080`. Définissez
-`TYPETYPE_LIVE_HOST` et `TYPETYPE_LIVE_PORT` sur le conteneur web si le vôtre porte un autre
-nom ou un autre port. Seuls les liens vidéo signés passent par cette route ; l'API du service
-reste privée derrière le secret partagé.
+Twitch reste désactivé tant que Server n'a pas les trois premières. Chaque secret accepte aussi une variante
+`_FILE` qui lit la valeur dans un fichier.
