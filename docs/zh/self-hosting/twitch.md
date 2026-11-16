@@ -35,6 +35,12 @@ STACK_DIR=~/typetype-stack
 curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --twitch
 ```
 
+::: tip 1.18.0 候选版本期间
+在 1.18.0 正式发布之前，只有候选版本的安装脚本支持 `--twitch`：请使用
+`https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scripts/install-stack.sh`，并加上
+`bash -s -- --rc --twitch`。
+:::
+
 不带 `--yes` 时，安装脚本也会询问。它会在 `.env` 中写入 `TWITCH_ENABLED=true`，以便之后的更新保留 Twitch。
 
 ## B. 手动添加 {#install-by-hand}

@@ -37,6 +37,12 @@ Starte den Installer mit `--twitch`, auf einer neuen oder einer bestehenden Inst
 curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --twitch
 ```
 
+::: tip Während des Release Candidate 1.18.0
+Bis 1.18.0 erscheint, gibt es `--twitch` nur im Installer der Release Candidates: Nutze
+`https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scripts/install-stack.sh` mit
+`bash -s -- --rc --twitch`.
+:::
+
 Ohne `--yes` fragt der Installer auch nach. Er schreibt `TWITCH_ENABLED=true` in `.env`, damit spätere
 Updates Twitch behalten.
 
