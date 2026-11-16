@@ -128,7 +128,16 @@ Use this if you manage the stack yourself, for example with Dockge.
 
    This line is also what makes the installer keep the recommender on a later update.
 
-3. Create the database and the shared secret:
+3. Switch PostgreSQL to the pgvector image first. This keeps the existing data
+   volume:
+
+   ```sh
+   docker compose -f docker-compose.yml -f docker-compose.recommender.yml up -d --wait postgres
+   ```
+
+   On ARM64, include `-f docker-compose.arm64.yml` between the Compose files.
+
+   Then create the database and shared secret:
 
    ```sh
    COMPOSE_RECOMMENDER_FILE=docker-compose.recommender.yml ./scripts/run-stack-init.sh
@@ -143,6 +152,35 @@ Use this if you manage the stack yourself, for example with Dockge.
 
    On a second run, `CREATE DATABASE` is absent and the extension line says it already
    exists. Both are fine.
+
+   If you manage the shared secret yourself, you can create the database directly
+   with `docker exec` instead of running the init helper:
+
+   ```sh
+   RECOMMENDER_DATABASE=typetype_recommender
+   DB_CONTAINER="$(docker compose -f docker-compose.yml -f docker-compose.recommender.yml ps -q postgres)"
+   test -n "$DB_CONTAINER"
+   docker exec -i -e "RECOMMENDER_DATABASE=$RECOMMENDER_DATABASE" "$DB_CONTAINER" sh -eu <<'SH'
+   export PGPASSWORD="$POSTGRES_PASSWORD"
+   psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v recommender_database="$RECOMMENDER_DATABASE" <<'SQL'
+   SELECT format('CREATE DATABASE %I', :'recommender_database')
+   WHERE NOT EXISTS (
+       SELECT 1 FROM pg_database WHERE datname = :'recommender_database'
+   )
+   \gexec
+   SQL
+   psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$RECOMMENDER_DATABASE" -c 'CREATE EXTENSION IF NOT EXISTS vector'
+   SH
+   ```
+
+   Set `RECOMMENDER_DATABASE` to the same value as in `.env`. This command only
+   creates the database and extension; it does not create
+   `/run/typetype-secrets/recommender_internal_token`. Use the init helper above
+   unless you have already provisioned that shared secret. If its PostgreSQL
+   container is not part of this Compose project, set `DB_CONTAINER` to its
+   container name or ID. On ARM64,
+   include `-f docker-compose.arm64.yml` in the Compose commands above.
+
 
 4. Start the service and recreate Server:
 
@@ -160,6 +198,39 @@ Every `docker compose` command for this stack must now name
 `docker-compose.recommender.yml` as well. A command that names only
 `docker-compose.yml` with `--remove-orphans` removes the recommender.
 :::
+
+Thanks to [@Toastienergy](https://github.com/Toastienergy), whose feedback from a
+manually managed Compose stack helped make these setup steps clearer.
+
+### Rootless Docker with a bind-mounted model directory {#rootless-models}
+
+TypeType Signals writes its model cache to `/models` and runs as UID/GID
+`10001:10001` in the container. The named `recommender_models` volume needs no
+host-side ownership change. With a host bind mount under rootless Docker, the
+container IDs map to different host IDs. Do not copy ownership values from another
+machine.
+
+With the recommender container running, find the host IDs that correspond to the
+container's `10001:10001`:
+
+```sh
+RECOMMENDER_CONTAINER="$(docker compose -f docker-compose.yml -f docker-compose.recommender.yml ps -q typetype-recommender)"
+PID="$(docker inspect -f '{{.State.Pid}}' "$RECOMMENDER_CONTAINER")"
+HOST_UID="$(awk -v id=10001 '$1 <= id && id < $1 + $3 { print $2 + id - $1; exit }' "/proc/$PID/uid_map")"
+HOST_GID="$(awk -v id=10001 '$1 <= id && id < $1 + $3 { print $2 + id - $1; exit }' "/proc/$PID/gid_map")"
+printf 'Mapped host owner: %s:%s\n' "$HOST_UID" "$HOST_GID"
+```
+
+Set `MODEL_PATH` to the dedicated host directory mounted at `/models`, then
+apply that mapping and verify that the service can write there:
+
+```sh
+sudo chown -R "$HOST_UID:$HOST_GID" "$MODEL_PATH"
+docker exec "$RECOMMENDER_CONTAINER" test -w /models
+```
+
+Only change ownership of the dedicated model directory, not a shared parent path.
+
 
 ## Check that it runs {#verify}
 

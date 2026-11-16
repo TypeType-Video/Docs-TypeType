@@ -137,7 +137,16 @@ después pasa a [Comprobar que funciona](#verify).
    Esta línea es también la que hace que el instalador conserve el servicio en una
    actualización posterior.
 
-3. Crea la base de datos y el secreto compartido:
+3. Recrea PostgreSQL con el overlay para usar la imagen con pgvector; el volumen de
+   datos existente se conserva:
+
+   ```sh
+   docker compose -f docker-compose.yml -f docker-compose.recommender.yml up -d --wait postgres
+   ```
+
+   En ARM64, añade `-f docker-compose.arm64.yml` entre los archivos Compose.
+
+   Después crea la base de datos y el secreto compartido:
 
    ```sh
    COMPOSE_RECOMMENDER_FILE=docker-compose.recommender.yml ./scripts/run-stack-init.sh
@@ -152,6 +161,35 @@ después pasa a [Comprobar que funciona](#verify).
 
    En una segunda ejecución, `CREATE DATABASE` no aparece y la línea de la extensión
    indica que ya existe. Ambos casos son normales.
+
+   Si gestionas el secreto compartido por tu cuenta, puedes crear la base de datos
+   directamente con `docker exec` en vez de usar el script de inicialización:
+
+   ```sh
+   RECOMMENDER_DATABASE=typetype_recommender
+   DB_CONTAINER="$(docker compose -f docker-compose.yml -f docker-compose.recommender.yml ps -q postgres)"
+   test -n "$DB_CONTAINER"
+   docker exec -i -e "RECOMMENDER_DATABASE=$RECOMMENDER_DATABASE" "$DB_CONTAINER" sh -eu <<'SH'
+   export PGPASSWORD="$POSTGRES_PASSWORD"
+   psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v recommender_database="$RECOMMENDER_DATABASE" <<'SQL'
+   SELECT format('CREATE DATABASE %I', :'recommender_database')
+   WHERE NOT EXISTS (
+       SELECT 1 FROM pg_database WHERE datname = :'recommender_database'
+   )
+   \gexec
+   SQL
+   psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$RECOMMENDER_DATABASE" -c 'CREATE EXTENSION IF NOT EXISTS vector'
+   SH
+   ```
+
+   Usa en `RECOMMENDER_DATABASE` el mismo valor que en `.env`. Este comando solo
+   crea la base de datos y la extensión; no crea
+   `/run/typetype-secrets/recommender_internal_token`. Usa el script de inicialización
+   anterior salvo que ya hayas creado ese secreto compartido. Si su contenedor de
+   PostgreSQL no forma parte de este proyecto Compose, asigna a `DB_CONTAINER` su
+   nombre o ID. En ARM64,
+   añade `-f docker-compose.arm64.yml` a los comandos Compose anteriores.
+
 
 4. Arranca el servicio y vuelve a crear Server:
 
@@ -169,6 +207,40 @@ Cada comando `docker compose` de esta pila debe nombrar también
 `docker-compose.recommender.yml`. Un comando que solo nombra `docker-compose.yml` con
 `--remove-orphans` elimina el servicio de recomendaciones.
 :::
+
+Gracias a [@Toastienergy](https://github.com/Toastienergy), cuyos comentarios sobre
+una pila Compose gestionada a mano ayudaron a aclarar estos pasos.
+
+### Docker rootless con un directorio de modelos montado desde el host {#rootless-models}
+
+TypeType Signals guarda la caché del modelo en `/models` y se ejecuta en el
+contenedor como UID/GID `10001:10001`. El volumen Docker con nombre
+`recommender_models` no necesita cambios de propietario en el host. Si montas un
+directorio del host con Docker rootless, los ID del contenedor se traducen a otros
+ID en el host. No copies los valores de otra máquina.
+
+Con el contenedor de recomendaciones en ejecución, encuentra los ID del host
+correspondientes a `10001:10001` dentro del contenedor:
+
+```sh
+RECOMMENDER_CONTAINER="$(docker compose -f docker-compose.yml -f docker-compose.recommender.yml ps -q typetype-recommender)"
+PID="$(docker inspect -f '{{.State.Pid}}' "$RECOMMENDER_CONTAINER")"
+HOST_UID="$(awk -v id=10001 '$1 <= id && id < $1 + $3 { print $2 + id - $1; exit }' "/proc/$PID/uid_map")"
+HOST_GID="$(awk -v id=10001 '$1 <= id && id < $1 + $3 { print $2 + id - $1; exit }' "/proc/$PID/gid_map")"
+printf 'Propietario del host asignado: %s:%s\n' "$HOST_UID" "$HOST_GID"
+```
+
+Define `MODEL_PATH` como el directorio dedicado del host montado en `/models`;
+aplica esos permisos y comprueba que el servicio pueda escribir:
+
+```sh
+sudo chown -R "$HOST_UID:$HOST_GID" "$MODEL_PATH"
+docker exec "$RECOMMENDER_CONTAINER" test -w /models
+```
+
+Cambia los permisos solo del directorio dedicado a modelos, no de una ruta padre
+compartida.
+
 
 ## Comprobar que funciona {#verify}
 

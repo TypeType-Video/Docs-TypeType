@@ -133,7 +133,16 @@ Für alle, die den Stack selbst verwalten, zum Beispiel mit Dockge.
    Diese Zeile sorgt auch dafür, dass der Installer den Dienst bei einer späteren
    Aktualisierung behält.
 
-3. Legen Sie die Datenbank und das gemeinsame Geheimnis an:
+3. Stellen Sie PostgreSQL zuerst mit dem pgvector-Image bereit. Das vorhandene
+   Daten-Volume bleibt dabei erhalten:
+
+   ```sh
+   docker compose -f docker-compose.yml -f docker-compose.recommender.yml up -d --wait postgres
+   ```
+
+   Auf ARM64 fügen Sie zwischen den Compose-Dateien `-f docker-compose.arm64.yml` ein.
+
+   Legen Sie danach die Datenbank und das gemeinsame Geheimnis an:
 
    ```sh
    COMPOSE_RECOMMENDER_FILE=docker-compose.recommender.yml ./scripts/run-stack-init.sh
@@ -148,6 +157,35 @@ Für alle, die den Stack selbst verwalten, zum Beispiel mit Dockge.
 
    Beim zweiten Durchlauf fehlt `CREATE DATABASE`, und die Zeile zur Erweiterung
    meldet, dass sie bereits existiert. Beides ist in Ordnung.
+
+   Wenn Sie das gemeinsame Geheimnis selbst verwalten, können Sie die Datenbank
+   stattdessen direkt mit `docker exec` anlegen:
+
+   ```sh
+   RECOMMENDER_DATABASE=typetype_recommender
+   DB_CONTAINER="$(docker compose -f docker-compose.yml -f docker-compose.recommender.yml ps -q postgres)"
+   test -n "$DB_CONTAINER"
+   docker exec -i -e "RECOMMENDER_DATABASE=$RECOMMENDER_DATABASE" "$DB_CONTAINER" sh -eu <<'SH'
+   export PGPASSWORD="$POSTGRES_PASSWORD"
+   psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v recommender_database="$RECOMMENDER_DATABASE" <<'SQL'
+   SELECT format('CREATE DATABASE %I', :'recommender_database')
+   WHERE NOT EXISTS (
+       SELECT 1 FROM pg_database WHERE datname = :'recommender_database'
+   )
+   \gexec
+   SQL
+   psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$RECOMMENDER_DATABASE" -c 'CREATE EXTENSION IF NOT EXISTS vector'
+   SH
+   ```
+
+   Setzen Sie `RECOMMENDER_DATABASE` auf denselben Wert wie in `.env`. Dieser
+   Befehl legt nur Datenbank und Erweiterung an, nicht aber
+   `/run/typetype-secrets/recommender_internal_token`. Verwenden Sie den Init-Helper
+   oben, sofern Sie dieses gemeinsame Geheimnis nicht bereits selbst angelegt haben.
+   Gehört der PostgreSQL-Container nicht zu diesem Compose-Projekt, setzen Sie
+   `DB_CONTAINER` auf den Container-Namen oder die ID. Auf ARM64 ergänzen Sie in den Compose-Befehlen
+   oben `-f docker-compose.arm64.yml`.
+
 
 4. Starten Sie den Dienst und erstellen Sie Server neu:
 
@@ -165,6 +203,40 @@ Jeder `docker compose`-Befehl für diesen Stack muss nun auch
 `docker-compose.recommender.yml` nennen. Ein Befehl, der nur `docker-compose.yml`
 zusammen mit `--remove-orphans` nennt, entfernt den Empfehlungsdienst.
 :::
+
+Danke an [@Toastienergy](https://github.com/Toastienergy): Das Feedback zu einem
+manuell verwalteten Compose-Stack hat geholfen, diese Schritte klarer zu machen.
+
+### Rootless-Docker mit einem eingebundenen Modellverzeichnis {#rootless-models}
+
+TypeType Signals speichert den Modell-Cache unter `/models` und läuft im Container
+mit UID/GID `10001:10001`. Für das benannte Volume `recommender_models` ist keine
+Änderung der Host-Besitzrechte nötig. Bei einem Host-Bind-Mount mit Rootless-Docker
+werden Container-IDs auf andere Host-IDs abgebildet. Übernehmen Sie keine
+UID/GID-Werte von einem anderen Rechner.
+
+Während der Empfehlungs-Container läuft, ermitteln Sie die Host-IDs für
+`10001:10001` im Container:
+
+```sh
+RECOMMENDER_CONTAINER="$(docker compose -f docker-compose.yml -f docker-compose.recommender.yml ps -q typetype-recommender)"
+PID="$(docker inspect -f '{{.State.Pid}}' "$RECOMMENDER_CONTAINER")"
+HOST_UID="$(awk -v id=10001 '$1 <= id && id < $1 + $3 { print $2 + id - $1; exit }' "/proc/$PID/uid_map")"
+HOST_GID="$(awk -v id=10001 '$1 <= id && id < $1 + $3 { print $2 + id - $1; exit }' "/proc/$PID/gid_map")"
+printf 'Zugeordneter Host-Eigentümer: %s:%s\n' "$HOST_UID" "$HOST_GID"
+```
+
+Setzen Sie `MODEL_PATH` auf das dedizierte Host-Verzeichnis, das unter `/models`
+eingebunden ist. Wenden Sie dann die Zuordnung an und prüfen Sie den Schreibzugriff:
+
+```sh
+sudo chown -R "$HOST_UID:$HOST_GID" "$MODEL_PATH"
+docker exec "$RECOMMENDER_CONTAINER" test -w /models
+```
+
+Ändern Sie die Besitzrechte nur für das dedizierte Modellverzeichnis, nicht für ein
+gemeinsam genutztes übergeordnetes Verzeichnis.
+
 
 ## Prüfen, ob er läuft {#verify}
 
@@ -376,7 +448,7 @@ services:
 Speichern Sie das als `docker-compose.override.yml` im Stack-Verzeichnis; der
 Installer behält diese Datei und wendet sie zuletzt an.
 
-### Arbeitsspeicher gegen Geschwindigkeit {#memory}
+### Mehr Speicher für mehr Geschwindigkeit {#memory}
 
 Mit den Standardwerten bleibt der Dienst unter 2 GB. Auf einem Host, der ihm 4 GB
 geben kann, machen zwei Einstellungen des Dienstes ihn schneller, wenn viele neue
@@ -460,7 +532,7 @@ docker compose -f docker-compose.yml -f docker-compose.recommender.yml logs --ta
 | `STATUS` bleibt beim ersten Start minutenlang auf `(health: starting)` | Das Modell, etwa 550 MB, wird heruntergeladen | Warten Sie. Das Protokoll zeigt `Application startup complete`, wenn es fertig ist. |
 | Das Protokoll zeigt einen Netzwerkfehler vor `Application startup complete` | Das Modell konnte nicht von Hugging Face heruntergeladen werden | Geben Sie dem Container für den ersten Start Internetzugang. Danach wird das Modell aus dem Volume gelesen. |
 | `no such service: typetype-recommender` | Der Befehl nennt nur `docker-compose.yml` | Fügen Sie `-f docker-compose.recommender.yml` hinzu. |
-| Der Container wird beendet und startet neu, `OOMKilled` in `docker inspect` | Er hat `RECOMMENDER_MEMORY_LIMIT` erreicht | Erhöhen Sie die Grenze oder behalten Sie die Standardwerte aus [Arbeitsspeicher gegen Geschwindigkeit](#memory). |
+| Der Container wird beendet und startet neu, `OOMKilled` in `docker inspect` | Er hat `RECOMMENDER_MEMORY_LIMIT` erreicht | Erhöhen Sie die Grenze oder behalten Sie die Standardwerte aus [Mehr Speicher für mehr Geschwindigkeit](#memory). |
 | `/version/recommender` antwortet nicht | Server wurde nicht mit der Datei des Dienstes neu erstellt, oder das gemeinsame Geheimnis fehlt | Führen Sie die beiden Befehle aus [C. Von Hand](#manual), Schritte 3 und 4, erneut aus. |
 | **Algorithmus** steht nicht im Menü | Die Instanz bietet ihn nicht an | Admin-Konsole, **Empfehlungen**, **Experimentelle Startseite anbieten**; danach die Seite neu laden. |
 | Die Startseite bleibt die gewohnte | Die Seite war nicht rechtzeitig fertig, oder das Konto hat keine Daten | Laden Sie nach einigen Sekunden neu. In der Admin-Konsole zählt **Rückfälle auf die gewohnte Startseite**, wie oft das vorkommt. |
