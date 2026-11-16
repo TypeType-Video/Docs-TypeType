@@ -12,23 +12,12 @@ A stack without it behaves exactly as before and shows no Twitch section.
 
 | Resource | Amount |
 | --- | --- |
-| Memory | About 128 MB (`LIVE_MEMORY_LIMIT`) |
+| Memory | About 128 MB |
 | Disk | About 10 MB for the image |
-| TypeType | 1.18.0 or newer, installed with the installer or the supported Compose file |
+| TypeType | 1.18.0 or newer |
 
-What changes on your stack when you add it:
-
-- a new container, `typetype-live`;
-- three new secrets in the `typetype_secrets` volume, created by `typetype-init`: the secret
-  Server shares with Live, the key that encrypts linked Twitch accounts, and the key that keeps
-  playback links valid across restarts;
-- Server is recreated with the address of the service.
-
-The commands of this page use `$STACK_DIR` for the directory your stack lives in:
-
-```sh
-STACK_DIR=~/typetype-stack
-```
+What changes on your stack: a new container, `typetype-live`, and Server is recreated with the
+address of the service. Only Server and the web container talk to it; do not publish its port.
 
 ## A. With the installer {#install}
 
@@ -44,28 +33,64 @@ Until 1.18.0 is released, `--twitch` is only in the installer of the release can
 `bash -s -- --rc --twitch`.
 :::
 
-Without `--yes`, the installer also asks. It writes `TWITCH_ENABLED=true` in `.env`, so later
-updates keep Twitch.
+The installer creates the secrets, adds the service and keeps it on later updates.
 
 ## B. By hand {#install-by-hand}
 
-```sh
-cd "$STACK_DIR"
-COMPOSE_TWITCH_FILE=docker-compose.twitch.yml ./scripts/run-stack-init.sh
-docker compose -f docker-compose.yml -f docker-compose.twitch.yml up -d --wait
-```
+Use this if you manage the stack yourself, for example with Dockge.
 
-Add `TWITCH_ENABLED=true` to `.env` if you later update with the installer.
+1. Add three random secrets of at least 32 characters to `.env`. Any password generator works;
+   `openssl rand -hex 32` prints one.
+
+   ```dotenv
+   TWITCH_SERVICE_SECRET=change-me-to-a-random-value
+   TWITCH_TOKEN_ENCRYPTION_KEY=change-me-to-another-random-value
+   LIVE_SIGNING_KEY=change-me-to-a-third-random-value
+   ```
+
+   Keep `TWITCH_TOKEN_ENCRYPTION_KEY` once users have linked accounts: changing it makes them
+   link again.
+
+2. Add the service to `docker-compose.override.yml`, next to `docker-compose.yml` (create the
+   file if you do not have one; the installer keeps it on updates):
+
+   ```yaml
+   services:
+     typetype-server:
+       environment:
+         TWITCH_SERVICE_URL: http://typetype-live:8080
+         TWITCH_SERVICE_SECRET: ${TWITCH_SERVICE_SECRET}
+         TWITCH_TOKEN_ENCRYPTION_KEY: ${TWITCH_TOKEN_ENCRYPTION_KEY}
+
+     typetype-live:
+       image: ghcr.io/typetype-video/typetype-live:${TYPETYPE_VERSION:-latest}
+       restart: unless-stopped
+       environment:
+         LIVE_SECRET: ${TWITCH_SERVICE_SECRET}
+         LIVE_SIGNING_KEY: ${LIVE_SIGNING_KEY}
+         LIVE_PUBLIC_BASE: /live
+       mem_limit: 128m
+       read_only: true
+       cap_drop: [ALL]
+       security_opt: ["no-new-privileges:true"]
+   ```
+
+   During the release candidate, the stack follows `TYPETYPE_VERSION=rc` and Live does too.
+
+3. Start it:
+
+   ```sh
+   docker compose up -d
+   ```
+
+   The web container already sends the video links under `/live/` to `typetype-live:8080`. If
+   your Live container has another name, set `TYPETYPE_LIVE_HOST` (and `TYPETYPE_LIVE_PORT`) on
+   the web container.
 
 ## Check it works {#check}
 
-Open the instance: the sidebar shows **Live**. Open a live channel and the chat.
-
-```sh
-docker compose -f docker-compose.yml -f docker-compose.twitch.yml ps typetype-live
-```
-
-The container must be `healthy`.
+Open the instance: the sidebar shows **Live**. Open a live channel and its chat. In the stack
+directory, `docker compose ps typetype-live` shows the container as `healthy`.
 
 ## Linking a Twitch account {#link-account}
 
@@ -76,47 +101,21 @@ broadcasts with that account. Tokens stay encrypted in the database and never re
 
 ## Remove it {#remove}
 
-Set `TWITCH_ENABLED=false` in `.env`, so a future update does not add it again, then start the
-stack without the overlay:
-
-```sh
-cd "$STACK_DIR"
-docker compose -f docker-compose.yml up -d --remove-orphans --wait
-```
-
-The Twitch section disappears. Linked accounts stay encrypted in the database.
+With the installer, set `TWITCH_ENABLED=false` in `.env` and run it again. By hand, remove the
+`typetype-live` block and the three `TWITCH_*` lines from `docker-compose.override.yml`, then run
+`docker compose up -d --remove-orphans`. The Twitch section disappears; linked accounts stay
+encrypted in the database.
 
 ## Settings {#settings}
 
 | Variable | Default | Role |
 | --- | --- | --- |
-| `TYPETYPE_LIVE_IMAGE` | follows `TYPETYPE_VERSION` | Live image |
-| `LIVE_MEMORY_LIMIT` | `128m` | Memory cap of the container |
-| `LIVE_SEGMENT_CACHE` | `48MiB` | Shared cache of video segments |
+| `TWITCH_SERVICE_URL` | | Address of the service, as Server reaches it |
+| `TWITCH_SERVICE_SECRET` | | Shared by Server and Live (`LIVE_SECRET`), 32+ characters |
+| `TWITCH_TOKEN_ENCRYPTION_KEY` | | Encrypts linked Twitch accounts, 32+ characters |
+| `LIVE_SIGNING_KEY` | random at start | Keeps video links valid across restarts, 32+ characters |
+| `LIVE_SEGMENT_CACHE` | `32MiB` | Memory for shared video segments |
 | `TWITCH_SERVICE_TIMEOUT_MS` | `15000` | Timeout of Server's calls to Live |
 
-## Your own Compose file {#own-compose}
-
-If you run TypeType from your own Compose file, add the `typetype-live` service of
-[docker-compose.twitch.yml](https://github.com/TypeType-Video/TypeType/blob/main/docker-compose.twitch.yml)
-without publishing its port: only the server and the web container talk to it. Its variables are listed in
-the [TypeType-Live README](https://github.com/TypeType-Video/TypeType-Live).
-
-### Point the server at it {#server}
-
-| Variable | Meaning |
-| --- | --- |
-| `TWITCH_SERVICE_URL` | Address of the service, for example `http://typetype-live:8080` |
-| `TWITCH_SERVICE_SECRET` | The same value as `LIVE_SECRET` |
-| `TWITCH_TOKEN_ENCRYPTION_KEY` | At least 32 random characters; encrypts the Twitch accounts users link |
-| `TWITCH_SERVICE_TIMEOUT_MS` | Request timeout to the service, `15000` by default |
-
-`TWITCH_SERVICE_SECRET` and `TWITCH_TOKEN_ENCRYPTION_KEY` also accept a `_FILE` variant that
-reads the value from a file. Twitch stays off until all three of the first variables are set.
-
-### The web container {#web}
-
-The web image already sends `/live/hls/` to the service at `typetype-live:8080`. Set
-`TYPETYPE_LIVE_HOST` and `TYPETYPE_LIVE_PORT` on the web container if yours has another
-name or port. Only the signed video links go through that route; the service API stays
-private behind the shared secret.
+Twitch stays off until Server has the first three. Every secret also accepts a `_FILE` variant
+that reads the value from a file.
