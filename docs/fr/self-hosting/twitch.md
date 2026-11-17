@@ -27,12 +27,6 @@ Lancez l'installeur avec `--twitch`, sur une nouvelle instance ou sur une instan
 curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --twitch
 ```
 
-::: tip Pendant la release candidate 1.18.0
-Tant que 1.18.0 n'est pas sortie, `--twitch` n'existe que dans l'installeur des release candidates : utilisez
-`https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scripts/install-stack.sh` avec
-`bash -s -- --rc --twitch`.
-:::
-
 L'installeur crée les secrets, ajoute le service et le garde lors des mises à jour suivantes.
 
 ## B. À la main {#install-by-hand}
