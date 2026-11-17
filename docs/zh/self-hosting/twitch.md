@@ -26,12 +26,6 @@ Twitch 支持是一个可选服务，以 [TypeType-Live](https://github.com/Type
 curl -fsSL https://raw.githubusercontent.com/TypeType-Video/TypeType/main/scripts/install-stack.sh | bash -s -- --twitch
 ```
 
-::: tip 1.18.0 候选版本期间
-在 1.18.0 正式发布之前，只有候选版本的安装脚本支持 `--twitch`：请使用
-`https://raw.githubusercontent.com/TypeType-Video/TypeType/staging/scripts/install-stack.sh`，并加上
-`bash -s -- --rc --twitch`。
-:::
-
 安装脚本会创建密钥、添加该服务，并在之后的更新中保留它。
 
 ## B. 手动添加 {#install-by-hand}
