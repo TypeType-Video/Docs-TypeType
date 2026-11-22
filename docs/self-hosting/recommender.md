@@ -421,7 +421,7 @@ you set with a Compose override on `typetype-recommender`:
 | `RECOMMENDER_PROFILE_TTL_SECONDS` | `600` | How long what was concluded from an unchanged history is kept; `0` turns it off |
 | `RECOMMENDER_EMBED_BUDGET` | `100` | New titles read by the model at most inside one request |
 | `RECOMMENDER_MAX_TITLES` | `2000` | Titles a profile reads at most |
-| `RECOMMENDER_EMBEDDING_MODEL`, `RECOMMENDER_EMBEDDING_FILE` | multilingual mpnet, fp16 | The language model and its build |
+| `RECOMMENDER_EMBEDDING_MODEL`, `RECOMMENDER_EMBEDDING_FILE` | multilingual mpnet, fp16 | The language model and its build; see [OpenAI-compatible embeddings](#openai-embeddings) for a model served elsewhere |
 | `RECOMMENDER_DATABASE_POOL` | `4` | Connections kept to the database |
 | `RECOMMENDER_CACHE_TIMEOUT_MS` | `2000` | How long a cache call may take |
 
@@ -436,6 +436,42 @@ services:
 
 Save it as `docker-compose.override.yml` in the stack directory; the installer keeps
 that file and applies it last.
+
+### Embeddings from an OpenAI-compatible server {#openai-embeddings}
+
+By default the service runs its language model itself. If you already serve models
+on another machine (llama.cpp, LocalAI, vLLM, Ollama's OpenAI API, or OpenAI), it can
+ask that server's `/v1/embeddings` endpoint instead:
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `RECOMMENDER_EMBEDDING_PROVIDER` | `local` | `openai` uses the endpoint below instead of the built-in model |
+| `RECOMMENDER_EMBEDDING_BASE_URL` | none | API root, for example `http://192.168.1.20:8080/v1` |
+| `RECOMMENDER_EMBEDDING_MODEL` | none with `openai` | Model name the server knows |
+| `RECOMMENDER_EMBEDDING_API_KEY` | none | Sent as `Authorization: Bearer`; `RECOMMENDER_EMBEDDING_API_KEY_FILE` reads it from a file |
+| `RECOMMENDER_EMBEDDING_TIMEOUT` | `30` | Seconds one request may take; a timeout or a `429`/`5xx` is retried once |
+| `RECOMMENDER_EMBEDDING_BATCH` | `64` | Titles sent in one request |
+
+```yaml
+services:
+  typetype-recommender:
+    environment:
+      RECOMMENDER_EMBEDDING_PROVIDER: openai
+      RECOMMENDER_EMBEDDING_BASE_URL: http://192.168.1.20:8080/v1
+      RECOMMENDER_EMBEDDING_MODEL: embeddinggemma
+      RECOMMENDER_EMBEDDING_API_KEY_FILE: /run/secrets/embedding_key
+```
+
+- Video titles are sent to that server. They are public titles, never who watched
+  them, but keep the server on machines you trust.
+- Any vector length works. Vectors are stored per model, so switching models starts
+  a fresh set instead of mixing them. Restart the service after switching.
+- Titles are grouped by how close their vectors are, with thresholds measured on
+  the built-in model. Another model may group more or less tightly; a multilingual
+  model keeps titles in different languages comparable.
+- If the endpoint is down when the service starts, the service still starts, logs
+  `embedding endpoint not ready at start`, and answers `503` until the endpoint is
+  back. TypeType then shows the usual home page.
 
 ### Memory against speed {#memory}
 
