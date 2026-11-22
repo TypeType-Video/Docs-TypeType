@@ -182,6 +182,35 @@ Server or Player bug.
 See [Token browser boundary](./security#token-browser-boundary) and
 [hugoghx's container investigation](https://github.com/TypeType-Video/TypeType/discussions/156).
 
+## Token cannot reach YouTube {#token-egress}
+
+Token talks to YouTube and Google on its own: `www.youtube.com`, `jnn-pa.googleapis.com`
+and `www.google.com`. When one of them does not answer, every video waits on
+**The video service is busy. Retrying…** and the Token logs name the host:
+
+```text
+[token-refresh web] No answer from jnn-pa.googleapis.com within 8 s. The token container cannot reach it: ...
+```
+
+The same text appears in `lastError` on `/ready`. Test the host from inside the
+container:
+
+```sh
+docker compose exec typetype-token curl -sS -m 10 -o /dev/null -w '%{http_code}\n' https://jnn-pa.googleapis.com/
+```
+
+Any HTTP status, even `404`, means the host is reachable. A timeout or a connection
+error points at the Docker host, not at TypeType:
+
+- a DNS filter (Pi-hole, AdGuard Home, router blocklists) that blocks or sinkholes a
+  Google host;
+- a firewall or VPN on the host that lets the host out but not Docker's bridge networks;
+- IPv6 enabled for Docker without a working IPv6 route;
+- a VPN or tunnel with a smaller MTU than Docker's default 1500.
+
+If the host itself cannot reach YouTube, route Token through a proxy with
+`YOUTUBE_OUTBOUND_PROXY_URL`.
+
 ## Start over from scratch
 
 ::: danger This deletes your data
