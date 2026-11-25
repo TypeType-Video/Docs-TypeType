@@ -53,6 +53,7 @@ export default defineConfig({
                                 { text: "Importer vos données", link: "/fr/self-hosting/importing-data" },
                                 { text: "Service de recommandations (expérimental)", link: "/fr/self-hosting/recommender" },
                                 { text: "Twitch (optionnel)", link: "/fr/self-hosting/twitch" },
+                                { text: "Serveur Go (expérimental)", link: "/fr/self-hosting/go-server" },
                             ],
                         },
                         {
@@ -171,6 +172,7 @@ export default defineConfig({
                                 { text: "Ihre Daten importieren", link: "/de/self-hosting/importing-data" },
                                 { text: "Empfehlungsdienst (experimentell)", link: "/de/self-hosting/recommender" },
                                 { text: "Twitch (optional)", link: "/de/self-hosting/twitch" },
+                                { text: "Go-Server (experimentell)", link: "/de/self-hosting/go-server" },
                             ],
                         },
                         {
@@ -289,6 +291,7 @@ export default defineConfig({
                                 { text: "导入你的数据", link: "/zh/self-hosting/importing-data" },
                                 { text: "推荐服务（实验性）", link: "/zh/self-hosting/recommender" },
                                 { text: "Twitch（可选）", link: "/zh/self-hosting/twitch" },
+                                { text: "Go 服务器（实验性）", link: "/zh/self-hosting/go-server" },
                             ],
                         },
                         {
@@ -407,6 +410,7 @@ export default defineConfig({
                                 { text: "Importar tus datos", link: "/es/self-hosting/importing-data" },
                                 { text: "Servicio de recomendaciones (experimental)", link: "/es/self-hosting/recommender" },
                                 { text: "Twitch (opcional)", link: "/es/self-hosting/twitch" },
+                                { text: "Servidor Go (experimental)", link: "/es/self-hosting/go-server" },
                             ],
                         },
                         {
@@ -556,6 +560,7 @@ export default defineConfig({
                         { text: "Importing your data", link: "/self-hosting/importing-data" },
                         { text: "Recommender (experimental)", link: "/self-hosting/recommender" },
                         { text: "Twitch (optional)", link: "/self-hosting/twitch" },
+                        { text: "Go server (experimental)", link: "/self-hosting/go-server" },
                     ],
                 },
                 {
